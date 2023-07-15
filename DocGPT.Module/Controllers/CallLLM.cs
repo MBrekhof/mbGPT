@@ -55,6 +55,9 @@ namespace DocGPT.Module.Controllers
             //// Get the model details
             var model = await api.ModelsEndpoint.GetModelDetailsAsync("text-embedding-ada-002");
 
+            var text = target.Prompt.PromptBody;
+            target.Question = text.Replace("{{question}}", target.Question);
+
             var embeddings = await api.EmbeddingsEndpoint.CreateEmbeddingAsync(target.Question, model);
             target.QuestionDataString = "[" + String.Join(",", embeddings.Data[0].Embedding) + "]";
 

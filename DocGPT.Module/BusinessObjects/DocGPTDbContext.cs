@@ -43,6 +43,8 @@ public class DocGPTEFCoreDbContext : DbContext {
     public DbSet<ArticleVectorData> ArticleVectorData { get; set; }
     public DbSet<Chat> Chat { get; set; }
 
+    public DbSet<Prompt> Prompt { get; set; }
+
     [DbFunction("SimilarContentArticles", "dbo")]
     public IQueryable<SimilarContentArticlesResult> SimilarContentArticles(string vector)
     {

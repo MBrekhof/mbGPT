@@ -24,6 +24,9 @@ public partial class Chat : BaseObjectNoID
     [FieldSize(FieldSizeAttribute.Unlimited)]
     public virtual string QuestionDataString { get; set; }
 
+    [Column("PromptID")]
+    public virtual Prompt Prompt { get; set; }
+
     [FieldSize(FieldSizeAttribute.Unlimited)]
     public virtual string Answer { get; set; }
 }
