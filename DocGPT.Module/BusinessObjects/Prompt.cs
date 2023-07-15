@@ -2,13 +2,14 @@
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using DevExpress.ExpressApp.DC;
 using DevExpress.Persistent.Base;
 using Microsoft.EntityFrameworkCore;
 
 namespace DocGPT.Module.BusinessObjects;
 
 [DefaultClassOptions]
-[NavigationItem("LabwareAI")]
+[NavigationItem("DocGPT")]
 [Table("Prompt")]
 [DefaultProperty("Subject")]
 
@@ -27,5 +28,6 @@ public partial class Prompt
 
     [Unicode(false)]
     [Column("PromptBody")]
+    [FieldSize(FieldSizeAttribute.Unlimited)]
     public virtual string PromptBody { get; set; }
 }

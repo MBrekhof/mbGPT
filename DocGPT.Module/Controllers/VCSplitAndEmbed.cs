@@ -7,6 +7,8 @@ using DevExpress.Pdf;
 using DevExpress.Persistent.Base;
 using DevExpress.XtraRichEdit;
 using DocGPT.Module.BusinessObjects;
+using DocGPT.Module.Services;
+using Microsoft.Extensions.DependencyInjection;
 using OpenAI;
 
 namespace DocGPT.Module.Controllers
@@ -14,6 +16,9 @@ namespace DocGPT.Module.Controllers
     // For more typical usage scenarios, be sure to check out https://documentation.devexpress.com/eXpressAppFramework/clsDevExpressExpressAppViewControllertopic.aspx.
     public partial class VCSplitAndEmbed : ViewController
     {
+        // enabling DI
+
+
         // Use CodeRush to create Controllers and Actions with a few keystrokes.
         // https://docs.devexpress.com/CodeRushForRoslyn/403133/
         public VCSplitAndEmbed()
@@ -31,6 +36,7 @@ namespace DocGPT.Module.Controllers
 
             SplitAndEmbedAction.Execute += SplitAndEmbedAction_Execute;
         }
+
 
         private void SplitAndEmbedAction_CustomizePopupWindowParams(object sender, CustomizePopupWindowParamsEventArgs e)
         {
@@ -70,6 +76,12 @@ namespace DocGPT.Module.Controllers
     }
     public class ActionInPopupController : ViewController
     {
+        private readonly IServiceProvider serviceProvider;
+        [ActivatorUtilitiesConstructor]
+        public ActionInPopupController(IServiceProvider serviceProvider) : this()
+        {
+            this.serviceProvider = serviceProvider;
+        }
         public ActionInPopupController()
         {
             SimpleAction actionInPopup = new SimpleAction(this,
@@ -107,7 +119,9 @@ namespace DocGPT.Module.Controllers
                 default:
                     break;
             }
-            target.DocChunks = ProcessString(content, target.ChunkSize, target.OverlapSize);
+            var serviceOne = serviceProvider.GetRequiredService<VectorService>();
+
+            target.DocChunks = serviceOne.SplitArticleIntoChunks(target.FileName, content, target.ChunkSize); // ProcessString(content, target.ChunkSize, target.OverlapSize);
             if (target.DocChunks != null)
             {
                 Application.ShowViewStrategy.ShowMessage(string.Format("Creating Article and ArticleDetail for {0}!", target.FileName));

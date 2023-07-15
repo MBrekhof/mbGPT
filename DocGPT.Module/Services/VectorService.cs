@@ -69,7 +69,7 @@ namespace DocGPT.Module.Services
             // Add the last chunk to the list, if it's not empty.
             if (chunk.Length > 0)
             {
-                chunks.Add(articleName + "\n" + chunk.ToString());
+                chunks.Add("Source:"+articleName + "\n" + chunk.ToString());
             }
 
             // Return the list of chunks.

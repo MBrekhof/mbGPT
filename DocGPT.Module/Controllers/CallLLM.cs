@@ -46,8 +46,7 @@ namespace DocGPT.Module.Controllers
         private async void AskAction_Execute(object sender, SimpleActionExecuteEventArgs e)
         {
             IObjectSpace newObjectSpace = Application.CreateObjectSpace(typeof(Chat));
-            //var target = newObjectSpace.CreateObject<Chat>();
-            //target.Question = "What does receivesample do?";
+
             var target = (Chat)e.CurrentObject;
             //// Create an instance of the OpenAI client
             var api = new OpenAIClient(new OpenAIAuthentication("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"));
@@ -55,10 +54,11 @@ namespace DocGPT.Module.Controllers
             //// Get the model details
             var model = await api.ModelsEndpoint.GetModelDetailsAsync("text-embedding-ada-002");
 
+            // two step text insertion/replacement
             var text = target.Prompt.PromptBody;
-            target.Question = text.Replace("{{question}}", target.Question);
+            var TheQuestion = text.Replace("{{question}}", target.Question);
 
-            var embeddings = await api.EmbeddingsEndpoint.CreateEmbeddingAsync(target.Question, model);
+            var embeddings = await api.EmbeddingsEndpoint.CreateEmbeddingAsync(TheQuestion, model);
             target.QuestionDataString = "[" + String.Join(",", embeddings.Data[0].Embedding) + "]";
 
             var serviceOne = serviceProvider.GetRequiredService<VectorService>();
@@ -70,7 +70,7 @@ namespace DocGPT.Module.Controllers
                 SimilarContentArticles = SimilarContentArticles.Take(5).ToList();
             }
 
-            var TheQuestion = target.Question;
+
             // Create a new list of chatMessages objects
             var chatMessages = new List<Message>();
 
@@ -79,15 +79,16 @@ namespace DocGPT.Module.Controllers
             foreach (var snippet in SimilarContentArticles)
             {
                 // Add the existing knowledge to the chatMessages list
-                chatMessages.Add(new Message(Role.System, snippet.ArticleContent));
+                chatMessages.Add(new Message(Role.System, snippet.ArticleContent+"###"));
             }
             chatMessages.Add(new Message(Role.User, TheQuestion));
-            var chatRequest = new ChatRequest(chatMessages,temperature: 0.0, topP: 1, frequencyPenalty: 0, presencePenalty: 0, model: Model.GPT4);
+            var chatRequest = new ChatRequest(chatMessages,temperature: 0.0, topP: 1, frequencyPenalty: 0, presencePenalty: 0, model: Model.GPT3_5_Turbo_16K);
 
             var result = await api.ChatEndpoint.GetCompletionAsync(chatRequest);
 
-target.Answer = result;
+            target.Answer = result;
             newObjectSpace.CommitChanges();
+            Application.ShowViewStrategy.ShowMessage(string.Format("Answered!"));
         }
 
         protected override void OnActivated()

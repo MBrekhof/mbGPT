@@ -8,6 +8,7 @@ namespace DocGPT.Module.BusinessObjects
 {
     [DefaultClassOptions]
     [FileAttachment("File")]
+    [NavigationItem("Files")]
     public class FileSystemStoreObjectDemo : BaseObject
     {
         [ExpandObjectMembers(ExpandObjectMembers.Never), ImmediatePostData]

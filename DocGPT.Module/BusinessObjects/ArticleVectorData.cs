@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace DocGPT.Module.BusinessObjects;
 [DefaultClassOptions]
-[NavigationItem("LabwareAI")]
+[NavigationItem("Knowledge")]
 public partial class ArticleVectorData : BaseObjectNoID
 {
     [Key]

@@ -6,7 +6,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace DocGPT.Module.BusinessObjects;
 [DefaultClassOptions]
-[NavigationItem("LabwareAI")]
+[NavigationItem("DocGPT")]
 [Table("Chat")]
 
 public partial class Chat : BaseObjectNoID
