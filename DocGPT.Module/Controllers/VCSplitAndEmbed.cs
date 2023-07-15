@@ -1,0 +1,186 @@
+﻿
+
+using DevExpress.ExpressApp;
+using DevExpress.ExpressApp.Actions;
+using DevExpress.ExpressApp.Editors;
+using DevExpress.Pdf;
+using DevExpress.Persistent.Base;
+using DevExpress.XtraRichEdit;
+using DocGPT.Module.BusinessObjects;
+using OpenAI;
+
+namespace DocGPT.Module.Controllers
+{
+    // For more typical usage scenarios, be sure to check out https://documentation.devexpress.com/eXpressAppFramework/clsDevExpressExpressAppViewControllertopic.aspx.
+    public partial class VCSplitAndEmbed : ViewController
+    {
+        // Use CodeRush to create Controllers and Actions with a few keystrokes.
+        // https://docs.devexpress.com/CodeRushForRoslyn/403133/
+        public VCSplitAndEmbed()
+        {
+            InitializeComponent();
+            // Target required Views (via the TargetXXX properties) and create their Actions.
+            TargetObjectType = typeof(FileSystemStoreObjectDemo);
+
+            PopupWindowShowAction SplitAndEmbedAction = new PopupWindowShowAction(this, "SplitAndEmbedAction", PredefinedCategory.View)
+            {
+                Caption = "Spit and Embed document"
+            };
+            SplitAndEmbedAction.SelectionDependencyType = SelectionDependencyType.RequireSingleObject;
+            SplitAndEmbedAction.CustomizePopupWindowParams += SplitAndEmbedAction_CustomizePopupWindowParams;
+
+            SplitAndEmbedAction.Execute += SplitAndEmbedAction_Execute;
+        }
+
+        private void SplitAndEmbedAction_CustomizePopupWindowParams(object sender, CustomizePopupWindowParamsEventArgs e)
+        {
+            IObjectSpace newObjectSpace = Application.CreateObjectSpace(typeof(SplitAndEmbed));
+            SplitAndEmbed target = newObjectSpace.CreateObject<SplitAndEmbed>();
+            var currentFile = ((FileSystemStoreObjectDemo)View.CurrentObject);
+            target.FileName = currentFile.File.FileName;
+            target.FileSize = currentFile.File.Size;
+            target.RealFileName = currentFile.File.RealFileName;
+            var view = Application.CreateDetailView(newObjectSpace,target);
+            view.ViewEditMode = ViewEditMode.View;
+            e.View = view;
+            //e.Maximized = true;
+        }
+
+        private void SplitAndEmbedAction_Execute(object sender, PopupWindowShowActionExecuteEventArgs e)
+        {
+            ObjectSpace.CommitChanges();
+            SplitAndEmbed currentFile = (SplitAndEmbed)e.PopupWindowViewCurrentObject;
+            // View.ObjectSpace.CommitChanges();
+        }
+        protected override void OnActivated()
+        {
+            base.OnActivated();
+            // Perform various tasks depending on the target View.
+        }
+        protected override void OnViewControlsCreated()
+        {
+            base.OnViewControlsCreated();
+            // Access and customize the target View control.
+        }
+        protected override void OnDeactivated()
+        {
+            // Unsubscribe from previously subscribed events and release other references and resources.
+            base.OnDeactivated();
+        }
+    }
+    public class ActionInPopupController : ViewController
+    {
+        public ActionInPopupController()
+        {
+            SimpleAction actionInPopup = new SimpleAction(this,
+                "Split",
+                DevExpress.Persistent.Base.PredefinedCategory.PopupActions
+            );
+            //Refer to the https://docs.devexpress.com/eXpressAppFramework/112815 help article to see how to reorder Actions within the PopupActions container.
+            actionInPopup.Execute += actionInPopup_Execute;
+        }
+        async void actionInPopup_Execute(object sender, SimpleActionExecuteEventArgs e)
+        {
+            var target = (SplitAndEmbed)e.CurrentObject;
+            var content = "";
+            var doctype = Path.GetExtension(target.RealFileName).ToUpper();
+
+            Application.ShowViewStrategy.ShowMessage(string.Format("Splitting {0}!", target.FileName));
+
+            switch (doctype)
+            {
+                case ".PDF":
+                    using (PdfDocumentProcessor source = new PdfDocumentProcessor())
+                    {
+                        source.LoadDocument(target.RealFileName);
+                        content = source.GetText();
+                    }
+                    break;
+                case ".DOC":
+                case".DOCX":
+                    using (var Wordprocessor = new RichEditDocumentServer())
+                    {
+                        Wordprocessor.LoadDocument(target.RealFileName);
+                        content = Wordprocessor.Text;
+                    }
+                        break;
+                default:
+                    break;
+            }
+            target.DocChunks = ProcessString(content, target.ChunkSize, target.OverlapSize);
+            if (target.DocChunks != null)
+            {
+                Application.ShowViewStrategy.ShowMessage(string.Format("Creating Article and ArticleDetail for {0}!", target.FileName));
+                IObjectSpace ArticleObjectSpace = Application.CreateObjectSpace(typeof(Article));
+                var newArticle = ArticleObjectSpace.CreateObject<Article>();
+                newArticle.ArticleName = target.FileName;
+                newArticle.Description = "";
+                //ArticleObjectSpace.CommitChanges();
+                var teller =0;
+                //// Create an instance of the OpenAI client
+                var api = new OpenAIClient(new OpenAIAuthentication("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"));
+
+                //// Get the model details
+                var model = await api.ModelsEndpoint.GetModelDetailsAsync("text-embedding-ada-002");
+
+                foreach (string docChunk in target.DocChunks)
+                {
+                    teller++;
+                    var newArticleDetail = ArticleObjectSpace.CreateObject <ArticleDetail>();
+                    newArticleDetail.ArticleContent = docChunk;
+                    newArticleDetail.ArticleSequence = teller;
+                    newArticle.ArticleDetail.Add(newArticleDetail);
+                }
+                ArticleObjectSpace.CommitChanges();
+                Application.ShowViewStrategy.ShowMessage(string.Format("Finished splitting"));
+                //// create the embeddings
+                foreach (var articleDet in newArticle.ArticleDetail)
+                {
+                    var embeddings = await api.EmbeddingsEndpoint.CreateEmbeddingAsync(articleDet.ArticleContent, model);
+                    articleDet.VectorDataString ="["+ String.Join(",",embeddings.Data[0].Embedding) +"]";
+                    // Get Embedding Vectors for this chunk
+                    var EmbeddingVectors = embeddings.Data[0].Embedding.Select(d => (float)d).ToArray();
+                    // Instert all Embedding Vectors
+                    for (int i = 0; i < EmbeddingVectors.Length; i++)
+                    {
+                        var embeddingVector = ArticleObjectSpace.CreateObject<ArticleVectorData>();
+
+                        embeddingVector.ArticleDetailId = articleDet.ArticleDetailId;
+                        embeddingVector.VectorValueId = i;
+                        embeddingVector.VectorValue = EmbeddingVectors[i];
+
+                        articleDet.ArticleVectorData.Add(embeddingVector);
+                    }
+                    ArticleObjectSpace.CommitChanges();
+                }
+               
+            }
+
+            ObjectSpace.CommitChanges();
+
+            Application.ShowViewStrategy.ShowMessage(string.Format("Finished Embedding"));
+        }
+
+
+            public static List<string> ProcessString(string content, int splitLength = 500, int overlapLength = 50)
+            {
+                var result = new List<string>();
+
+                for (int i = 0; i < content.Length; i += splitLength - overlapLength)
+                {
+                    int endIndex = i + splitLength;
+
+                    if (endIndex > content.Length)
+                    {
+                        endIndex = content.Length;
+                    }
+
+                    string splitString = content.Substring(i, endIndex - i);
+                    result.Add(splitString);
+                }
+
+                return result;
+            }
+        
+    }
+}
