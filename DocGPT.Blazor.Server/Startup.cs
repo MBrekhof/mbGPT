@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Components.Server.Circuits;
 using Microsoft.EntityFrameworkCore;
 using DocGPT.Blazor.Server.Services;
 using DocGPT.Module.Services;
+using Microsoft.AspNetCore.Http.Features;
 
 namespace DocGPT.Blazor.Server;
 
@@ -62,6 +63,12 @@ public class Startup {
                     })
                 .AddNonPersistent();
         });
+        // upload max to 50 Mb
+        services.Configure<FormOptions>(options =>
+        {
+            options.MultipartBodyLengthLimit = 50 * 1024 * 1024;
+        });
+
         services.AddScoped<VectorService>();
     }
 

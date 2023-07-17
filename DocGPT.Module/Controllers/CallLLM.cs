@@ -15,8 +15,6 @@ namespace DocGPT.Module.Controllers
     {
         private readonly IServiceProvider serviceProvider;
 
-        // Use CodeRush to create Controllers and Actions with a few keystrokes.
-        // https://docs.devexpress.com/CodeRushForRoslyn/403133/
         public CallLLM()
         {
             InitializeComponent();
@@ -67,7 +65,7 @@ namespace DocGPT.Module.Controllers
             var aantal = SimilarContentArticles.Count;
             if (aantal > 0) {
                 SimilarContentArticles.Sort((a, b) => b.cosine_distance.CompareTo(a.cosine_distance));
-                SimilarContentArticles = SimilarContentArticles.Take(5).ToList();
+                SimilarContentArticles = SimilarContentArticles.Take(10).ToList();
             }
 
 
@@ -75,11 +73,13 @@ namespace DocGPT.Module.Controllers
             var chatMessages = new List<Message>();
 
             // Add the user input to the chatMessages list
-
+            var totalTokens = 0;
             foreach (var snippet in SimilarContentArticles)
             {
                 // Add the existing knowledge to the chatMessages list
                 chatMessages.Add(new Message(Role.System, snippet.ArticleContent+"###"));
+                totalTokens += snippet.ArticleContent.Length;
+                if(totalTokens > 8000) { break; }
             }
             chatMessages.Add(new Message(Role.User, TheQuestion));
             var chatRequest = new ChatRequest(chatMessages,temperature: 0.0, topP: 1, frequencyPenalty: 0, presencePenalty: 0, model: Model.GPT3_5_Turbo_16K);

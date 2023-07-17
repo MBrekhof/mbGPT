@@ -1,4 +1,5 @@
 ﻿
+using DevExpress.ExpressApp.DC;
 using DevExpress.Persistent.Base;
 using DevExpress.Persistent.BaseImpl.EF;
 
@@ -33,6 +34,9 @@ public partial class Article : BaseObjectNoID
     [Column("Description")]
     public virtual string Description { get; set; }
 
+    [FieldSize(FieldSizeAttribute.Unlimited)]
+    [Column("Summary")]
+    public virtual string Summary { get; set; }
 
     //[ExpandObjectMembers(ExpandObjectMembers.Never)]
     //[FileTypeFilter("DocumentFiles", 1, "*.txt", "*.doc")]

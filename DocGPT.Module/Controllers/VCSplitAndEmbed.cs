@@ -10,22 +10,20 @@ using DocGPT.Module.BusinessObjects;
 using DocGPT.Module.Services;
 using Microsoft.Extensions.DependencyInjection;
 using OpenAI;
+using OpenAI.Embeddings;
 
 namespace DocGPT.Module.Controllers
 {
     // For more typical usage scenarios, be sure to check out https://documentation.devexpress.com/eXpressAppFramework/clsDevExpressExpressAppViewControllertopic.aspx.
     public partial class VCSplitAndEmbed : ViewController
     {
-        // enabling DI
 
-
-        // Use CodeRush to create Controllers and Actions with a few keystrokes.
-        // https://docs.devexpress.com/CodeRushForRoslyn/403133/
         public VCSplitAndEmbed()
         {
             InitializeComponent();
             // Target required Views (via the TargetXXX properties) and create their Actions.
             TargetObjectType = typeof(FileSystemStoreObjectDemo);
+            TargetViewType = ViewType.ListView; // of eerst saven!
 
             PopupWindowShowAction SplitAndEmbedAction = new PopupWindowShowAction(this, "SplitAndEmbedAction", PredefinedCategory.View)
             {
@@ -105,7 +103,11 @@ namespace DocGPT.Module.Controllers
                     using (PdfDocumentProcessor source = new PdfDocumentProcessor())
                     {
                         source.LoadDocument(target.RealFileName);
-                        content = source.GetText();
+                        content = String.Empty;
+                        for(int i=0;i<source.Document.Pages.Count;i++)
+                        {
+                            content += source.GetPageText(i);
+                        }
                     }
                     break;
                 case ".DOC":
@@ -150,8 +152,14 @@ namespace DocGPT.Module.Controllers
                 //// create the embeddings
                 foreach (var articleDet in newArticle.ArticleDetail)
                 {
+                    if(articleDet.ArticleContent.Length>5000)
+                    {
+                        var x = 1;
+                    }
                     var embeddings = await api.EmbeddingsEndpoint.CreateEmbeddingAsync(articleDet.ArticleContent, model);
-                    articleDet.VectorDataString ="["+ String.Join(",",embeddings.Data[0].Embedding) +"]";
+
+                    articleDet.VectorDataString = "[" + String.Join(",", embeddings.Data[0].Embedding) + "]";
+                    articleDet.Tokens = (int)embeddings.Usage.TotalTokens;
                     // Get Embedding Vectors for this chunk
                     var EmbeddingVectors = embeddings.Data[0].Embedding.Select(d => (float)d).ToArray();
                     // Instert all Embedding Vectors

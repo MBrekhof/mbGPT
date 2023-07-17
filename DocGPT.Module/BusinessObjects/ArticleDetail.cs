@@ -23,7 +23,10 @@ public partial class ArticleDetail : BaseObjectNoID
     // [InverseProperty("ArticleDetail")]
     public virtual Article Article { get; set; }
 
+    public virtual int Tokens { get; set; }
+
     [FieldSize(FieldSizeAttribute.Unlimited)]
+    [VisibleInDetailView(false),VisibleInListView(false),VisibleInLookupListView(false)]
     public virtual string VectorDataString { get; set; }
     public virtual IList<ArticleVectorData> ArticleVectorData { get; set; } = new ObservableCollection<ArticleVectorData>();
 }

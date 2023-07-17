@@ -9,6 +9,7 @@ using DevExpress.ExpressApp.Model.Core;
 using DevExpress.ExpressApp.Model.DomainLogics;
 using DevExpress.ExpressApp.Model.NodeGenerators;
 using DevExpress.Persistent.BaseImpl.EF;
+using DevExpress.ExpressApp.FileAttachments.Blazor;
 
 namespace DocGPT.Blazor.Server;
 
@@ -22,5 +23,7 @@ public sealed class DocGPTBlazorModule : ModuleBase {
     }
     public override void Setup(XafApplication application) {
         base.Setup(application);
+        // max upload 50 Mb
+        FileAttachmentsBlazorModule.DefaultMaxFileSize = 50 * 1024 * 1024;
     }
 }

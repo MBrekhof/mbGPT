@@ -18,6 +18,7 @@ public partial class Chat : BaseObjectNoID
     public virtual int ChatId { get; set; }
 
     [FieldSize(FieldSizeAttribute.Unlimited)]
+    [VisibleInDetailView(true), VisibleInListView(true), VisibleInLookupListView(true)]
     public virtual string Question { get; set; }
 
     [VisibleInDetailView(false), VisibleInListView(false), VisibleInLookupListView(false)]
