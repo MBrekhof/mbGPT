@@ -46,6 +46,7 @@ namespace DocGPT.Module.Controllers
             IObjectSpace newObjectSpace = Application.CreateObjectSpace(typeof(Chat));
 
             var target = (Chat)e.CurrentObject;
+            target.Answer = string.Empty;
             //// Create an instance of the OpenAI client
             var api = new OpenAIClient(new OpenAIAuthentication("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"));
 
@@ -61,6 +62,8 @@ namespace DocGPT.Module.Controllers
 
             var serviceOne = serviceProvider.GetRequiredService<VectorService>();
             var SimilarContentArticles = serviceOne.GetSimilarContentArticles(target.QuestionDataString);
+            var codeHits = serviceOne.GetSimilarCodeContent(target.QuestionDataString);
+            SimilarContentArticles.AddRange(codeHits);
 
             var aantal = SimilarContentArticles.Count;
             if (aantal > 0) {
@@ -71,20 +74,25 @@ namespace DocGPT.Module.Controllers
 
             // Create a new list of chatMessages objects
             var chatMessages = new List<Message>();
-
+            //var chatMessages = new List<string>();
             // Add the user input to the chatMessages list
             var totalTokens = 0;
+  
             foreach (var snippet in SimilarContentArticles)
             {
                 // Add the existing knowledge to the chatMessages list
                 chatMessages.Add(new Message(Role.System, snippet.ArticleContent+"###"));
+                //chatMessages.Add( snippet.ArticleContent + " ### ");
                 totalTokens += snippet.ArticleContent.Length;
                 if(totalTokens > 8000) { break; }
             }
             chatMessages.Add(new Message(Role.User, TheQuestion));
-            var chatRequest = new ChatRequest(chatMessages,temperature: 0.0, topP: 1, frequencyPenalty: 0, presencePenalty: 0, model: Model.GPT3_5_Turbo_16K);
 
+            var chatRequest = new ChatRequest(chatMessages,temperature: 0.0, topP: 1, frequencyPenalty: 0, presencePenalty: 0, model: Model.GPT4);
             var result = await api.ChatEndpoint.GetCompletionAsync(chatRequest);
+            //var result = await api.CompletionsEndpoint.CreateCompletionAsync(prompts: chatMessages, temperature: 0.1, model: "text-davinci-003");
+
+
 
             target.Answer = result;
             newObjectSpace.CommitChanges();

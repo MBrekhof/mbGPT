@@ -22,9 +22,16 @@ namespace DocGPT.Module.Services
         // GetSimilarContentArticles
         public List<SimilarContentArticlesResult> GetSimilarContentArticles(string vector)
         {
-            return _dbContext.SimilarContentArticles(vector).ToList();
+            var r = _dbContext.SimilarContentArticles(vector).ToList();
+            return r;
         }
 
+        // GetSimilarCode
+        public List<SimilarContentArticlesResult> GetSimilarCodeContent(string vector)
+        {
+            var r = _dbContext.SimilarContentCodeObject(vector).ToList();
+            return r;
+        }
         //public async Task<EmbeddingsResponse> CreateEmbeddingAsync(string articleContent, string model)
         //{
         //    //// Create an instance of the OpenAI client

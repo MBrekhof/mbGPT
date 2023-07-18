@@ -152,10 +152,6 @@ namespace DocGPT.Module.Controllers
                 //// create the embeddings
                 foreach (var articleDet in newArticle.ArticleDetail)
                 {
-                    if(articleDet.ArticleContent.Length>5000)
-                    {
-                        var x = 1;
-                    }
                     var embeddings = await api.EmbeddingsEndpoint.CreateEmbeddingAsync(articleDet.ArticleContent, model);
 
                     articleDet.VectorDataString = "[" + String.Join(",", embeddings.Data[0].Embedding) + "]";

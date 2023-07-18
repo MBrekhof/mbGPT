@@ -42,8 +42,9 @@ public class DocGPTEFCoreDbContext : DbContext {
     public DbSet<ArticleDetail> ArticleDetail { get; set; }
     public DbSet<ArticleVectorData> ArticleVectorData { get; set; }
     public DbSet<Chat> Chat { get; set; }
-
     public DbSet<Prompt> Prompt { get; set; }
+
+    public  DbSet<CodeObject> CodeObject { get; set; }
 
     [DbFunction("SimilarContentArticles", "dbo")]
     public IQueryable<SimilarContentArticlesResult> SimilarContentArticles(string vector)
@@ -51,6 +52,11 @@ public class DocGPTEFCoreDbContext : DbContext {
         return FromExpression(() => SimilarContentArticles(vector));
     }
 
+    [DbFunction("SimilarContentCodeObject", "dbo")]
+    public IQueryable<SimilarContentArticlesResult> SimilarContentCodeObject(string vector)
+    {
+        return FromExpression(() => SimilarContentCodeObject(vector));
+    }
     protected override void OnModelCreating(ModelBuilder modelBuilder) {
         base.OnModelCreating(modelBuilder);
         modelBuilder.HasChangeTrackingStrategy(ChangeTrackingStrategy.ChangingAndChangedNotificationsWithOriginalValues);

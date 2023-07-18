@@ -31,7 +31,7 @@ namespace DocGPT.Module.Controllers
             InitializeComponent();
             // Target required Views (via the TargetXXX properties) and create their Actions.
             TargetObjectType = typeof(Article);
-            TargetViewType = ViewType.DetailView;
+            TargetViewType = ViewType.ListView;
 
             SimpleAction SummarizeAction = new SimpleAction(this, "Summarize", "Edit")// PredefinedCategory.View)
             {
@@ -78,7 +78,7 @@ namespace DocGPT.Module.Controllers
                         partsummaries += partsummaries + " " + article.ArticleContent;
                         if (tokencount > 3000)
                         {
-                            var result = await api.CompletionsEndpoint.CreateCompletionAsync(prompt: $"Vat deze tekst samen: {partsummaries}", maxTokens: 150, model: Model.Davinci);
+                            var result = await api.CompletionsEndpoint.CreateCompletionAsync(prompt: $"Vat deze tekst samen: {partsummaries}", maxTokens: 150, model: Model.GPT3_5_Turbo);
                             summaries.Add(result.Completions[0].Text);
                             tokencount = 0;
                             partsummaries = " ";
@@ -88,7 +88,7 @@ namespace DocGPT.Module.Controllers
                     }
                     if (partsummaries.Length > 0)
                     {
-                        var result = await api.CompletionsEndpoint.CreateCompletionAsync(prompt: $"Vat deze tekst samen: {partsummaries}", maxTokens: 150, model: Model.Davinci);
+                        var result = await api.CompletionsEndpoint.CreateCompletionAsync(prompt: $"Vat deze tekst samen: {partsummaries}", maxTokens: 150, model: Model.GPT3_5_Turbo);
                         summaries.Add(result.Completions[0].Text);
                     }
 
