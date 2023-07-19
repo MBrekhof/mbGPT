@@ -45,6 +45,7 @@ public class DocGPTEFCoreDbContext : DbContext {
     public DbSet<Prompt> Prompt { get; set; }
 
     public  DbSet<CodeObject> CodeObject { get; set; }
+    public DbSet<CodeObjectCategory> CodeObjectCategory { get; set; }
 
     [DbFunction("SimilarContentArticles", "dbo")]
     public IQueryable<SimilarContentArticlesResult> SimilarContentArticles(string vector)

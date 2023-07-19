@@ -45,6 +45,7 @@ namespace DocGPT.Module.Controllers
         {
             IObjectSpace newObjectSpace = Application.CreateObjectSpace(typeof(Chat));
 
+            Application.ShowViewStrategy.ShowMessage(string.Format("Looking for the answer!"),displayInterval:5000, position:InformationPosition.Top);
             var target = (Chat)e.CurrentObject;
             target.Answer = string.Empty;
             //// Create an instance of the OpenAI client
@@ -61,14 +62,14 @@ namespace DocGPT.Module.Controllers
             target.QuestionDataString = "[" + String.Join(",", embeddings.Data[0].Embedding) + "]";
 
             var serviceOne = serviceProvider.GetRequiredService<VectorService>();
-            var SimilarContentArticles = serviceOne.GetSimilarContentArticles(target.QuestionDataString);
-            var codeHits = serviceOne.GetSimilarCodeContent(target.QuestionDataString);
+            var SimilarContentArticles = serviceOne.GetSimilarCodeContent(target.QuestionDataString);
+            var codeHits = serviceOne.GetSimilarContentArticles(target.QuestionDataString);
             SimilarContentArticles.AddRange(codeHits);
 
             var aantal = SimilarContentArticles.Count;
             if (aantal > 0) {
                 SimilarContentArticles.Sort((a, b) => b.cosine_distance.CompareTo(a.cosine_distance));
-                SimilarContentArticles = SimilarContentArticles.Take(10).ToList();
+                //SimilarContentArticles = SimilarContentArticles.Take(10).ToList();
             }
 
 
@@ -88,7 +89,7 @@ namespace DocGPT.Module.Controllers
             }
             chatMessages.Add(new Message(Role.User, TheQuestion));
 
-            var chatRequest = new ChatRequest(chatMessages,temperature: 0.0, topP: 1, frequencyPenalty: 0, presencePenalty: 0, model: Model.GPT4);
+            var chatRequest = new ChatRequest(chatMessages,temperature: 0.0, topP: 1, frequencyPenalty: 0, presencePenalty: 0, model: Model.GPT3_5_Turbo_16K);
             var result = await api.ChatEndpoint.GetCompletionAsync(chatRequest);
             //var result = await api.CompletionsEndpoint.CreateCompletionAsync(prompts: chatMessages, temperature: 0.1, model: "text-davinci-003");
 

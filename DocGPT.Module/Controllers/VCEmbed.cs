@@ -49,10 +49,11 @@ namespace DocGPT.Module.Controllers
             //// Create an instance of the OpenAI client
             if (CO_Embed.CodeObjectContent.Length > 0)
             {
+                Application.ShowViewStrategy.ShowMessage(string.Format("Embedding started!"), displayInterval: 50000);
                 var api = new OpenAIClient(new OpenAIAuthentication("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"));
                 var model = await api.ModelsEndpoint.GetModelDetailsAsync("text-embedding-ada-002");
                 //IObjectSpace VectorDataObjectSpace = Application.CreateObjectSpace(typeof(ArticleVectorData));
-                var embeddings = await api.EmbeddingsEndpoint.CreateEmbeddingAsync(CO_Embed.Subject+" "+ CO_Embed.CodeObjectContent, model);
+                var embeddings = await api.EmbeddingsEndpoint.CreateEmbeddingAsync("Source : "+CO_Embed.Subject+"Category :"+CO_Embed.Category.Category+" "+ CO_Embed.CodeObjectContent, model);
 
                 CO_Embed.VectorDataString = "[" + String.Join(",", embeddings.Data[0].Embedding) + "]";
                 CO_Embed.Tokens = (int)embeddings.Usage.TotalTokens;

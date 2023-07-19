@@ -22,6 +22,11 @@ namespace DocGPT.Module.BusinessObjects
         [FieldSize(200)]
         public virtual string Subject { get; set; }
 
+        //public virtual int CodeObjectCategoryId { get; set; }
+        [ForeignKey("CodeObjectCategoryId")]
+        // [InverseProperty("ArticleDetail")]
+        public virtual CodeObjectCategory Category { get; set; }
+
         [FieldSize(FieldSizeAttribute.Unlimited)]
         public virtual string CodeObjectContent { get; set; }
 
