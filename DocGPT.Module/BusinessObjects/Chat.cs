@@ -1,6 +1,7 @@
 ﻿
 using DevExpress.ExpressApp.DC;
 using DevExpress.Persistent.Base;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 
@@ -30,5 +31,17 @@ public partial class Chat : BaseObjectNoID
 
     [FieldSize(FieldSizeAttribute.Unlimited)]
     public virtual string Answer { get; set; }
+
+    [VisibleInLookupListView(false)]
+    public virtual int? Tokens { get; set; }
+    [VisibleInLookupListView(false)]
+    public virtual ChatModel? ChatModel { get; set; }
+
+    [VisibleInLookupListView(false)]
+    [Column(TypeName ="DateTime")]
+
+    public virtual DateTime? Created { get; set; }
 }
+
+public enum ChatModel { GPT3, GPT4 };
 

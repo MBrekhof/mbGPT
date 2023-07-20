@@ -94,7 +94,7 @@ namespace DocGPT.Module.Controllers
             var target = (SplitAndEmbed)e.CurrentObject;
             var content = "";
             var doctype = Path.GetExtension(target.RealFileName).ToUpper();
-
+            ObjectSpace.CommitChanges();
             Application.ShowViewStrategy.ShowMessage(string.Format("Splitting {0}!", target.FileName));
 
             switch (doctype)
@@ -143,7 +143,7 @@ namespace DocGPT.Module.Controllers
                 {
                     teller++;
                     var newArticleDetail = ArticleObjectSpace.CreateObject <ArticleDetail>();
-                    newArticleDetail.ArticleContent = docChunk;
+                    newArticleDetail.ArticleContent = "Source: "+target.FileName+ " "+docChunk;
                     newArticleDetail.ArticleSequence = teller;
                     newArticle.ArticleDetail.Add(newArticleDetail);
                 }

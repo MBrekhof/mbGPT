@@ -44,7 +44,7 @@ namespace DocGPT.Module.Controllers
         private async void AskAction_Execute(object sender, SimpleActionExecuteEventArgs e)
         {
             IObjectSpace newObjectSpace = Application.CreateObjectSpace(typeof(Chat));
-
+            
             Application.ShowViewStrategy.ShowMessage(string.Format("Looking for the answer!"),displayInterval:5000, position:InformationPosition.Top);
             var target = (Chat)e.CurrentObject;
             target.Answer = string.Empty;
@@ -75,8 +75,7 @@ namespace DocGPT.Module.Controllers
 
             // Create a new list of chatMessages objects
             var chatMessages = new List<Message>();
-            //var chatMessages = new List<string>();
-            // Add the user input to the chatMessages list
+
             var totalTokens = 0;
   
             foreach (var snippet in SimilarContentArticles)
@@ -85,17 +84,20 @@ namespace DocGPT.Module.Controllers
                 chatMessages.Add(new Message(Role.System, snippet.ArticleContent+"###"));
                 //chatMessages.Add( snippet.ArticleContent + " ### ");
                 totalTokens += snippet.ArticleContent.Length;
-                if(totalTokens > 8000) { break; }
+                if(totalTokens > 10000) { break; }
             }
             chatMessages.Add(new Message(Role.User, TheQuestion));
-
-            var chatRequest = new ChatRequest(chatMessages,temperature: 0.0, topP: 1, frequencyPenalty: 0, presencePenalty: 0, model: Model.GPT3_5_Turbo_16K);
+            var chatRequest = new ChatRequest(chatMessages, temperature: 0.0, topP: 1, frequencyPenalty: 0, presencePenalty: 0, model: Model.GPT3_5_Turbo_16K);
+            if (target.ChatModel == ChatModel.GPT4)
+            {
+                chatRequest = new ChatRequest(chatMessages, temperature: 0.0, topP: 1, frequencyPenalty: 0, presencePenalty: 0, model: Model.GPT4);
+            }
+            
             var result = await api.ChatEndpoint.GetCompletionAsync(chatRequest);
-            //var result = await api.CompletionsEndpoint.CreateCompletionAsync(prompts: chatMessages, temperature: 0.1, model: "text-davinci-003");
-
-
 
             target.Answer = result;
+            target.Tokens = result.Usage.TotalTokens;
+            target.Created = DateTime.Now;
             newObjectSpace.CommitChanges();
             Application.ShowViewStrategy.ShowMessage(string.Format("Answered!"));
         }
