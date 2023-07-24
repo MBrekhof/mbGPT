@@ -8,6 +8,9 @@ using Microsoft.EntityFrameworkCore;
 using DocGPT.Blazor.Server.Services;
 using DocGPT.Module.Services;
 using Microsoft.AspNetCore.Http.Features;
+using Microsoft.CodeAnalysis;
+using DevExpress.Persistent.BaseImpl.EF.PermissionPolicy;
+using DocGPT.Module.BusinessObjects;
 
 namespace DocGPT.Blazor.Server;
 
@@ -40,8 +43,8 @@ public class Startup {
                 .Add<DocGPT.Module.DocGPTModule>()
             	.Add<DocGPTBlazorModule>();
             builder.ObjectSpaceProviders
-                .AddEFCore(options => options.PreFetchReferenceProperties())
-                    .WithDbContext<DocGPT.Module.BusinessObjects.DocGPTEFCoreDbContext>((serviceProvider, options) => {
+               .AddSecuredEFCore(options => options.PreFetchReferenceProperties())
+                   .WithDbContext<DocGPTEFCoreDbContext>((serviceProvider, options) => {
                         // Uncomment this code to use an in-memory database. This database is recreated each time the server starts. With the in-memory database, you don't need to make a migration when the data model is changed.
                         // Do not use this code in production environment to avoid data loss.
                         // We recommend that you refer to the following help topic before you use an in-memory database: https://docs.microsoft.com/en-us/ef/core/testing/in-memory
@@ -62,9 +65,21 @@ public class Startup {
                         options.UseLazyLoadingProxies();
                     })
                 .AddNonPersistent();
-        });
-        // upload max to 50 Mb
-        services.Configure<FormOptions>(options =>
+                   builder.Security
+                       .UseIntegratedMode(options => {
+                           options.RoleType = typeof(PermissionPolicyRole);
+                           options.UserType = typeof(ApplicationUser);
+                           options.UserLoginInfoType = typeof(ApplicationUserLoginInfo);
+                           options.SupportNavigationPermissionsForTypes = false;
+                       })
+                   .AddPasswordAuthentication(options => options.IsSupportChangePassword = true);
+               });
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                .AddCookie(options => {
+                    options.LoginPath = "/LoginPage";
+                });
+            // upload max to 50 Mb
+            services.Configure<FormOptions>(options =>
         {
             options.MultipartBodyLengthLimit = 50 * 1024 * 1024;
         });
@@ -87,11 +102,14 @@ public class Startup {
         app.UseStaticFiles();
         app.UseRouting();
         app.UseXaf();
+        app.UseAuthentication();
+        app.UseAuthorization();
         app.UseEndpoints(endpoints => {
             endpoints.MapXafEndpoints();
             endpoints.MapBlazorHub();
             endpoints.MapFallbackToPage("/_Host");
             endpoints.MapControllers();
         });
+
     }
 }

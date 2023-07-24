@@ -30,6 +30,7 @@ public partial class Chat : BaseObjectNoID
     public virtual Prompt Prompt { get; set; }
 
     [FieldSize(FieldSizeAttribute.Unlimited)]
+    [EditorAlias(DevExpress.ExpressApp.Editors.EditorAliases.HtmlPropertyEditor)]
     public virtual string Answer { get; set; }
 
     [VisibleInLookupListView(false)]

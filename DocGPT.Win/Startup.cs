@@ -11,6 +11,9 @@ using DevExpress.XtraEditors;
 using DevExpress.ExpressApp.Design;
 using DocGPT.Module.Services;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.CodeAnalysis;
+using DevExpress.Persistent.BaseImpl.EF.PermissionPolicy;
+using DocGPT.Module.BusinessObjects;
 
 namespace DocGPT.Win;
 
@@ -36,8 +39,8 @@ public class ApplicationBuilder : IDesignTimeApplicationFactory {
             .Add<DocGPT.Module.DocGPTModule>()
         	.Add<DocGPTWinModule>();
         builder.ObjectSpaceProviders
-            .AddEFCore(options => options.PreFetchReferenceProperties())
-                .WithDbContext<DocGPT.Module.BusinessObjects.DocGPTEFCoreDbContext>((application, options) => {
+             .AddSecuredEFCore(options => options.PreFetchReferenceProperties())
+                .WithDbContext<DocGPTEFCoreDbContext>((application, options) => {
                     // Uncomment this code to use an in-memory database. This database is recreated each time the server starts. With the in-memory database, you don't need to make a migration when the data model is changed.
                     // Do not use this code in production environment to avoid data loss.
                     // We recommend that you refer to the following help topic before you use an in-memory database: https://docs.microsoft.com/en-us/ef/core/testing/in-memory
@@ -47,10 +50,19 @@ public class ApplicationBuilder : IDesignTimeApplicationFactory {
                     options.UseObjectSpaceLinkProxies();
                 })
             .AddNonPersistent();
-        builder.AddBuildStep(application => {
+        builder.Security
+    .UseIntegratedMode(options => {
+        options.RoleType = typeof(PermissionPolicyRole);
+        options.UserType = typeof(ApplicationUser);
+        options.UserLoginInfoType = typeof(ApplicationUserLoginInfo);
+    })
+    .UsePasswordAuthentication();
+        builder.AddBuildStep(application =>
+        {
             application.ConnectionString = connectionString;
 #if DEBUG
-            if(System.Diagnostics.Debugger.IsAttached && application.CheckCompatibilityType == CheckCompatibilityType.DatabaseSchema) {
+            if (System.Diagnostics.Debugger.IsAttached && application.CheckCompatibilityType == CheckCompatibilityType.DatabaseSchema)
+            {
                 application.DatabaseUpdateMode = DatabaseUpdateMode.UpdateDatabaseAlways;
             }
 #endif

@@ -17,11 +17,11 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="DevExpress.ExpressApp.Blazor" Version="23.1.3" />
-    <PackageReference Include="DevExpress.ExpressApp.CodeAnalysis" Version="23.1.3" />
-    <PackageReference Include="DevExpress.ExpressApp.FileAttachment.Blazor" Version="23.1.3" />
-    <PackageReference Include="DevExpress.ExpressApp.Office.Blazor" Version="23.1.3" />
-    <PackageReference Include="DevExpress.ExpressApp.Validation.Blazor" Version="23.1.3" />
+    <PackageReference Include="DevExpress.ExpressApp.Blazor" Version="23.1.4" />
+    <PackageReference Include="DevExpress.ExpressApp.CodeAnalysis" Version="23.1.4" />
+    <PackageReference Include="DevExpress.ExpressApp.FileAttachment.Blazor" Version="23.1.4" />
+    <PackageReference Include="DevExpress.ExpressApp.Office.Blazor" Version="23.1.4" />
+    <PackageReference Include="DevExpress.ExpressApp.Validation.Blazor" Version="23.1.4" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DocGPT.Module\DocGPT.Module.csproj" />

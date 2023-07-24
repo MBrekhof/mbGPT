@@ -104,7 +104,7 @@ namespace DocGPT.Module.Controllers
                     {
                         source.LoadDocument(target.RealFileName);
                         content = String.Empty;
-                        for(int i=0;i<source.Document.Pages.Count;i++)
+                        for(int i=1;i<=source.Document.Pages.Count;i++)
                         {
                             content += source.GetPageText(i);
                         }

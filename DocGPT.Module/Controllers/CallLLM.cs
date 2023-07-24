@@ -3,6 +3,7 @@ using DevExpress.ExpressApp.Actions;
 using DevExpress.Persistent.Base;
 using DocGPT.Module.BusinessObjects;
 using DocGPT.Module.Services;
+using Markdig;
 using Microsoft.Extensions.DependencyInjection;
 using OpenAI;
 using OpenAI.Chat;
@@ -43,8 +44,9 @@ namespace DocGPT.Module.Controllers
 
         private async void AskAction_Execute(object sender, SimpleActionExecuteEventArgs e)
         {
+            // should be using: system, user example, assistant example, assistant embeddings, user question
             IObjectSpace newObjectSpace = Application.CreateObjectSpace(typeof(Chat));
-            
+
             Application.ShowViewStrategy.ShowMessage(string.Format("Looking for the answer!"),displayInterval:5000, position:InformationPosition.Top);
             var target = (Chat)e.CurrentObject;
             target.Answer = string.Empty;
@@ -62,7 +64,7 @@ namespace DocGPT.Module.Controllers
             target.QuestionDataString = "[" + String.Join(",", embeddings.Data[0].Embedding) + "]";
 
             var serviceOne = serviceProvider.GetRequiredService<VectorService>();
-            var SimilarContentArticles = serviceOne.GetSimilarCodeContent(target.QuestionDataString);
+            var SimilarContentArticles = serviceOne. GetSimilarCodeContent(target.QuestionDataString);
             var codeHits = serviceOne.GetSimilarContentArticles(target.QuestionDataString);
             SimilarContentArticles.AddRange(codeHits);
 
@@ -77,25 +79,24 @@ namespace DocGPT.Module.Controllers
             var chatMessages = new List<Message>();
 
             var totalTokens = 0;
-  
+            Model gptmodel = target.ChatModel == ChatModel.GPT4 ? Model.GPT4 : Model.GPT3_5_Turbo_16K;
+            var maxTokens = gptmodel == Model.GPT4 ? 6000 : 13000;
+
             foreach (var snippet in SimilarContentArticles)
             {
                 // Add the existing knowledge to the chatMessages list
                 chatMessages.Add(new Message(Role.System, snippet.ArticleContent+"###"));
-                //chatMessages.Add( snippet.ArticleContent + " ### ");
                 totalTokens += snippet.ArticleContent.Length;
-                if(totalTokens > 10000) { break; }
+                if(totalTokens > maxTokens) { break; }
             }
             chatMessages.Add(new Message(Role.User, TheQuestion));
-            var chatRequest = new ChatRequest(chatMessages, temperature: 0.0, topP: 1, frequencyPenalty: 0, presencePenalty: 0, model: Model.GPT3_5_Turbo_16K);
-            if (target.ChatModel == ChatModel.GPT4)
-            {
-                chatRequest = new ChatRequest(chatMessages, temperature: 0.0, topP: 1, frequencyPenalty: 0, presencePenalty: 0, model: Model.GPT4);
-            }
-            
+
+            var chatRequest = new ChatRequest(chatMessages, temperature: 0.0, topP: 1, frequencyPenalty: 0, presencePenalty: 0, model: gptmodel);
+
             var result = await api.ChatEndpoint.GetCompletionAsync(chatRequest);
 
-            target.Answer = result;
+            target.Answer = Markdown.Parse(result).ToHtml();
+            //target.Answer = result;
             target.Tokens = result.Usage.TotalTokens;
             target.Created = DateTime.Now;
             newObjectSpace.CommitChanges();

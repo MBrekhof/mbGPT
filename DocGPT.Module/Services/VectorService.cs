@@ -102,10 +102,6 @@ namespace DocGPT.Module.Services
 
                     // Update the token count.
                     tokenCount += tokens.Length;
-                    if (tokenCount > tokenLimit)
-                    {
-                        var x = 1;
-                    }
                 }
             }
 

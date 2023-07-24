@@ -11,6 +11,7 @@ using DevExpress.Pdf.Native.BouncyCastle.Asn1.X509;
 using DevExpress.Persistent.Base;
 using DevExpress.Persistent.Validation;
 using DocGPT.Module.BusinessObjects;
+using Markdig;
 using OpenAI;
 using OpenAI.Chat;
 using OpenAI.Models;
@@ -50,62 +51,57 @@ namespace DocGPT.Module.Controllers
         private async void SummarizeAction_Execute(object sender, SimpleActionExecuteEventArgs e)
         {
 
-
             var articleToSummarize = e.CurrentObject as Article;
+            if (articleToSummarize.ArticleDetail.Count < 1)
+            {
+                Application.ShowViewStrategy.ShowMessage(string.Format("Nothing to summarize, remember to spilt and embed first!"));
+                return;
+            }
+            Application.ShowViewStrategy.ShowMessage(string.Format("Starting with the summary!"));
             //// Create an instance of the OpenAI client
             var api = new OpenAIClient(new OpenAIAuthentication("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"));
 
-            //// Get the model details
-            var model = await api.ModelsEndpoint.GetModelDetailsAsync("text-embedding-ada-002");
-            var summaryPrompt = $"You receive one or more chunks of text from the document called {articleToSummarize.ArticleName}, please provide a concise summary of the text (max 200 tokens). ###";
-            if (articleToSummarize != null)
+             var chatMessages = new List<Message>();
+            var summaryPrompt = $"You receive one or more chunks of text from the document called {articleToSummarize.ArticleName}, please provide a concise summary of the text. ###";
+            var assistantPrompt = "The summary should be formatted using Markdown";
+            var totalTokens = 0;
+            Model gptmodel = Model.GPT3_5_Turbo_16K; //target.ChatModel == ChatModel.GPT4 ? Model.GPT4 : Model.GPT3_5_Turbo_16K;
+            var maxTokens = gptmodel == Model.GPT4 ? 6000 : 13000;
+            chatMessages.Add(new Message(Role.System, summaryPrompt));
+            chatMessages.Add(new Message(Role.Assistant, assistantPrompt));
+            string SummaryResult = "";
+            var teller = 1;
+            foreach (var snippet in articleToSummarize.ArticleDetail)
             {
-                if(articleToSummarize.ArticleDetail.Count > 0)
+                // Add the existing knowledge to the chatMessages list
+                chatMessages.Add(new Message(Role.User, snippet.ArticleContent + "###"));
+                totalTokens += snippet.ArticleContent.Length;
+                if (totalTokens > maxTokens)
                 {
-                    //string summary = summaryPrompt;
-                    List<ArticleDetail> articles = new List<ArticleDetail>();
-                    foreach (var chunk in articleToSummarize.ArticleDetail)
-                    {
-                        articles.Add(chunk);
-                    }
-                    List<string> summaries = new List<string>();
-                    var teller = 0;
-                    var tokencount = 0;
-                    var partsummaries = "";
-                    foreach (var article in articles)
-                    {
-                        tokencount += article.ArticleContent.Length;
-                        partsummaries += partsummaries + " " + article.ArticleContent;
-                        if (tokencount > 3000)
-                        {
-                            var result = await api.CompletionsEndpoint.CreateCompletionAsync(prompt: $"Vat deze tekst samen: {partsummaries}", maxTokens: 150, model: Model.GPT3_5_Turbo);
-                            summaries.Add(result.Completions[0].Text);
-                            tokencount = 0;
-                            partsummaries = " ";
-                            Application.ShowViewStrategy.ShowMessage($"Finished summarizing upto # {teller} / {articles.Count}");
-                        }
-                        teller++;                        
-                    }
-                    if (partsummaries.Length > 0)
-                    {
-                        var result = await api.CompletionsEndpoint.CreateCompletionAsync(prompt: $"Vat deze tekst samen: {partsummaries}", maxTokens: 150, model: Model.GPT3_5_Turbo);
-                        summaries.Add(result.Completions[0].Text);
-                    }
+                    var summaryRequest = new ChatRequest(chatMessages, temperature: 0.0, topP: 1, frequencyPenalty: 0, presencePenalty: 0, model: gptmodel);
+                    SummaryResult = await api.ChatEndpoint.GetCompletionAsync(summaryRequest);
 
-                    // Joining the individual summaries to form one final text for final summary
-                    var joinedSummary = string.Join(" ", summaries);
-
-                    // Creating the final summary
-                    var finalSummaryResult = await api.CompletionsEndpoint.CreateCompletionAsync(prompt: $"Je bent een vaardige Nederlandse schrijver, schijf een goede samenvatting met betrekking tot deze tekst: {joinedSummary}", maxTokens: 500, model: Model.Davinci);
-
-                    // Final summary
-                    var finalSummary = finalSummaryResult.Completions.First().Text.Trim();
-
-
-                    articleToSummarize.Summary = finalSummary;
-                    ObjectSpace.CommitChanges();
+                    chatMessages.Clear();
+                    chatMessages.Add(new Message(Role.System, summaryPrompt));
+                    chatMessages.Add(new Message(Role.User, SummaryResult));  // taking previous summary into consideration
+                    chatMessages.Add(new Message(Role.Assistant,assistantPrompt));
+                    totalTokens = summaryPrompt.Length + SummaryResult.ToString().Length+summaryPrompt.Length;
+                    Application.ShowViewStrategy.ShowMessage($"Finished summarizing upto # {teller} / {articleToSummarize.ArticleDetail.Count}");
                 }
+                teller++;
             }
+            // laatsten
+            var nrCheck = articleToSummarize.ArticleDetail.Count > 1 ? 3 : 2;
+            if (chatMessages.Count > nrCheck)
+            {
+                chatMessages.Add(new Message(Role.Assistant, "Geef aub de finale conclusie in de taal van het document."));
+                var summaryRequest = new ChatRequest(chatMessages, temperature: 0.0, topP: 1, frequencyPenalty: 0, presencePenalty: 0, model: gptmodel);
+                SummaryResult = await api.ChatEndpoint.GetCompletionAsync(summaryRequest);
+            }
+
+            articleToSummarize.Summary = Markdown.Parse(SummaryResult).ToHtml();
+            ObjectSpace.CommitChanges();
+                    
             Application.ShowViewStrategy.ShowMessage(string.Format("Summarized!"));
         }
 
