@@ -68,6 +68,7 @@ public class ApplicationBuilder : IDesignTimeApplicationFactory {
 #endif
         });
         builder.Services.AddScoped<VectorService>();
+        builder.Services.AddScoped<OpenAILLMService>();
         var winApplication = builder.Build();
         return winApplication;
     }

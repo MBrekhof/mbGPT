@@ -1,5 +1,12 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Application>
+  <BOModel>
+    <Class Name="DocGPT.Module.BusinessObjects.Chat">
+      <OwnMembers>
+        <Member Name="Answer" PropertyEditorType="DevExpress.ExpressApp.Office.Blazor.Editors.RichTextPropertyEditor" DocumentStorageFormat="Html" />
+      </OwnMembers>
+    </Class>
+  </BOModel>
   <NavigationItems NavigationStyle="Accordion">
     <Items>
       <Item Id="Knowledge" Index="5" />
@@ -11,7 +18,7 @@
   <Views DefaultListEditor="DevExpress.ExpressApp.Blazor.Editors.DxGridListEditor">
     <DetailView Id="Chat_DetailView">
       <Items>
-        <PropertyEditor Id="Answer" PropertyEditorType="DevExpress.ExpressApp.Blazor.Editors.StringPropertyEditor" />
+        <PropertyEditor Id="Answer" PropertyEditorType="DevExpress.ExpressApp.Office.Blazor.Editors.RichTextPropertyEditor" AllowEdit="False" />
         <PropertyEditor Id="Question" RowCount="5" />
       </Items>
     </DetailView>

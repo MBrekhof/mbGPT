@@ -1,12 +1,6 @@
 ﻿
 using DocGPT.Module.BusinessObjects;
-using OpenAI;
-using OpenAI.Embeddings;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace DocGPT.Module.Services
 {

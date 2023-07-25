@@ -1,4 +1,4 @@
-﻿namespace DocGPT.Module.Controllers
+﻿namespace DocGPT.Win.Controllers
 {
     partial class CallLLM
     {
