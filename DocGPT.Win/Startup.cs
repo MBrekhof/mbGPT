@@ -69,6 +69,9 @@ public class ApplicationBuilder : IDesignTimeApplicationFactory {
         });
         builder.Services.AddScoped<VectorService>();
         builder.Services.AddScoped<OpenAILLMService>();
+        //MailSettings mailSettings = new MailSettings();
+        //builder.Services.Configure<MailSettings>()
+        //builder.Services.AddSingleton<IMailService, MailService>();
         var winApplication = builder.Build();
         return winApplication;
     }

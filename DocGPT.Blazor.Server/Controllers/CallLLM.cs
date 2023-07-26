@@ -44,13 +44,13 @@ namespace DocGPT.Blazor.Server.Controllers
         {
             Application.ShowViewStrategy.ShowMessage(string.Format("Looking for the answer!"), displayInterval: 5000, position: InformationPosition.Top);
            
-            LoadingIndicatorProvider.Hold(nameof(CallLLM));
+            LoadingIndicatorProvider.Hold("Searching");
             
             // should be using: system, user example, assistant example, assistant embeddings, user question
             var serviceOne = serviceProvider.GetRequiredService<OpenAILLMService>();
             await serviceOne.GetAnswer(e);
             ObjectSpace.CommitChanges();
-            LoadingIndicatorProvider.Release(nameof(CallLLM));
+            LoadingIndicatorProvider.Release("Searching");
             Application.ShowViewStrategy.ShowMessage(string.Format("Answered!"));
         }
 

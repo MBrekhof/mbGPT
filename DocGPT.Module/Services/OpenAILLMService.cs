@@ -13,6 +13,10 @@ namespace DocGPT.Module.Services
     {
         //private readonly DocGPTEFCoreDbContext _dbContext;
         private readonly IServiceProvider serviceProvider;
+        private string ApiKey = "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";
+        private string EmbeddingModel = "text-embedding-ada-002";
+        private int Chat4Limit = 6000;
+        private int Chat35Limit = 13000;
         public  OpenAILLMService( IServiceProvider serviceProvider)
         {
             //_dbContext = dbContext;
@@ -26,10 +30,10 @@ namespace DocGPT.Module.Services
             var target = (Chat)e.CurrentObject;
             target.Answer = string.Empty;
             //// Create an instance of the OpenAI client
-            var api = new OpenAIClient(new OpenAIAuthentication("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"));
+            var api = new OpenAIClient(new OpenAIAuthentication(ApiKey));
 
             //// Get the model details
-            var model = await api.ModelsEndpoint.GetModelDetailsAsync("text-embedding-ada-002");
+            var model = await api.ModelsEndpoint.GetModelDetailsAsync(EmbeddingModel);
 
             // two step text insertion/replacement
             var text = target.Prompt.PromptBody;
@@ -56,7 +60,7 @@ namespace DocGPT.Module.Services
 
             var totalTokens = 0;
             Model gptmodel = target.ChatModel == ChatModel.GPT4 ? Model.GPT4 : Model.GPT3_5_Turbo_16K;
-            var maxTokens = gptmodel == Model.GPT4 ? 6000 : 13000;
+            var maxTokens = gptmodel == Model.GPT4 ? Chat4Limit : Chat35Limit;
 
             foreach (var snippet in SimilarContentArticles)
             {
