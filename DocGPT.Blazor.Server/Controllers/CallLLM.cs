@@ -2,8 +2,10 @@
 using DevExpress.ExpressApp.Actions;
 using DevExpress.ExpressApp.Blazor;
 using DevExpress.ExpressApp.Blazor.Services;
+using DevExpress.ExpressApp.Utils;
 using DocGPT.Module.BusinessObjects;
 using DocGPT.Module.Services;
+using Microsoft.JSInterop;
 
 namespace DocGPT.Blazor.Server.Controllers
 {
@@ -42,16 +44,28 @@ namespace DocGPT.Blazor.Server.Controllers
 
         private async void AskAction_Execute(object sender, SimpleActionExecuteEventArgs e)
         {
-            Application.ShowViewStrategy.ShowMessage(string.Format("Looking for the answer!"), displayInterval: 5000, position: InformationPosition.Top);
-           
+            //Application.ShowViewStrategy.ShowMessage(string.Format("Looking for the answer!"), displayInterval: 5000, position: InformationPosition.Top);
+
+
+            IJSRuntime jsRuntime = (IJSRuntime)((BlazorApplication)Application).ServiceProvider.GetService(typeof(IJSRuntime));
+            await jsRuntime.InvokeVoidAsync("setLoadingText", "Searching..");
             LoadingIndicatorProvider.Hold("Searching");
-            
+
             // should be using: system, user example, assistant example, assistant embeddings, user question
             var serviceOne = serviceProvider.GetRequiredService<OpenAILLMService>();
-            await serviceOne.GetAnswer(e);
+            var result = await serviceOne.GetAnswer(e);
+
+            if (result)
+            {
+                Application.ShowViewStrategy.ShowMessage(string.Format("Answered using local knowledge!"));
+            }
+            else
+            {
+                Application.ShowViewStrategy.ShowMessage(string.Format("Answered!"));
+            }
             ObjectSpace.CommitChanges();
             LoadingIndicatorProvider.Release("Searching");
-            Application.ShowViewStrategy.ShowMessage(string.Format("Answered!"));
+            await jsRuntime.InvokeVoidAsync("setLoadingText", CaptionHelper.GetLocalizedText("VisualComponents/LoadingIndicator", "Loading"));
         }
 
 

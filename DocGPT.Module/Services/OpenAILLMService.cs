@@ -22,11 +22,11 @@ namespace DocGPT.Module.Services
             //_dbContext = dbContext;
             this.serviceProvider = serviceProvider;
         }
-        public async Task GetAnswer(SimpleActionExecuteEventArgs e)
+        public async Task<bool> GetAnswer(SimpleActionExecuteEventArgs e)
         {
             //IObjectSpace newObjectSpace = e.CurrentObject Application.CreateObjectSpace(typeof(Chat));
 
-
+            var usesLocalKnowledge = false;
             var target = (Chat)e.CurrentObject;
             target.Answer = string.Empty;
             //// Create an instance of the OpenAI client
@@ -52,6 +52,7 @@ namespace DocGPT.Module.Services
             {
                 SimilarContentArticles.Sort((a, b) => b.cosine_distance.CompareTo(a.cosine_distance));
                 //SimilarContentArticles = SimilarContentArticles.Take(10).ToList();
+                usesLocalKnowledge = true;
             }
 
 
@@ -79,7 +80,8 @@ namespace DocGPT.Module.Services
             //target.Answer = result;
             target.Tokens = result.Usage.TotalTokens;
             target.Created = DateTime.Now;
-           // newObjectSpace.CommitChanges();
+            // newObjectSpace.CommitChanges();
+            return usesLocalKnowledge;
         }
     }
 }
