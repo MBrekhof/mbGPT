@@ -58,17 +58,17 @@ namespace DocGPT.Module.Controllers
                 CO_Embed.VectorDataString = (Pgvector.Vector)embeddings.Data[0].Embedding; // "[" + String.Join(",", embeddings.Data[0].Embedding) + "]";
                 CO_Embed.Tokens = (int)embeddings.Usage.TotalTokens;
                 // Get Embedding Vectors for this chunk
-                var EmbeddingVectors = embeddings.Data[0].Embedding.Select(d => (float)d).ToArray();
-                // Instert all Embedding Vectors
-                for (int i = 0; i < EmbeddingVectors.Length; i++)
-                {
-                    var embeddingVector = ObjectSpace.CreateObject<ArticleVectorData>();
+                //var EmbeddingVectors = embeddings.Data[0].Embedding.Select(d => (float)d).ToArray();
+                //// Instert all Embedding Vectors
+                //for (int i = 0; i < EmbeddingVectors.Length; i++)
+                //{
+                //    var embeddingVector = ObjectSpace.CreateObject<ArticleVectorData>();
 
-                    embeddingVector.VectorValueId = i;
-                    embeddingVector.VectorValue = EmbeddingVectors[i];
+                //    embeddingVector.VectorValueId = i;
+                //    embeddingVector.VectorValue = EmbeddingVectors[i];
 
-                    CO_Embed.ArticleVectorData.Add(embeddingVector);
-                }
+                //    CO_Embed.ArticleVectorData.Add(embeddingVector);
+                //}
                 ObjectSpace.CommitChanges();
                 Application.ShowViewStrategy.ShowMessage(string.Format("Embedded!"), displayInterval: 50000);
             }

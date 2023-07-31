@@ -11,6 +11,7 @@ using DocGPT.Module.Services;
 using Microsoft.Extensions.DependencyInjection;
 using OpenAI;
 using OpenAI.Embeddings;
+using Pgvector;
 
 namespace DocGPT.Module.Controllers
 {
@@ -153,22 +154,22 @@ namespace DocGPT.Module.Controllers
                 foreach (var articleDet in newArticle.ArticleDetail)
                 {
                     var embeddings = await api.EmbeddingsEndpoint.CreateEmbeddingAsync(articleDet.ArticleContent, model);
-
-                    articleDet.VectorDataString = (Pgvector.Vector)embeddings.Data[0].Embedding;//"[" + String.Join(",", embeddings.Data[0].Embedding) + "]";
+                    var x = new Vector("[" + String.Join(",", embeddings.Data[0].Embedding) + "]");
+                    articleDet.VectorDataString = x;//"[" + String.Join(",", embeddings.Data[0].Embedding) + "]";
                     articleDet.Tokens = (int)embeddings.Usage.TotalTokens;
                     // Get Embedding Vectors for this chunk
-                    var EmbeddingVectors = embeddings.Data[0].Embedding.Select(d => (float)d).ToArray();
+                    //var EmbeddingVectors = embeddings.Data[0].Embedding.Select(d => (float)d).ToArray();
                     // Instert all Embedding Vectors
-                    for (int i = 0; i < EmbeddingVectors.Length; i++)
-                    {
-                        var embeddingVector = ArticleObjectSpace.CreateObject<ArticleVectorData>();
+                    //for (int i = 0; i < EmbeddingVectors.Length; i++)
+                    //{
+                    //    var embeddingVector = ArticleObjectSpace.CreateObject<ArticleVectorData>();
 
-                        embeddingVector.ArticleDetailId = articleDet.ArticleDetailId;
-                        embeddingVector.VectorValueId = i;
-                        embeddingVector.VectorValue = EmbeddingVectors[i];
+                    //    embeddingVector.ArticleDetailId = articleDet.ArticleDetailId;
+                    //    embeddingVector.VectorValueId = i;
+                    //    embeddingVector.VectorValue = EmbeddingVectors[i];
 
-                        articleDet.ArticleVectorData.Add(embeddingVector);
-                    }
+                    //    articleDet.ArticleVectorData.Add(embeddingVector);
+                    //}
                     ArticleObjectSpace.CommitChanges();
                 }
                
