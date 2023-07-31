@@ -40,10 +40,6 @@
     <PackageReference Include="DevExpress.Persistent.BaseImpl.EFCore" Version="23.1.4" />
     <PackageReference Include="DevExpress.RichEdit.Export" Version="23.1.4" />
     <PackageReference Include="DevExpress.Win.Design" Version="23.1.4" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.9">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DocGPT.Module\DocGPT.Module.csproj" />

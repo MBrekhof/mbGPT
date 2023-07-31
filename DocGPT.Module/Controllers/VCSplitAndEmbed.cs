@@ -154,7 +154,7 @@ namespace DocGPT.Module.Controllers
                 {
                     var embeddings = await api.EmbeddingsEndpoint.CreateEmbeddingAsync(articleDet.ArticleContent, model);
 
-                    articleDet.VectorDataString = "[" + String.Join(",", embeddings.Data[0].Embedding) + "]";
+                    articleDet.VectorDataString = (Pgvector.Vector)embeddings.Data[0].Embedding;//"[" + String.Join(",", embeddings.Data[0].Embedding) + "]";
                     articleDet.Tokens = (int)embeddings.Usage.TotalTokens;
                     // Get Embedding Vectors for this chunk
                     var EmbeddingVectors = embeddings.Data[0].Embedding.Select(d => (float)d).ToArray();

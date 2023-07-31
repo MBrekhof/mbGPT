@@ -55,7 +55,7 @@ namespace DocGPT.Module.Controllers
                 //IObjectSpace VectorDataObjectSpace = Application.CreateObjectSpace(typeof(ArticleVectorData));
                 var embeddings = await api.EmbeddingsEndpoint.CreateEmbeddingAsync("Source : "+CO_Embed.Subject+"Category :"+CO_Embed.Category.Category+" "+ CO_Embed.CodeObjectContent, model);
 
-                CO_Embed.VectorDataString = "[" + String.Join(",", embeddings.Data[0].Embedding) + "]";
+                CO_Embed.VectorDataString = (Pgvector.Vector)embeddings.Data[0].Embedding; // "[" + String.Join(",", embeddings.Data[0].Embedding) + "]";
                 CO_Embed.Tokens = (int)embeddings.Usage.TotalTokens;
                 // Get Embedding Vectors for this chunk
                 var EmbeddingVectors = embeddings.Data[0].Embedding.Select(d => (float)d).ToArray();

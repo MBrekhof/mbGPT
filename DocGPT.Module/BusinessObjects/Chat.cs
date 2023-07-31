@@ -39,7 +39,7 @@ public partial class Chat : BaseObjectNoID
     public virtual ChatModel? ChatModel { get; set; }
 
     [VisibleInLookupListView(false)]
-    [Column(TypeName ="DateTime")]
+    //[Column(TypeName ="DateTime")]
 
     public virtual DateTime? Created { get; set; }
 }

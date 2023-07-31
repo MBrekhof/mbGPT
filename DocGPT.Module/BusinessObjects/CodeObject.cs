@@ -1,12 +1,8 @@
 ﻿using DevExpress.ExpressApp.DC;
 using DevExpress.Persistent.Base;
-using System;
-using System.Collections.Generic;
+using Pgvector;
 using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DocGPT.Module.BusinessObjects
 {
@@ -32,9 +28,10 @@ namespace DocGPT.Module.BusinessObjects
 
         public virtual int Tokens { get; set; }
 
-        [FieldSize(FieldSizeAttribute.Unlimited)]
-        [VisibleInDetailView(false), VisibleInListView(false), VisibleInLookupListView(false)]
-        public virtual string VectorDataString { get; set; }
+        //[FieldSize(FieldSizeAttribute.Unlimited)]
+        //[VisibleInDetailView(false), VisibleInListView(false), VisibleInLookupListView(false)]
+        [Column(TypeName = "vector(1536)")]
+        public virtual Vector? VectorDataString { get; set; }
 
         public virtual IList<ArticleVectorData> ArticleVectorData { get; set; } = new ObservableCollection<ArticleVectorData>();
     }

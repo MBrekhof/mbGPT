@@ -5,6 +5,7 @@ using DevExpress.Persistent.BaseImpl.EF.PermissionPolicy;
 using DevExpress.Persistent.BaseImpl.EF;
 using DevExpress.ExpressApp.Design;
 using DevExpress.ExpressApp.EFCore.DesignTime;
+using Pgvector.EntityFrameworkCore;
 
 namespace DocGPT.Module.BusinessObjects;
 
@@ -13,7 +14,8 @@ namespace DocGPT.Module.BusinessObjects;
 public class DocGPTContextInitializer : DbContextTypesInfoInitializerBase {
 	protected override DbContext CreateDbContext() {
 		var optionsBuilder = new DbContextOptionsBuilder<DocGPTEFCoreDbContext>()
-            .UseSqlServer(";")
+            //.UseSqlServer(";")
+            .UseNpgsql(";")
             .UseChangeTrackingProxies()
             .UseObjectSpaceLinkProxies();
         return new DocGPTEFCoreDbContext(optionsBuilder.Options);
@@ -24,7 +26,8 @@ public class DocGPTDesignTimeDbContextFactory : IDesignTimeDbContextFactory<DocG
 	public DocGPTEFCoreDbContext CreateDbContext(string[] args) {
 		//throw new InvalidOperationException("Make sure that the database connection string and connection provider are correct. After that, uncomment the code below and remove this exception.");
 		var optionsBuilder = new DbContextOptionsBuilder<DocGPTEFCoreDbContext>();
-		optionsBuilder.UseSqlServer("Encrypt=false;Integrated Security=SSPI;MultipleActiveResultSets=True;Data Source=BCH-BTO;Initial Catalog=E965_EFCore");
+		//optionsBuilder.UseSqlServer("Encrypt=false;Integrated Security=SSPI;MultipleActiveResultSets=True;Data Source=BCH-BTO;Initial Catalog=E965_EFCore");
+        optionsBuilder.UseNpgsql("Server=localhost;Port=5432;Database=postgres;User Id=postgres;Password=1Zaqwsx2;");
 		optionsBuilder.UseChangeTrackingProxies();
 		optionsBuilder.UseObjectSpaceLinkProxies();
 		return new DocGPTEFCoreDbContext(optionsBuilder.Options);
@@ -53,24 +56,28 @@ public class DocGPTEFCoreDbContext : DbContext {
     public DbSet<ApplicationUserLoginInfo> UserLoginInfos { get; set; }
 
 
-    [DbFunction("SimilarContentArticles", "dbo")]
-    public IQueryable<SimilarContentArticlesResult> SimilarContentArticles(string vector)
-    {
-        return FromExpression(() => SimilarContentArticles(vector));
-    }
+    //[DbFunction("SimilarContentArticles", "dbo")]
+    //public IQueryable<SimilarContentArticlesResult> SimilarContentArticles(string vector)
+    //{
+    //    return FromExpression(() => SimilarContentArticles(vector));
+    //}
 
-    [DbFunction("SimilarContentCodeObject", "dbo")]
-    public IQueryable<SimilarContentArticlesResult> SimilarContentCodeObject(string vector)
-    {
-        return FromExpression(() => SimilarContentCodeObject(vector));
-    }
+    //[DbFunction("SimilarContentCodeObject", "dbo")]
+    //public IQueryable<SimilarContentArticlesResult> SimilarContentCodeObject(string vector)
+    //{
+    //    return FromExpression(() => SimilarContentCodeObject(vector));
+    //}
     protected override void OnModelCreating(ModelBuilder modelBuilder) {
         base.OnModelCreating(modelBuilder);
         modelBuilder.HasChangeTrackingStrategy(ChangeTrackingStrategy.ChangingAndChangedNotificationsWithOriginalValues);
         modelBuilder.UsePropertyAccessMode(PropertyAccessMode.PreferFieldDuringConstruction);
     }
-    protected void OnModelCreatingGeneratedFunctions(ModelBuilder modelBuilder)
+    //protected void OnModelCreatingGeneratedFunctions(ModelBuilder modelBuilder)
+    //{
+    //    modelBuilder.Entity<SimilarContentArticlesResult>().HasNoKey();
+    //}
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-        modelBuilder.Entity<SimilarContentArticlesResult>().HasNoKey();
+        optionsBuilder.UseNpgsql("Server=localhost;Port=5432;Database=postgres;User Id=postgres;Password=1Zaqwsx2;", o => o.UseVector());
     }
 }

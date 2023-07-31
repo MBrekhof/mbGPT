@@ -16,14 +16,16 @@ namespace DocGPT.Module.Services
         // GetSimilarContentArticles
         public List<SimilarContentArticlesResult> GetSimilarContentArticles(string vector)
         {
-            var r = _dbContext.SimilarContentArticles(vector).ToList();
+            //var r = _dbContext.SimilarContentArticles(vector).ToList();
+            var r = new List<SimilarContentArticlesResult>();
             return r;
         }
 
         // GetSimilarCode
         public List<SimilarContentArticlesResult> GetSimilarCodeContent(string vector)
         {
-            var r = _dbContext.SimilarContentCodeObject(vector).ToList();
+            //var r = _dbContext.SimilarContentCodeObject(vector).ToList();
+            var r=new List<SimilarContentArticlesResult>();
             return r;
         }
         //public async Task<EmbeddingsResponse> CreateEmbeddingAsync(string articleContent, string model)
