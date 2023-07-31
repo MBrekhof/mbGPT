@@ -62,7 +62,7 @@ namespace DocGPT.Module.Controllers
             var api = new OpenAIClient(new OpenAIAuthentication("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"));
 
              var chatMessages = new List<Message>();
-            var summaryPrompt = $"You receive one or more chunks of text from the document called {articleToSummarize.ArticleName}, please provide a concise summary of the text. ###";
+            var summaryPrompt = $"You receive one or more chunks of text from the document called {articleToSummarize.ArticleName}, please provide a complete summary of the text. ###";
             var assistantPrompt = "The summary should be formatted using Markdown";
             var totalTokens = 0;
             Model gptmodel = Model.GPT3_5_Turbo_16K; //target.ChatModel == ChatModel.GPT4 ? Model.GPT4 : Model.GPT3_5_Turbo_16K;
@@ -102,7 +102,7 @@ namespace DocGPT.Module.Controllers
             articleToSummarize.Summary = Markdown.Parse(SummaryResult).ToHtml();
             ObjectSpace.CommitChanges();
                     
-            Application.ShowViewStrategy.ShowMessage(string.Format("Summarized!"));
+            Application.ShowViewStrategy.ShowMessage(string.Format("Summarized (NOT embedded) !"));
         }
 
         protected override void OnActivated()
