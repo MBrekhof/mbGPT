@@ -26,9 +26,9 @@ public class DocGPTDesignTimeDbContextFactory : IDesignTimeDbContextFactory<DocG
 	public DocGPTEFCoreDbContext CreateDbContext(string[] args) {
 		//throw new InvalidOperationException("Make sure that the database connection string and connection provider are correct. After that, uncomment the code below and remove this exception.");
 		var optionsBuilder = new DbContextOptionsBuilder<DocGPTEFCoreDbContext>();
-		//optionsBuilder.UseSqlServer("Encrypt=false;Integrated Security=SSPI;MultipleActiveResultSets=True;Data Source=BCH-BTO;Initial Catalog=E965_EFCore");
-        optionsBuilder.UseNpgsql("Server=localhost;Port=5432;Database=postgres;User Id=postgres;Password=1Zaqwsx2;");
-		optionsBuilder.UseChangeTrackingProxies();
+        //optionsBuilder.UseSqlServer("Encrypt=false;Integrated Security=SSPI;MultipleActiveResultSets=True;Data Source=BCH-BTO;Initial Catalog=E965_EFCore");
+        optionsBuilder.UseNpgsql("Server=localhost;Port=5432;Database=postgres;User Id=postgres;Password=1Zaqwsx2;").UseSnakeCaseNamingConvention();
+        optionsBuilder.UseChangeTrackingProxies();
 		optionsBuilder.UseObjectSpaceLinkProxies();
 		return new DocGPTEFCoreDbContext(optionsBuilder.Options);
 	}

@@ -1,23 +1,31 @@
-﻿
+﻿using System.Collections.Generic;
+using Microsoft.EntityFrameworkCore;
 using DocGPT.Module.BusinessObjects;
 using System.Text;
+
 
 namespace DocGPT.Module.Services
 {
     public class VectorService
     {
-        private readonly DocGPTEFCoreDbContext _dbContext;
 
-        public VectorService(DocGPTEFCoreDbContext dbContext)
+        private readonly CustomDbContext _dbContext;
+
+        public VectorService(CustomDbContext dbContext)
         {
+
             _dbContext = dbContext;
 
         }
         // GetSimilarContentArticles
         public List<SimilarContentArticlesResult> GetSimilarContentArticles(string vector)
         {
-            //var r = _dbContext.SimilarContentArticles(vector).ToList();
-            var r = new List<SimilarContentArticlesResult>();
+            var cdb = _dbContext.CreateDbContext();
+            var question = $"SELECT ArticleDetailId," +
+                $"(select ArticleName from Article where r.ArticleDetailId = a.ArticleId) as ArticleName," +
+                $"ArticleContent,ArticleSequence,VectorDataString <=> " +
+                $"'{vector}' as cosine_distance  FROM ArticleDetail ORDER BY VectorDataString <=> '{vector}' LIMIT 5";
+            List<SimilarContentArticlesResult> r = cdb.SimilarContentArticlesResult.FromSqlRaw(question).ToList();
             return r;
         }
 
@@ -25,7 +33,12 @@ namespace DocGPT.Module.Services
         public List<SimilarContentArticlesResult> GetSimilarCodeContent(string vector)
         {
             //var r = _dbContext.SimilarContentCodeObject(vector).ToList();
-            var r=new List<SimilarContentArticlesResult>();
+            var cdb = _dbContext;
+            var question = $"SELECT CodeObjectId,Subject,CodeObjectContent,1,VectorDataString <=> " +
+                $"'{vector}' as cosine_distance  FROM CodeObject ORDER BY VectorDataString <=> '{vector}' LIMIT 5";
+            List<SimilarContentArticlesResult> r = cdb.SimilarContentArticlesResult.FromSqlRaw(question).ToList();
+
+            
             return r;
         }
         //public async Task<EmbeddingsResponse> CreateEmbeddingAsync(string articleContent, string model)

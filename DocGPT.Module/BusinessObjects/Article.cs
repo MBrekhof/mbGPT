@@ -9,41 +9,34 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-// https://github.com/DevExpress-Examples/XAF_how-to-store-file-attachments-in-the-file-system-instead-of-the-database
 
 namespace DocGPT.Module.BusinessObjects;
 [DefaultClassOptions]
 [NavigationItem("Knowledge")]
 [DefaultProperty("ArticleName")]
 [FileAttachment(nameof(File))]
-[Table("Article")]
+[Table("article")]
 public partial class Article : BaseObjectNoID
 {
     [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-    [Column("ArticleId")]
+    [Column("articleId")]
     public virtual int ArticleId { get; set; }
 
     [StringLength(250)]
     [Unicode(false)]
-    [Column("ArticleName")]
+    [Column("articleName")]
     public virtual string ArticleName { get; set; }
 
     [StringLength(250)]
     [Unicode(false)]
-    [Column("Description")]
+    [Column("description")]
     public virtual string Description { get; set; }
 
     [FieldSize(FieldSizeAttribute.Unlimited)]
-    [Column("Summary")]
+    [Column("summary")]
     public virtual string Summary { get; set; }
 
-    //[ExpandObjectMembers(ExpandObjectMembers.Never)]
-    //[FileTypeFilter("DocumentFiles", 1, "*.txt", "*.doc")]
-    //[FileTypeFilter("AllFiles", 2, "*.*")]
-    //[Column("File")]
-    //public virtual FileData? File { get; set; }
-
-    //[InverseProperty("Article")]
+     //[InverseProperty("Article")]
     public virtual IList<ArticleDetail> ArticleDetail { get; set; } = new ObservableCollection<ArticleDetail>();
 }

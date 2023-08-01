@@ -11,6 +11,7 @@ using DevExpress.Persistent.Base;
 using DevExpress.Persistent.Validation;
 using DocGPT.Module.BusinessObjects;
 using OpenAI;
+using Pgvector;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -54,8 +55,9 @@ namespace DocGPT.Module.Controllers
                 var model = await api.ModelsEndpoint.GetModelDetailsAsync("text-embedding-ada-002");
                 //IObjectSpace VectorDataObjectSpace = Application.CreateObjectSpace(typeof(ArticleVectorData));
                 var embeddings = await api.EmbeddingsEndpoint.CreateEmbeddingAsync("Source : "+CO_Embed.Subject+"Category :"+CO_Embed.Category.Category+" "+ CO_Embed.CodeObjectContent, model);
+                var x = new Vector("[" + String.Join(",", embeddings.Data[0].Embedding) + "]");
 
-                CO_Embed.VectorDataString = (Pgvector.Vector)embeddings.Data[0].Embedding; // "[" + String.Join(",", embeddings.Data[0].Embedding) + "]";
+                CO_Embed.VectorDataString = x;// "[" + String.Join(",", embeddings.Data[0].Embedding) + "]";
                 CO_Embed.Tokens = (int)embeddings.Usage.TotalTokens;
                 // Get Embedding Vectors for this chunk
                 //var EmbeddingVectors = embeddings.Data[0].Embedding.Select(d => (float)d).ToArray();

@@ -17,7 +17,7 @@ namespace DocGPT.Module.Services
         private string EmbeddingModel = "text-embedding-ada-002";
         private int Chat4Limit = 6000;
         private int Chat35Limit = 13000;
-        public  OpenAILLMService( IServiceProvider serviceProvider)
+        public  OpenAILLMService( IServiceProvider serviceProvider) //, DocGPTEFCoreDbContext dbContext)
         {
             //_dbContext = dbContext;
             this.serviceProvider = serviceProvider;
@@ -43,8 +43,11 @@ namespace DocGPT.Module.Services
             target.QuestionDataString = "[" + String.Join(",", embeddings.Data[0].Embedding) + "]";
 
             var serviceOne = serviceProvider.GetRequiredService<VectorService>();
+            //similar content
+ 
             var SimilarContentArticles = serviceOne.GetSimilarCodeContent(target.QuestionDataString);
             var codeHits = serviceOne.GetSimilarContentArticles(target.QuestionDataString);
+
             SimilarContentArticles.AddRange(codeHits);
 
             var aantal = SimilarContentArticles.Count;

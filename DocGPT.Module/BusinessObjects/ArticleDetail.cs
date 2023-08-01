@@ -21,7 +21,7 @@ public partial class ArticleDetail : BaseObjectNoID
     [FieldSize(FieldSizeAttribute.Unlimited)]
     public virtual string ArticleContent { get; set; }
 
-    [ForeignKey("ArticleId")]
+    [ForeignKey("articleid")]
     // [InverseProperty("ArticleDetail")]
     public virtual Article Article { get; set; }
 
