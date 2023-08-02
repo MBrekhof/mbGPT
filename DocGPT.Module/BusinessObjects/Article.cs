@@ -20,12 +20,12 @@ public partial class Article : BaseObjectNoID
 {
     [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-    [Column("articleId")]
+    //[Column("articleId")]
     public virtual int ArticleId { get; set; }
 
     [StringLength(250)]
     [Unicode(false)]
-    [Column("articleName")]
+    //[Column("articleName")]
     public virtual string ArticleName { get; set; }
 
     [StringLength(250)]
@@ -37,6 +37,6 @@ public partial class Article : BaseObjectNoID
     [Column("summary")]
     public virtual string Summary { get; set; }
 
-     //[InverseProperty("Article")]
+     [InverseProperty("Article")]
     public virtual IList<ArticleDetail> ArticleDetail { get; set; } = new ObservableCollection<ArticleDetail>();
 }

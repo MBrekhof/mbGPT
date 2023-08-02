@@ -27,7 +27,7 @@ public class DocGPTDesignTimeDbContextFactory : IDesignTimeDbContextFactory<DocG
 		//throw new InvalidOperationException("Make sure that the database connection string and connection provider are correct. After that, uncomment the code below and remove this exception.");
 		var optionsBuilder = new DbContextOptionsBuilder<DocGPTEFCoreDbContext>();
         //optionsBuilder.UseSqlServer("Encrypt=false;Integrated Security=SSPI;MultipleActiveResultSets=True;Data Source=BCH-BTO;Initial Catalog=E965_EFCore");
-        optionsBuilder.UseNpgsql("Server=localhost;Port=5432;Database=postgres;User Id=postgres;Password=1Zaqwsx2;").UseSnakeCaseNamingConvention();
+        optionsBuilder.UseNpgsql("Server=localhost;Port=5432;Database=postgres;User Id=postgres;Password=1Zaqwsx2;").UseLowerCaseNamingConvention();
         optionsBuilder.UseChangeTrackingProxies();
 		optionsBuilder.UseObjectSpaceLinkProxies();
 		return new DocGPTEFCoreDbContext(optionsBuilder.Options);
@@ -43,7 +43,7 @@ public class DocGPTEFCoreDbContext : DbContext {
     //public DbSet<SplitAndEmbed> SplitAndEmbed { get; set; }
     public DbSet<Article> Article { get; set; }
     public DbSet<ArticleDetail> ArticleDetail { get; set; }
-    public DbSet<ArticleVectorData> ArticleVectorData { get; set; }
+    //public DbSet<ArticleVectorData> ArticleVectorData { get; set; }
     public DbSet<Chat> Chat { get; set; }
     public DbSet<Prompt> Prompt { get; set; }
 

@@ -1,4 +1,5 @@
-﻿using DevExpress.ExpressApp.DC;
+﻿#nullable enable
+using DevExpress.ExpressApp.DC;
 using DevExpress.Persistent.Base;
 using Pgvector;
 using System.Collections.ObjectModel;
@@ -21,18 +22,18 @@ namespace DocGPT.Module.BusinessObjects
         //public virtual int CodeObjectCategoryId { get; set; }
         [ForeignKey("CodeObjectCategoryId")]
         // [InverseProperty("ArticleDetail")]
-        public virtual CodeObjectCategory Category { get; set; }
+        public virtual required CodeObjectCategory Category { get; set; }
 
         [FieldSize(FieldSizeAttribute.Unlimited)]
-        public virtual string CodeObjectContent { get; set; }
+        public virtual required string CodeObjectContent { get; set; }
 
         public virtual int Tokens { get; set; }
 
         //[FieldSize(FieldSizeAttribute.Unlimited)]
-        //[VisibleInDetailView(false), VisibleInListView(false), VisibleInLookupListView(false)]
+        [VisibleInDetailView(false), VisibleInListView(false), VisibleInLookupListView(false)]
         [Column(TypeName = "vector(1536)")]
         public virtual Vector? VectorDataString { get; set; }
 
-        public virtual IList<ArticleVectorData> ArticleVectorData { get; set; } = new ObservableCollection<ArticleVectorData>();
+       // public virtual IList<ArticleVectorData> ArticleVectorData { get; set; } = new ObservableCollection<ArticleVectorData>();
     }
 }

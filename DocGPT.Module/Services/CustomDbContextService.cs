@@ -13,7 +13,7 @@ namespace DocGPT.Module.Services
             public CustomDbContext CreateDbContext()//string[] args)
             {
                 var optionsBuilder = new DbContextOptionsBuilder<CustomDbContext>();
-                optionsBuilder.UseNpgsql("Server=localhost;Port=5432;Database=postgres;User Id=postgres;Password=1Zaqwsx2;");
+                optionsBuilder.UseNpgsql("Server=localhost;Port=5432;Database=postgres;User Id=postgres;Password=1Zaqwsx2;").UseLowerCaseNamingConvention();
                 optionsBuilder.UseChangeTrackingProxies();
                 optionsBuilder.UseObjectSpaceLinkProxies();
                 return new CustomDbContext(optionsBuilder.Options);

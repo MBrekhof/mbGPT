@@ -30,7 +30,7 @@
     </Class>
   </BOModel>
   <NavigationItems NavigationStyle="Accordion" DefaultChildItemsDisplayStyle="List" />
-  <Options UIType="TabbedMDI" FormStyle="Ribbon" />
+  <Options UIType="TabbedMDI" FormStyle="Ribbon" DataAccessMode="Server" />
   <SchemaModules>
     <SchemaModule Name="SystemModule" Version="23.1.4.0" IsNewNode="True" />
     <SchemaModule Name="SystemWindowsFormsModule" Version="23.1.4.0" IsNewNode="True" />

@@ -363,3 +363,5 @@ MigrationBackup/
 FodyWeavers.xsd
 *.bak
 Deploy
+UnusableNodes?.xml
+DocGPT.Module/UnusableNodes.xml

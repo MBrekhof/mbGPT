@@ -46,7 +46,7 @@ public class ApplicationBuilder : IDesignTimeApplicationFactory {
                     // We recommend that you refer to the following help topic before you use an in-memory database: https://docs.microsoft.com/en-us/ef/core/testing/in-memory
                     //options.UseInMemoryDatabase("InMemory");
                     //options.UseSqlServer(connectionString);
-                    options.UseNpgsql(connectionString);
+                    options.UseNpgsql(connectionString).UseLowerCaseNamingConvention();
                     options.UseChangeTrackingProxies();
                     options.UseObjectSpaceLinkProxies();
                 })
@@ -69,7 +69,7 @@ public class ApplicationBuilder : IDesignTimeApplicationFactory {
 #endif
         });
         builder.Services.AddDbContext<CustomDbContext>(options =>
-    options.UseNpgsql("Server=localhost;Port=5432;Database=postgres;User Id=postgres;Password=1Zaqwsx2;"));
+    options.UseNpgsql("Server=localhost;Port=5432;Database=postgres;User Id=postgres;Password=1Zaqwsx2;").UseLowerCaseNamingConvention());
 
         builder.Services.AddScoped<VectorService>();
         builder.Services.AddScoped<OpenAILLMService>();

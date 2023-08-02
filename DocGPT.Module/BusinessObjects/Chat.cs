@@ -8,13 +8,13 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace DocGPT.Module.BusinessObjects;
 [DefaultClassOptions]
 [NavigationItem("DocGPT")]
-[Table("Chat")]
+//[Table("Chat")]
 
 public partial class Chat : BaseObjectNoID
 {
     [System.ComponentModel.DataAnnotations.Key]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-    [Column("ChatId")]
+   // [Column("ChatId")]
     [VisibleInDetailView(false)]
     public virtual int ChatId { get; set; }
 
@@ -26,7 +26,7 @@ public partial class Chat : BaseObjectNoID
     [FieldSize(FieldSizeAttribute.Unlimited)]
     public virtual string QuestionDataString { get; set; }
 
-    [Column("PromptID")]
+    //[Column("PromptID")]
     public virtual Prompt Prompt { get; set; }
 
     [FieldSize(FieldSizeAttribute.Unlimited)]

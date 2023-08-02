@@ -132,7 +132,8 @@ namespace DocGPT.Module.Controllers
                 var newArticle = ArticleObjectSpace.CreateObject<Article>();
                 newArticle.ArticleName = target.FileName;
                 newArticle.Description = "";
-                //ArticleObjectSpace.CommitChanges();
+
+                ArticleObjectSpace.CommitChanges();
                 var teller =0;
                 //// Create an instance of the OpenAI client
                 var api = new OpenAIClient(new OpenAIAuthentication("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"));
@@ -146,6 +147,7 @@ namespace DocGPT.Module.Controllers
                     var newArticleDetail = ArticleObjectSpace.CreateObject <ArticleDetail>();
                     newArticleDetail.ArticleContent = "Source: "+target.FileName+ " "+docChunk;
                     newArticleDetail.ArticleSequence = teller;
+                    newArticleDetail.ArticleId = newArticle.ArticleId;
                     newArticle.ArticleDetail.Add(newArticleDetail);
                 }
                 ArticleObjectSpace.CommitChanges();

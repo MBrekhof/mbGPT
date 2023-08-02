@@ -22,14 +22,14 @@ public partial class ArticleDetail : BaseObjectNoID
     public virtual string ArticleContent { get; set; }
 
     [ForeignKey("articleid")]
-    // [InverseProperty("ArticleDetail")]
+     [InverseProperty("ArticleDetail")]
     public virtual Article Article { get; set; }
 
     public virtual int Tokens { get; set; }
 
     //[FieldSize(FieldSizeAttribute.Unlimited)]
-    //[VisibleInDetailView(false),VisibleInListView(false),VisibleInLookupListView(false)]
+    [VisibleInDetailView(false),VisibleInListView(false),VisibleInLookupListView(false)]
     [Column(TypeName = "vector(1536)")]
     public virtual Vector? VectorDataString { get; set; }
-    public virtual IList<ArticleVectorData> ArticleVectorData { get; set; } = new ObservableCollection<ArticleVectorData>();
+   // public virtual IList<ArticleVectorData> ArticleVectorData { get; set; } = new ObservableCollection<ArticleVectorData>();
 }
