@@ -1,6 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using DocGPT.Module.BusinessObjects;
 using Microsoft.EntityFrameworkCore;
-using DocGPT.Module.BusinessObjects;
 using System.Text;
 
 
@@ -32,13 +31,10 @@ namespace DocGPT.Module.Services
         // GetSimilarCode
         public List<SimilarContentArticlesResult> GetSimilarCodeContent(string vector)
         {
-            //var r = _dbContext.SimilarContentCodeObject(vector).ToList();
             var cdb = _dbContext;
             var question = $"SELECT CodeObjectId,Subject,CodeObjectContent,1,VectorDataString <=> " +
                 $"'{vector}' as cosine_distance  FROM CodeObject ORDER BY VectorDataString <=> '{vector}' LIMIT 5";
-            List<SimilarContentArticlesResult> r = cdb.SimilarContentArticlesResult.FromSqlRaw(question).ToList();
-
-            
+            List<SimilarContentArticlesResult> r = cdb.SimilarContentArticlesResult.FromSqlRaw(question).ToList();          
             return r;
         }
         //public async Task<EmbeddingsResponse> CreateEmbeddingAsync(string articleContent, string model)

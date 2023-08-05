@@ -6,7 +6,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace DocGPT.Module.BusinessObjects;
 
-[Table("PermissionPolicyUserLoginInfo")]
+[Table("permissionpolicyuserlogininfo")]
 public class ApplicationUserLoginInfo : ISecurityUserLoginInfo
 {
 

@@ -9,10 +9,10 @@ namespace DocGPT.Module.BusinessObjects
     [DefaultClassOptions]
     [FileAttachment("File")]
     [NavigationItem("Files")]
-    public class FileSystemStoreObjectDemo : BaseObject
+    public class FileSystemStoreObject : BaseObjectInt
     {
         [ExpandObjectMembers(ExpandObjectMembers.Never), ImmediatePostData]
-        public virtual FileSystemStoreObject File { get; set; }
+        public virtual Base.FileSystemStoreObjectBase File { get; set; }
 
         public virtual bool? Processed { get; set; }
 

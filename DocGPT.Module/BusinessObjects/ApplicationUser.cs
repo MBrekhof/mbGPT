@@ -1,5 +1,7 @@
-﻿using System.Collections.ObjectModel;
+﻿#nullable enable
+using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using DevExpress.ExpressApp;
 using DevExpress.ExpressApp.Security;
 using DevExpress.Persistent.BaseImpl.EF.PermissionPolicy;
@@ -28,4 +30,8 @@ public class ApplicationUser : PermissionPolicyUser, ISecurityUserWithLoginInfo
         result.User = this;
         return result;
     }
+    [StringLength(100)]
+    public virtual string? Email { get; set; }
+    [StringLength(25)]
+    public virtual string? Phone { get; set; }
 }

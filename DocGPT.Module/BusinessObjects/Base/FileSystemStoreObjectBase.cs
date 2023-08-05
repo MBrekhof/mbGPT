@@ -13,7 +13,7 @@ namespace DocGPT.Module.BusinessObjects.Base
     /// This class enables you to store uploaded files in a centralized file system location instead of the database. You can configure the file system store location via the static FileSystemDataModule.FileSystemStoreLocation property.
     /// </summary>
     [DefaultProperty(nameof(FileName))]
-    public class FileSystemStoreObject : BaseObject, IFileData, IEmptyCheckable
+    public class FileSystemStoreObjectBase : BaseObject, IFileData, IEmptyCheckable
     {
         private Stream tempSourceStream;
         private string tempFileName = string.Empty;

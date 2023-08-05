@@ -1,7 +1,6 @@
 ﻿using DevExpress.ExpressApp.DC;
 using DevExpress.Persistent.Base;
 using Pgvector;
-using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations.Schema;
 
 
@@ -27,9 +26,8 @@ public partial class ArticleDetail : BaseObjectNoID
 
     public virtual int Tokens { get; set; }
 
-    //[FieldSize(FieldSizeAttribute.Unlimited)]
     [VisibleInDetailView(false),VisibleInListView(false),VisibleInLookupListView(false)]
     [Column(TypeName = "vector(1536)")]
     public virtual Vector? VectorDataString { get; set; }
-   // public virtual IList<ArticleVectorData> ArticleVectorData { get; set; } = new ObservableCollection<ArticleVectorData>();
+
 }

@@ -2,7 +2,7 @@ using DevExpress.ExpressApp.DC;
 using DevExpress.Persistent.Base;
 using System.ComponentModel.DataAnnotations.Schema;
 using HtmlAgilityPack;
-using static DevExpress.XtraPrinting.Native.ExportOptionsPropertiesNames;
+
 
 namespace DocGPT.Module.BusinessObjects
 {

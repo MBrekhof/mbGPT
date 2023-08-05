@@ -39,11 +39,11 @@ public class DocGPTEFCoreDbContext : DbContext {
 	}
 	//public DbSet<ModuleInfo> ModulesInfo { get; set; }
 	public DbSet<FileData> FileData { get; set; }
-    public DbSet<FileSystemStoreObjectDemo> FileSystemStoreObjectDemo { get; set; }
-    //public DbSet<SplitAndEmbed> SplitAndEmbed { get; set; }
+    public DbSet<FileSystemStoreObject> FileSystemStoreObject { get; set; }
+
     public DbSet<Article> Article { get; set; }
     public DbSet<ArticleDetail> ArticleDetail { get; set; }
-    //public DbSet<ArticleVectorData> ArticleVectorData { get; set; }
+
     public DbSet<Chat> Chat { get; set; }
     public DbSet<Prompt> Prompt { get; set; }
 
@@ -55,6 +55,11 @@ public class DocGPTEFCoreDbContext : DbContext {
     public DbSet<ApplicationUser> Users { get; set; }
     public DbSet<ApplicationUserLoginInfo> UserLoginInfos { get; set; }
 
+    public DbSet<Settings> Settings { get; set; }
+    public DbSet<ChatModel> ChatModel { get; set; }
+
+    public DbSet<EmbeddingModel> EmbeddingModel { get; set; }
+    public DbSet<MailData> MailData { get; set; }
 
     //[DbFunction("SimilarContentArticles", "dbo")]
     //public IQueryable<SimilarContentArticlesResult> SimilarContentArticles(string vector)

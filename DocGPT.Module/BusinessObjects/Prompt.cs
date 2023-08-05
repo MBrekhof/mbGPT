@@ -10,24 +10,20 @@ namespace DocGPT.Module.BusinessObjects;
 
 [DefaultClassOptions]
 [NavigationItem("DocGPT")]
-//[Table("Prompt")]
 [DefaultProperty("Subject")]
 
-public partial class Prompt
+public partial class Prompt : BaseObjectNoID
 {
     [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-    //[Column("PromptID")]
     [VisibleInListView(false),VisibleInDetailView(false),VisibleInLookupListView(false)]
     public virtual int PromptID { get; set; }
 
     [StringLength(50)]
-    //[Column("Subject")]
     public virtual string Subject { get; set; }
 
 
     [Unicode(false)]
-    //[Column("PromptBody")]
     [FieldSize(FieldSizeAttribute.Unlimited)]
     public virtual string PromptBody { get; set; }
 }

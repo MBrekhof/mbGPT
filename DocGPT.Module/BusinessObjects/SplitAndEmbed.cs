@@ -12,7 +12,6 @@ namespace DocGPT.Module.BusinessObjects
 {
 
     [DefaultProperty(nameof(Text))]
-    [ImageName("BO_Document")]
     [DomainComponent]
     public class SplitAndEmbed : BaseObjectNoID
     {

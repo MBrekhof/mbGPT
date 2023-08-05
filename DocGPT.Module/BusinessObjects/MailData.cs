@@ -1,47 +1,31 @@
 #nullable enable
 
+using DevExpress.Persistent.Base;
+
 namespace DocGPT.Module.BusinessObjects
 {
-    // Register this entity in your DbContext (usually in the BusinessObjects folder of your project) with the "public DbSet<MailData> MailDatas { get; set; }" syntax.
-    //[DefaultClassOptions]
-
-    public class MailData //: BaseObject
+    [DefaultClassOptions]
+    [NavigationItem("Email")]
+    public class MailData : BaseObjectInt
     {
-        public MailData(List<string> to, string subject, string? body = null, string? from = null, string? displayName = null, string? replyTo = null, string? replyToName = null, List<string>? bcc = null, List<string>? cc = null)
-        {
-            // Receiver
-            To = to;
-            Bcc = bcc ?? new List<string>();
-            Cc = cc ?? new List<string>();
 
-            // Sender
-            From = from;
-            DisplayName = displayName;
-            ReplyTo = replyTo;
-            ReplyToName = replyToName;
+        public virtual List<string>? To { get; set; }
+        public virtual List<string>? Bcc { get; set; }
 
-            // Content
-            Subject = subject;
-            Body = body;
-        }
-
-        public List<string> To { get; }
-        public List<string> Bcc { get; }
-
-        public List<string> Cc { get; }
+        public virtual List<string>? Cc { get; set; }
 
         // Sender
-        public string? From { get; }
+        public virtual string? From { get; }
 
-        public string? DisplayName { get; }
+        public virtual string? DisplayName { get; }
 
-        public string? ReplyTo { get; }
+        public virtual string? ReplyTo { get; set; }
 
-        public string? ReplyToName { get; }
+        public virtual string? ReplyToName { get;   }
 
         // Content
-        public string Subject { get; }
+        public virtual string? Subject { get; set; }
 
-        public string? Body { get; }
+        public virtual string? Body { get; set; }
     }
 }

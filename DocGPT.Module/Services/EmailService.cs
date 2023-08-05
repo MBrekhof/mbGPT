@@ -10,9 +10,16 @@ namespace DocGPT.Module.Services
     {
         private readonly MailSettings _settings;
 
-        public MailService(IOptions<MailSettings> settings)
+        public MailService(SettingsService settingsService)
         {
-            _settings = settings.Value;
+            var settings = settingsService.GetSettingsAsync().GetAwaiter().GetResult();
+
+            _settings.Host = settings.SMTPHost;
+            _settings.Port = settings.SMTPPort;
+            _settings.UseStartTls = settings.UseStartTls;
+            _settings.UseSSL = settings.UseSSL;
+            _settings.UserName = settings.EmailUserName;
+            _settings.Password = settings.EmailPassword;
         }
 
         public async Task<bool> SendAsync(MailData mailData, CancellationToken ct = default)

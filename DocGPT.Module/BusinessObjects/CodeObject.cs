@@ -1,8 +1,9 @@
 ﻿#nullable enable
+
 using DevExpress.ExpressApp.DC;
 using DevExpress.Persistent.Base;
+using DevExpress.Persistent.Validation;
 using Pgvector;
-using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace DocGPT.Module.BusinessObjects
@@ -17,6 +18,7 @@ namespace DocGPT.Module.BusinessObjects
         public virtual int CodeObjectId { get; set; }
 
         [FieldSize(200)]
+        [RuleRequiredField]
         public virtual string Subject { get; set; }
 
         //public virtual int CodeObjectCategoryId { get; set; }

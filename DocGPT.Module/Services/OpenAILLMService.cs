@@ -11,29 +11,30 @@ namespace DocGPT.Module.Services
 {
     public class OpenAILLMService
     {
-        //private readonly DocGPTEFCoreDbContext _dbContext;
         private readonly IServiceProvider serviceProvider;
-        private string ApiKey = "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";
-        private string EmbeddingModel = "text-embedding-ada-002";
-        private int Chat4Limit = 6000;
-        private int Chat35Limit = 13000;
-        public  OpenAILLMService( IServiceProvider serviceProvider) //, DocGPTEFCoreDbContext dbContext)
-        {
-            //_dbContext = dbContext;
+        private Settings settings;
+        //private string ApiKey = "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";
+        //private string EmbeddingModel = "text-embedding-ada-002";
+        //private int Chat4Limit = 6000;
+        //private int Chat35Limit = 13000;
+        public  OpenAILLMService( IServiceProvider serviceProvider,SettingsService settingsService) 
+        {            
             this.serviceProvider = serviceProvider;
+            this.settings = settingsService.GetSettingsAsync().GetAwaiter().GetResult(); ;
         }
         public async Task<bool> GetAnswer(SimpleActionExecuteEventArgs e)
         {
-            //IObjectSpace newObjectSpace = e.CurrentObject Application.CreateObjectSpace(typeof(Chat));
-
             var usesLocalKnowledge = false;
             var target = (Chat)e.CurrentObject;
+            if (target.ChatModel == null)
+                return false;
+
             target.Answer = string.Empty;
             //// Create an instance of the OpenAI client
-            var api = new OpenAIClient(new OpenAIAuthentication(ApiKey));
+            var api = new OpenAIClient(new OpenAIAuthentication(settings.OpenAIKey));
 
             //// Get the model details
-            var model = await api.ModelsEndpoint.GetModelDetailsAsync(EmbeddingModel);
+            var model = await api.ModelsEndpoint.GetModelDetailsAsync(settings.EmbeddingModel.Name);
 
             // two step text insertion/replacement
             var text = target.Prompt.PromptBody;
@@ -42,11 +43,11 @@ namespace DocGPT.Module.Services
             var embeddings = await api.EmbeddingsEndpoint.CreateEmbeddingAsync(TheQuestion, model);
             target.QuestionDataString = "[" + String.Join(",", embeddings.Data[0].Embedding) + "]";
 
-            var serviceOne = serviceProvider.GetRequiredService<VectorService>();
+            var vectorService = serviceProvider.GetRequiredService<VectorService>();
             //similar content
  
-            var SimilarContentArticles = serviceOne.GetSimilarCodeContent(target.QuestionDataString);
-            var codeHits = serviceOne.GetSimilarContentArticles(target.QuestionDataString);
+            var SimilarContentArticles = vectorService.GetSimilarCodeContent(target.QuestionDataString);
+            var codeHits = vectorService.GetSimilarContentArticles(target.QuestionDataString);
 
             SimilarContentArticles.AddRange(codeHits);
 
@@ -58,13 +59,13 @@ namespace DocGPT.Module.Services
                 usesLocalKnowledge = true;
             }
 
-
             // Create a new list of chatMessages objects
             var chatMessages = new List<Message>();
 
             var totalTokens = 0;
-            Model gptmodel = target.ChatModel == ChatModel.GPT4 ? Model.GPT4 : Model.GPT3_5_Turbo_16K;
-            var maxTokens = gptmodel == Model.GPT4 ? Chat4Limit : Chat35Limit;
+            string gptmodel = target.ChatModel.Name;
+
+            var maxTokens = target.ChatModel.Size;
 
             foreach (var snippet in SimilarContentArticles)
             {

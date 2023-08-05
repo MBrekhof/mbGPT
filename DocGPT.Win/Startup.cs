@@ -69,14 +69,11 @@ public class ApplicationBuilder : IDesignTimeApplicationFactory {
 #endif
         });
         builder.Services.AddDbContext<CustomDbContext>(options =>
-    options.UseNpgsql("Server=localhost;Port=5432;Database=postgres;User Id=postgres;Password=1Zaqwsx2;").UseLowerCaseNamingConvention());
-
+        options.UseNpgsql("Server=localhost;Port=5432;Database=postgres;User Id=postgres;Password=1Zaqwsx2;").UseLowerCaseNamingConvention());
+        builder.Services.AddScoped<SettingsService>();
         builder.Services.AddScoped<VectorService>();
         builder.Services.AddScoped<OpenAILLMService>();
-
-        //MailSettings mailSettings = new MailSettings();
-        //builder.Services.Configure<MailSettings>()
-        //builder.Services.AddSingleton<IMailService, MailService>();
+        builder.Services.AddScoped<IMailService, MailService>();
         var winApplication = builder.Build();
         return winApplication;
     }

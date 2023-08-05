@@ -11,7 +11,9 @@ using DevExpress.Pdf.Native.BouncyCastle.Asn1.X509;
 using DevExpress.Persistent.Base;
 using DevExpress.Persistent.Validation;
 using DocGPT.Module.BusinessObjects;
+using DocGPT.Module.Services;
 using Markdig;
+using Microsoft.Extensions.DependencyInjection;
 using OpenAI;
 using OpenAI.Chat;
 using OpenAI.Models;
@@ -26,7 +28,13 @@ namespace DocGPT.Module.Controllers
     // For more typical usage scenarios, be sure to check out https://documentation.devexpress.com/eXpressAppFramework/clsDevExpressExpressAppViewControllertopic.aspx.
     public partial class VCSummarize : ViewController
     {
+        private readonly IServiceProvider serviceProvider;
 
+        [ActivatorUtilitiesConstructor]
+        public VCSummarize(IServiceProvider serviceProvider) : this()
+        {
+            this.serviceProvider = serviceProvider;
+        }
         public VCSummarize()
         {
             InitializeComponent();
@@ -54,19 +62,22 @@ namespace DocGPT.Module.Controllers
             var articleToSummarize = e.CurrentObject as Article;
             if (articleToSummarize.ArticleDetail.Count < 1)
             {
-                Application.ShowViewStrategy.ShowMessage(string.Format("Nothing to summarize, remember to spilt and embed first!"));
+                Application.ShowViewStrategy.ShowMessage(string.Format("Nothing to summarize, remember to split and emmbed first!"));
                 return;
             }
             Application.ShowViewStrategy.ShowMessage(string.Format("Starting with the summary!"));
+            var settingsService = serviceProvider.GetService<SettingsService>();
             //// Create an instance of the OpenAI client
-            var api = new OpenAIClient(new OpenAIAuthentication("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"));
+            var settings = await settingsService.GetSettingsAsync();
+            var apiKey = settings.OpenAIKey;
+            var api = new OpenAIClient(new OpenAIAuthentication(apiKey)); 
 
              var chatMessages = new List<Message>();
             var summaryPrompt = $"You receive one or more chunks of text from the document called {articleToSummarize.ArticleName}, please provide a complete summary of the text. ###";
             var assistantPrompt = "The summary should be formatted using Markdown";
             var totalTokens = 0;
-            Model gptmodel = Model.GPT3_5_Turbo_16K; //target.ChatModel == ChatModel.GPT4 ? Model.GPT4 : Model.GPT3_5_Turbo_16K;
-            var maxTokens = gptmodel == Model.GPT4 ? 6000 : 13000;
+            var gptmodel = settings.ChatModel.Name; // Model.GPT3_5_Turbo_16K;
+            var maxTokens = settings.ChatModel.Size;
             chatMessages.Add(new Message(Role.System, summaryPrompt));
             chatMessages.Add(new Message(Role.Assistant, assistantPrompt));
             string SummaryResult = "";

@@ -23,7 +23,7 @@ namespace DocGPT.Module.Controllers
         {
             InitializeComponent();
             // Target required Views (via the TargetXXX properties) and create their Actions.
-            TargetObjectType = typeof(FileSystemStoreObjectDemo);
+            TargetObjectType = typeof(FileSystemStoreObject);
             TargetViewType = ViewType.ListView; // of eerst saven!
 
             PopupWindowShowAction SplitAndEmbedAction = new PopupWindowShowAction(this, "SplitAndEmbedAction", PredefinedCategory.View)
@@ -41,7 +41,7 @@ namespace DocGPT.Module.Controllers
         {
             IObjectSpace newObjectSpace = Application.CreateObjectSpace(typeof(SplitAndEmbed));
             SplitAndEmbed target = newObjectSpace.CreateObject<SplitAndEmbed>();
-            var currentFile = ((FileSystemStoreObjectDemo)View.CurrentObject);
+            var currentFile = ((FileSystemStoreObject)View.CurrentObject);
             target.FileName = currentFile.File.FileName;
             target.FileSize = currentFile.File.Size;
             target.RealFileName = currentFile.File.RealFileName;
@@ -147,7 +147,7 @@ namespace DocGPT.Module.Controllers
                     var newArticleDetail = ArticleObjectSpace.CreateObject <ArticleDetail>();
                     newArticleDetail.ArticleContent = "Source: "+target.FileName+ " "+docChunk;
                     newArticleDetail.ArticleSequence = teller;
-                    newArticleDetail.ArticleId = newArticle.ArticleId;
+                    newArticleDetail.ArticleId = newArticle.ArticleId; // ?? why ??
                     newArticle.ArticleDetail.Add(newArticleDetail);
                 }
                 ArticleObjectSpace.CommitChanges();
