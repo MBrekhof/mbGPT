@@ -1,4 +1,5 @@
-﻿using DevExpress.ExpressApp.DC;
+﻿#nullable enable
+using DevExpress.ExpressApp.DC;
 using DevExpress.Persistent.Base;
 using Pgvector;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -18,11 +19,9 @@ public partial class ArticleDetail : BaseObjectNoID
 
     public virtual int ArticleSequence { get; set; }
     [FieldSize(FieldSizeAttribute.Unlimited)]
-    public virtual string ArticleContent { get; set; }
+    public virtual string? ArticleContent { get; set; }
 
-    [ForeignKey("articleid")]
-     [InverseProperty("ArticleDetail")]
-    public virtual Article Article { get; set; }
+    public virtual Article? Article { get; set; }
 
     public virtual int Tokens { get; set; }
 

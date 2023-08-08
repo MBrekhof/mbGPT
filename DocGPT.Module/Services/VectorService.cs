@@ -20,10 +20,11 @@ namespace DocGPT.Module.Services
         public List<SimilarContentArticlesResult> GetSimilarContentArticles(string vector)
         {
             var cdb = _dbContext.CreateDbContext();
-            var question = $"SELECT ArticleDetailId," +
-                $"(select ArticleName from Article where r.ArticleDetailId = a.ArticleId) as ArticleName," +
-                $"ArticleContent,ArticleSequence,VectorDataString <=> " +
-                $"'{vector}' as cosine_distance  FROM ArticleDetail ORDER BY VectorDataString <=> '{vector}' LIMIT 5";
+            var question = $"SELECT articledetailid as id," +
+                $"(select articlename from article a where r.articledetailid = a.articleid) as articlename," +
+                $"articlecontent,articlesequence,vectordatastring <=> " +
+                $"'{vector}' as cosine_distance  FROM articledetail r ORDER BY vectordatastring <=> '{vector}' LIMIT 5";
+            question = question.ToLower();
             List<SimilarContentArticlesResult> r = cdb.SimilarContentArticlesResult.FromSqlRaw(question).ToList();
             return r;
         }
@@ -32,8 +33,9 @@ namespace DocGPT.Module.Services
         public List<SimilarContentArticlesResult> GetSimilarCodeContent(string vector)
         {
             var cdb = _dbContext;
-            var question = $"SELECT CodeObjectId,Subject,CodeObjectContent,1,VectorDataString <=> " +
-                $"'{vector}' as cosine_distance  FROM CodeObject ORDER BY VectorDataString <=> '{vector}' LIMIT 5";
+            var question = $"SELECT CodeObjectId as id,Subject as articlename,CodeObjectContent as articlecontent,1 as articlesequence,vectordatastring <=> " +
+                $"'{vector}' as cosine_distance  FROM codeobject ORDER BY vectordatastring <=> '{vector}' LIMIT 5";
+            question = question.ToLower();
             List<SimilarContentArticlesResult> r = cdb.SimilarContentArticlesResult.FromSqlRaw(question).ToList();          
             return r;
         }

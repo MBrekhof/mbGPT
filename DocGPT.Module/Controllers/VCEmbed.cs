@@ -10,6 +10,8 @@ using DevExpress.ExpressApp.Utils;
 using DevExpress.Persistent.Base;
 using DevExpress.Persistent.Validation;
 using DocGPT.Module.BusinessObjects;
+using DocGPT.Module.Services;
+using Microsoft.Extensions.DependencyInjection;
 using OpenAI;
 using Pgvector;
 using System;
@@ -22,8 +24,13 @@ namespace DocGPT.Module.Controllers
     // For more typical usage scenarios, be sure to check out https://documentation.devexpress.com/eXpressAppFramework/clsDevExpressExpressAppViewControllertopic.aspx.
     public partial class VCEmbed : ViewController
     {
-        // Use CodeRush to create Controllers and Actions with a few keystrokes.
-        // https://docs.devexpress.com/CodeRushForRoslyn/403133/
+        private readonly IServiceProvider serviceProvider;
+        [ActivatorUtilitiesConstructor]
+        public VCEmbed(IServiceProvider serviceProvider) : this()
+        {
+            this.serviceProvider = serviceProvider;
+        }
+
         public VCEmbed()
         {
             InitializeComponent();
@@ -50,9 +57,11 @@ namespace DocGPT.Module.Controllers
             //// Create an instance of the OpenAI client
             if (CO_Embed.CodeObjectContent.Length > 0)
             {
+                var settingsService = serviceProvider.GetService<SettingsService>();
+                var settings = await settingsService.GetSettingsAsync();
                 Application.ShowViewStrategy.ShowMessage(string.Format("Embedding started!"), displayInterval: 50000);
-                var api = new OpenAIClient(new OpenAIAuthentication("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"));
-                var model = await api.ModelsEndpoint.GetModelDetailsAsync("text-embedding-ada-002");
+                var api = new OpenAIClient(new OpenAIAuthentication(settings.OpenAIKey));
+                var model = await api.ModelsEndpoint.GetModelDetailsAsync(settings.EmbeddingModel.Name);
                 //IObjectSpace VectorDataObjectSpace = Application.CreateObjectSpace(typeof(ArticleVectorData));
                 var embeddings = await api.EmbeddingsEndpoint.CreateEmbeddingAsync("Source : "+CO_Embed.Subject+"Category :"+CO_Embed.Category.Category+" "+ CO_Embed.CodeObjectContent, model);
                 var x = new Vector("[" + String.Join(",", embeddings.Data[0].Embedding) + "]");

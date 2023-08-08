@@ -6,6 +6,8 @@ using DevExpress.Persistent.BaseImpl.EF;
 using DevExpress.ExpressApp.Design;
 using DevExpress.ExpressApp.EFCore.DesignTime;
 using Pgvector.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using DevExpress.ExpressApp;
 
 namespace DocGPT.Module.BusinessObjects;
 
@@ -24,10 +26,12 @@ public class DocGPTContextInitializer : DbContextTypesInfoInitializerBase {
 //This factory creates DbContext for design-time services. For example, it is required for database migration.
 public class DocGPTDesignTimeDbContextFactory : IDesignTimeDbContextFactory<DocGPTEFCoreDbContext> {
 	public DocGPTEFCoreDbContext CreateDbContext(string[] args) {
-		//throw new InvalidOperationException("Make sure that the database connection string and connection provider are correct. After that, uncomment the code below and remove this exception.");
-		var optionsBuilder = new DbContextOptionsBuilder<DocGPTEFCoreDbContext>();
+        //throw new InvalidOperationException("Make sure that the database connection string and connection provider are correct. After that, uncomment the code below and remove this exception.");
+
+        var optionsBuilder = new DbContextOptionsBuilder<DocGPTEFCoreDbContext>();
         //optionsBuilder.UseSqlServer("Encrypt=false;Integrated Security=SSPI;MultipleActiveResultSets=True;Data Source=BCH-BTO;Initial Catalog=E965_EFCore");
-        optionsBuilder.UseNpgsql("Server=localhost;Port=5432;Database=postgres;User Id=postgres;Password=1Zaqwsx2;").UseLowerCaseNamingConvention();
+        //TODO: get this from a config file?
+        optionsBuilder.UseNpgsql("Server=localhost;Port=5432;Database=postgres;User Id=postgres;Password=1Zaqwsx2;Include Error Detail=True;").UseLowerCaseNamingConvention();
         optionsBuilder.UseChangeTrackingProxies();
 		optionsBuilder.UseObjectSpaceLinkProxies();
 		return new DocGPTEFCoreDbContext(optionsBuilder.Options);
@@ -76,6 +80,10 @@ public class DocGPTEFCoreDbContext : DbContext {
         base.OnModelCreating(modelBuilder);
         modelBuilder.HasChangeTrackingStrategy(ChangeTrackingStrategy.ChangingAndChangedNotificationsWithOriginalValues);
         modelBuilder.UsePropertyAccessMode(PropertyAccessMode.PreferFieldDuringConstruction);
+        modelBuilder.Entity<Article>()
+            .HasMany(e => e.ArticleDetail)
+            .WithOne(e => e.Article)
+            .OnDelete(DeleteBehavior.ClientCascade);
     }
     //protected void OnModelCreatingGeneratedFunctions(ModelBuilder modelBuilder)
     //{
@@ -83,6 +91,7 @@ public class DocGPTEFCoreDbContext : DbContext {
     //}
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-        optionsBuilder.UseNpgsql("Server=localhost;Port=5432;Database=postgres;User Id=postgres;Password=1Zaqwsx2;", o => o.UseVector());
+        //TODO: get this from a config file?
+        optionsBuilder.UseNpgsql("Server=localhost;Port=5432;Database=postgres;User Id=postgres;Password=1Zaqwsx2;Include Error Detail=True;", o => o.UseVector());
     }
 }

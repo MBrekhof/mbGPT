@@ -40,17 +40,7 @@
       <Layout>
         <LayoutGroup Id="Main" RelativeSize="100">
           <LayoutGroup Id="SimpleEditors" RelativeSize="23.846153846153847">
-            <LayoutGroup Id="ArticleDetail" RelativeSize="100">
-              <LayoutGroup Id="ArticleDetail_col1" RelativeSize="49.933598937583">
-                <LayoutItem Id="ArticleDetailId" RelativeSize="36.36363636363637" />
-                <LayoutItem Id="ArticleId" RelativeSize="27.272727272727273" />
-                <LayoutItem Id="ArticleSequence" RelativeSize="36.36363636363637" />
-              </LayoutGroup>
-              <LayoutGroup Id="ArticleDetail_col2" RelativeSize="50.066401062417">
-                <LayoutItem Id="Article" RelativeSize="36.36363636363637" />
-                <LayoutItem Id="Tokens" RelativeSize="63.63636363636363" />
-              </LayoutGroup>
-            </LayoutGroup>
+            <LayoutGroup Id="ArticleDetail" RelativeSize="100" />
           </LayoutGroup>
           <LayoutGroup Id="SizeableEditors" RelativeSize="76.15384615384616">
             <LayoutItem Id="ArticleContent" RelativeSize="100" />

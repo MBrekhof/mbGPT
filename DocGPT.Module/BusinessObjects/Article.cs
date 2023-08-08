@@ -32,6 +32,6 @@ public partial class Article : BaseObjectNoID
     [FieldSize(FieldSizeAttribute.Unlimited)]
     public virtual string Summary { get; set; }
 
-     [InverseProperty("Article")]
+    [Aggregated]
     public virtual IList<ArticleDetail> ArticleDetail { get; set; } = new ObservableCollection<ArticleDetail>();
 }

@@ -1,14 +1,6 @@
-﻿using System.ComponentModel;
-using DevExpress.ExpressApp;
-using DevExpress.ExpressApp.ApplicationBuilder;
+﻿using DevExpress.ExpressApp;
 using DevExpress.ExpressApp.Win;
-using DevExpress.ExpressApp.Updating;
 using DevExpress.ExpressApp.Win.Utils;
-using Microsoft.EntityFrameworkCore;
-using DevExpress.ExpressApp.EFCore;
-using DocGPT.Module;
-using DocGPT.Module.BusinessObjects;
-using System.Data.Common;
 
 namespace DocGPT.Win;
 

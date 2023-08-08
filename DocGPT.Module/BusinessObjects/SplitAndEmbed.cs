@@ -27,7 +27,7 @@ namespace DocGPT.Module.BusinessObjects
         public virtual string Text { get; set; }
         public virtual int? FileSize { get; set; }
         public virtual int ChunkSize { get; set; } = 500;
-        public virtual int OverlapSize { get; set; } = 50;
+       // public virtual int OverlapSize { get; set; } = 50;
         // public ICollection<string> Chunks { get; set; } = new List<string>();
         [NotMapped]
         public virtual ICollection<string> DocChunks { get; set; } = new ObservableCollection<string>();

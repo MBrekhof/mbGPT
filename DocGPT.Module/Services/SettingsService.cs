@@ -12,9 +12,9 @@ namespace DocGPT.Module.Services
             _dbContext = dbContext;
         }
 
-        private async Task InitializeSettingsAsync()
+        private async Task InitializeSettingsAsync(CancellationToken cancellationToken)
         {
-            _settings = await _dbContext.Settings.FirstOrDefaultAsync();
+            _settings =  _dbContext.Settings.FirstOrDefault();
         }
         /// <summary>
         /// Returns all settings
@@ -24,7 +24,8 @@ namespace DocGPT.Module.Services
         {
             if (_settings == null)
             {
-               await InitializeSettingsAsync();
+                var cts = new CancellationTokenSource(TimeSpan.FromSeconds(30));
+                await InitializeSettingsAsync(cts.Token);
             }
             return _settings;
         }
@@ -35,11 +36,12 @@ namespace DocGPT.Module.Services
         /// <param name="propertyName"></param>
         /// <returns>the current value of the setting</returns>
         /// <exception cref="Exception"></exception>
-        public async Task<object?> GetPropertyAsync(string propertyName)
+        public async Task<object> GetPropertyAsync(string propertyName)
         {
             if (_settings == null)
             {
-                await InitializeSettingsAsync();
+                var cts = new CancellationTokenSource(TimeSpan.FromSeconds(30));
+                await InitializeSettingsAsync(cts.Token);
             }
 
             var property = typeof(Settings).GetProperty(propertyName);

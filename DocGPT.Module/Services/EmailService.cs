@@ -9,10 +9,22 @@ namespace DocGPT.Module.Services
     public class MailService : IMailService
     {
         private readonly MailSettings _settings;
-
+        private readonly SettingsService _settingsService;
         public MailService(SettingsService settingsService)
         {
-            var settings = settingsService.GetSettingsAsync().GetAwaiter().GetResult();
+            _settings = new MailSettings(); 
+            _settingsService = settingsService;
+        }
+        public static async Task<MailService> CreateAsync(SettingsService settingsService)
+        {
+            var mailService = new MailService(settingsService);
+            await mailService.InitializeAsync();
+            return mailService;
+        }
+
+        private async Task InitializeAsync()
+        {
+            var settings = await _settingsService.GetSettingsAsync();
 
             _settings.Host = settings.SMTPHost;
             _settings.Port = settings.SMTPPort;

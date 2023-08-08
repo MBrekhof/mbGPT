@@ -113,7 +113,7 @@ namespace DocGPT.Module.Controllers
             articleToSummarize.Summary = Markdown.Parse(SummaryResult).ToHtml();
             ObjectSpace.CommitChanges();
                     
-            Application.ShowViewStrategy.ShowMessage(string.Format("Summarized (NOT embedded) !"));
+            Application.ShowViewStrategy.ShowMessage(string.Format("Summarized (but NOT embedded) !"));
         }
 
         protected override void OnActivated()

@@ -30,6 +30,7 @@ namespace DocGPT.Module.Controllers
             {
                 Caption = "Spit and Embed document"
             };
+
             SplitAndEmbedAction.SelectionDependencyType = SelectionDependencyType.RequireSingleObject;
             SplitAndEmbedAction.CustomizePopupWindowParams += SplitAndEmbedAction_CustomizePopupWindowParams;
 
@@ -70,7 +71,7 @@ namespace DocGPT.Module.Controllers
         protected override void OnDeactivated()
         {
             // Unsubscribe from previously subscribed events and release other references and resources.
-            base.OnDeactivated();
+            base.OnDeactivated(); 
         }
     }
     public class ActionInPopupController : ViewController
@@ -92,10 +93,10 @@ namespace DocGPT.Module.Controllers
         }
         async void actionInPopup_Execute(object sender, SimpleActionExecuteEventArgs e)
         {
+
             var target = (SplitAndEmbed)e.CurrentObject;
             var content = "";
             var doctype = Path.GetExtension(target.RealFileName).ToUpper();
-            ObjectSpace.CommitChanges();
             Application.ShowViewStrategy.ShowMessage(string.Format("Splitting {0}!", target.FileName));
 
             switch (doctype)
@@ -120,10 +121,12 @@ namespace DocGPT.Module.Controllers
                     }
                         break;
                 default:
-                    break;
+                    return; // needs a message?
+                    //break;
             }
             var serviceOne = serviceProvider.GetRequiredService<VectorService>();
-
+            var settingsService = serviceProvider.GetRequiredService<SettingsService>();
+            var settings = await settingsService.GetSettingsAsync();
             target.DocChunks = serviceOne.SplitArticleIntoChunks(target.FileName, content, target.ChunkSize); // ProcessString(content, target.ChunkSize, target.OverlapSize);
             if (target.DocChunks != null)
             {
@@ -136,10 +139,10 @@ namespace DocGPT.Module.Controllers
                 ArticleObjectSpace.CommitChanges();
                 var teller =0;
                 //// Create an instance of the OpenAI client
-                var api = new OpenAIClient(new OpenAIAuthentication("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"));
+                var api = new OpenAIClient(new OpenAIAuthentication(settings.OpenAIKey));
 
                 //// Get the model details
-                var model = await api.ModelsEndpoint.GetModelDetailsAsync("text-embedding-ada-002");
+                var model = await api.ModelsEndpoint.GetModelDetailsAsync(settings.EmbeddingModel.Name);
 
                 foreach (string docChunk in target.DocChunks)
                 {
@@ -147,7 +150,7 @@ namespace DocGPT.Module.Controllers
                     var newArticleDetail = ArticleObjectSpace.CreateObject <ArticleDetail>();
                     newArticleDetail.ArticleContent = "Source: "+target.FileName+ " "+docChunk;
                     newArticleDetail.ArticleSequence = teller;
-                    newArticleDetail.ArticleId = newArticle.ArticleId; // ?? why ??
+                    //newArticleDetail.ArticleId = newArticle.ArticleId; // ?? why ??
                     newArticle.ArticleDetail.Add(newArticleDetail);
                 }
                 ArticleObjectSpace.CommitChanges();
@@ -173,35 +176,35 @@ namespace DocGPT.Module.Controllers
                     //    articleDet.ArticleVectorData.Add(embeddingVector);
                     //}
                     ArticleObjectSpace.CommitChanges();
-                }
-               
+                }               
             }
 
-            ObjectSpace.CommitChanges();
-
+            // the object in the main listview, this only works in SDI mode!
+            var selected = (FileSystemStoreObject)this.Application.MainWindow.View.CurrentObject;
+            selected.Processed = true;
             Application.ShowViewStrategy.ShowMessage(string.Format("Finished Embedding"));
         }
 
 
-            public static List<string> ProcessString(string content, int splitLength = 500, int overlapLength = 50)
-            {
-                var result = new List<string>();
+            //public static List<string> ProcessString(string content, int splitLength = 500, int overlapLength = 50)
+            //{
+            //    var result = new List<string>();
 
-                for (int i = 0; i < content.Length; i += splitLength - overlapLength)
-                {
-                    int endIndex = i + splitLength;
+            //    for (int i = 0; i < content.Length; i += splitLength - overlapLength)
+            //    {
+            //        int endIndex = i + splitLength;
 
-                    if (endIndex > content.Length)
-                    {
-                        endIndex = content.Length;
-                    }
+            //        if (endIndex > content.Length)
+            //        {
+            //            endIndex = content.Length;
+            //        }
 
-                    string splitString = content.Substring(i, endIndex - i);
-                    result.Add(splitString);
-                }
+            //        string splitString = content.Substring(i, endIndex - i);
+            //        result.Add(splitString);
+            //    }
 
-                return result;
-            }
+            //    return result;
+            //}
         
     }
 }

@@ -19,7 +19,7 @@ namespace DocGPT.Module.BusinessObjects
 
         [FieldSize(200)]
         [RuleRequiredField]
-        public virtual string Subject { get; set; }
+        public virtual string? Subject { get; set; }
 
         //public virtual int CodeObjectCategoryId { get; set; }
         [ForeignKey("CodeObjectCategoryId")]

@@ -35,7 +35,7 @@ namespace DocGPT.Module.Services
 
             //// Get the model details
             var model = await api.ModelsEndpoint.GetModelDetailsAsync(settings.EmbeddingModel.Name);
-
+          
             // two step text insertion/replacement
             var text = target.Prompt.PromptBody;
             var TheQuestion = text.Replace("{{question}}", target.Question);
@@ -70,8 +70,8 @@ namespace DocGPT.Module.Services
             foreach (var snippet in SimilarContentArticles)
             {
                 // Add the existing knowledge to the chatMessages list
-                chatMessages.Add(new Message(Role.System, snippet.ArticleContent + "###"));
-                totalTokens += snippet.ArticleContent.Length;
+                chatMessages.Add(new Message(Role.System, snippet.articlecontent + "###"));
+                totalTokens += snippet.articlecontent.Length;
                 if (totalTokens > maxTokens) { break; }
             }
             chatMessages.Add(new Message(Role.User, TheQuestion));
@@ -83,7 +83,8 @@ namespace DocGPT.Module.Services
             target.Answer = Markdown.Parse(result).ToHtml();
             //target.Answer = result;
             target.Tokens = result.Usage.TotalTokens;
-            target.Created = DateTime.Now;
+            // TODO: either dbcontext or NODA package
+            target.Created = DateTime.SpecifyKind(DateTime.Now,DateTimeKind.Utc);
             // newObjectSpace.CommitChanges();
             return usesLocalKnowledge;
         }

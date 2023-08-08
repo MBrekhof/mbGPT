@@ -15,6 +15,8 @@ using DocGPT.Module.BusinessObjects;
 namespace DocGPT.Blazor.Server;
 
 public class Startup {
+    private string connectionString;
+
     public Startup(IConfiguration configuration) {
         Configuration = configuration;
     }
@@ -25,7 +27,7 @@ public class Startup {
     // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
     public void ConfigureServices(IServiceCollection services) {
         services.AddSingleton(typeof(Microsoft.AspNetCore.SignalR.HubConnectionHandler<>), typeof(ProxyHubConnectionHandler<>));
-
+        
         services.AddRazorPages();
         services.AddServerSideBlazor();
         services.AddHttpContextAccessor();
@@ -49,7 +51,7 @@ public class Startup {
                         // Do not use this code in production environment to avoid data loss.
                         // We recommend that you refer to the following help topic before you use an in-memory database: https://docs.microsoft.com/en-us/ef/core/testing/in-memory
                         //options.UseInMemoryDatabase("InMemory");
-                        string connectionString = null;
+                        //string connectionString = null;
                         if(Configuration.GetConnectionString("ConnectionString") != null) {
                             connectionString = Configuration.GetConnectionString("ConnectionString");
                         }
@@ -59,8 +61,9 @@ public class Startup {
                         }
 #endif
                         ArgumentNullException.ThrowIfNull(connectionString);
-                        options.UseSqlServer(connectionString);
-                        options.UseChangeTrackingProxies();
+                       // options.UseSqlServer(connectionString);
+                       options.UseNpgsql(connectionString).UseLowerCaseNamingConvention();
+                       options.UseChangeTrackingProxies();
                         options.UseObjectSpaceLinkProxies();
                         options.UseLazyLoadingProxies();
                     })
@@ -84,10 +87,15 @@ public class Startup {
             options.MultipartBodyLengthLimit = 50 * 1024 * 1024;
         });
 
+        if (Configuration.GetConnectionString("ConnectionString") != null)
+        {
+            connectionString = Configuration.GetConnectionString("ConnectionString");
+        }
+        services.AddDbContext<CustomDbContext>(options =>options.UseNpgsql(connectionString).UseLowerCaseNamingConvention());
+        services.AddScoped<SettingsService>();
         services.AddScoped<VectorService>();
         services.AddScoped<OpenAILLMService>();
-        services.Configure<MailSettings>(Configuration.GetSection(nameof(MailSettings)));
-        services.AddTransient<IMailService, MailService>();
+        services.AddScoped<IMailService, MailService>();
     }
 
     // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
