@@ -11,6 +11,9 @@ using Microsoft.AspNetCore.Http.Features;
 using Microsoft.CodeAnalysis;
 using DevExpress.Persistent.BaseImpl.EF.PermissionPolicy;
 using DocGPT.Module.BusinessObjects;
+using Microsoft.AspNetCore.OData;
+using DevExpress.ExpressApp.WebApi.Services;
+using Microsoft.OpenApi.Models;
 
 namespace DocGPT.Blazor.Server;
 
@@ -96,6 +99,24 @@ public class Startup {
         services.AddScoped<VectorService>();
         services.AddScoped<OpenAILLMService>();
         services.AddScoped<IMailService, MailService>();
+        services.AddXafWebApi(Configuration, options =>
+        {
+            options.BusinessObject<Prompt>();
+        });
+        services.AddControllers().AddOData((options, serviceProvider) => {
+            options
+                .AddRouteComponents("api/odata", new EdmModelBuilder(serviceProvider).GetEdmModel())
+                .EnableQueryFeatures(100);
+        });
+        services.AddSwaggerGen(c => {
+            c.EnableAnnotations();
+            c.SwaggerDoc("v1", new OpenApiInfo
+            {
+                Title = "DocGPT API",
+                Version = "v1",
+                Description = @"Use this API to interact with DocGPT services."
+            });
+        });
     }
 
     // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -107,6 +128,14 @@ public class Startup {
             app.UseExceptionHandler("/Error");
             // The default HSTS value is 30 days. To change this for production scenarios, see: https://aka.ms/aspnetcore-hsts.
             app.UseHsts();
+        }
+        if (env.IsDevelopment())
+        {
+            // ...
+            app.UseSwagger();
+            app.UseSwaggerUI(c => {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "DocGPT WebApi v1");
+            });
         }
         app.UseHttpsRedirection();
         app.UseRequestLocalization();

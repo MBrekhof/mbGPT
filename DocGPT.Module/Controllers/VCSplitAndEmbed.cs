@@ -3,6 +3,7 @@
 using DevExpress.ExpressApp;
 using DevExpress.ExpressApp.Actions;
 using DevExpress.ExpressApp.Editors;
+using DevExpress.ExpressApp.SystemModule;
 using DevExpress.Pdf;
 using DevExpress.Persistent.Base;
 using DevExpress.XtraRichEdit;
@@ -28,12 +29,11 @@ namespace DocGPT.Module.Controllers
 
             PopupWindowShowAction SplitAndEmbedAction = new PopupWindowShowAction(this, "SplitAndEmbedAction", PredefinedCategory.View)
             {
-                Caption = "Spit and Embed document"
+                Caption = "Spit and Embed document" 
             };
 
             SplitAndEmbedAction.SelectionDependencyType = SelectionDependencyType.RequireSingleObject;
             SplitAndEmbedAction.CustomizePopupWindowParams += SplitAndEmbedAction_CustomizePopupWindowParams;
-
             SplitAndEmbedAction.Execute += SplitAndEmbedAction_Execute;
         }
 
@@ -49,15 +49,33 @@ namespace DocGPT.Module.Controllers
             var view = Application.CreateDetailView(newObjectSpace,target);
             view.ViewEditMode = ViewEditMode.View;
             e.View = view;
-            //e.Maximized = true;
+            // Ok/Cancel button
+            var dialogController = Application.CreateController<DialogController>();
+            dialogController.Accepting += DialogController_Accepting;
+            dialogController.Cancelling += DialogController_Cancelling;
+            e.DialogController = dialogController;
+        }
+
+        private void DialogController_Cancelling(object sender, EventArgs e)
+        {
+            var selected = (FileSystemStoreObject)this.Application.MainWindow.View.CurrentObject;
+            var x = 1;
+        }
+
+        private void DialogController_Accepting(object sender, DialogControllerAcceptingEventArgs e)
+        {
+            var selected = (FileSystemStoreObject)this.Application.MainWindow.View.CurrentObject;
+            var x = 2;
+            //throw new NotImplementedException();
         }
 
         private void SplitAndEmbedAction_Execute(object sender, PopupWindowShowActionExecuteEventArgs e)
         {
             ObjectSpace.CommitChanges();
             SplitAndEmbed currentFile = (SplitAndEmbed)e.PopupWindowViewCurrentObject;
-            // View.ObjectSpace.CommitChanges();
         }
+
+
         protected override void OnActivated()
         {
             base.OnActivated();
@@ -74,6 +92,9 @@ namespace DocGPT.Module.Controllers
             base.OnDeactivated(); 
         }
     }
+
+
+
     public class ActionInPopupController : ViewController
     {
         private readonly IServiceProvider serviceProvider;
@@ -84,6 +105,7 @@ namespace DocGPT.Module.Controllers
         }
         public ActionInPopupController()
         {
+            TargetObjectType = typeof(SplitAndEmbed);
             SimpleAction actionInPopup = new SimpleAction(this,
                 "Split",
                 DevExpress.Persistent.Base.PredefinedCategory.PopupActions
@@ -93,7 +115,6 @@ namespace DocGPT.Module.Controllers
         }
         async void actionInPopup_Execute(object sender, SimpleActionExecuteEventArgs e)
         {
-
             var target = (SplitAndEmbed)e.CurrentObject;
             var content = "";
             var doctype = Path.GetExtension(target.RealFileName).ToUpper();
@@ -185,26 +206,5 @@ namespace DocGPT.Module.Controllers
             Application.ShowViewStrategy.ShowMessage(string.Format("Finished Embedding"));
         }
 
-
-            //public static List<string> ProcessString(string content, int splitLength = 500, int overlapLength = 50)
-            //{
-            //    var result = new List<string>();
-
-            //    for (int i = 0; i < content.Length; i += splitLength - overlapLength)
-            //    {
-            //        int endIndex = i + splitLength;
-
-            //        if (endIndex > content.Length)
-            //        {
-            //            endIndex = content.Length;
-            //        }
-
-            //        string splitString = content.Substring(i, endIndex - i);
-            //        result.Add(splitString);
-            //    }
-
-            //    return result;
-            //}
-        
-    }
+     }
 }

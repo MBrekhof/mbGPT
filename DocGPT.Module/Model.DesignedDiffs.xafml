@@ -1,5 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Application Title="DocGPT">
+  <ActionDesign>
+    <Actions>
+      <Action Id="SplitAndEmbedAction" ImageName="Open2" />
+    </Actions>
+  </ActionDesign>
   <NavigationItems>
     <Items>
       <Item Id="DocGPT" Index="1">
