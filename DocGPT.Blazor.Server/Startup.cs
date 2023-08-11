@@ -98,7 +98,7 @@ public class Startup {
         services.AddScoped<SettingsService>();
         services.AddScoped<VectorService>();
         services.AddScoped<OpenAILLMService>();
-        services.AddScoped<IMailService, MailService>();
+        services.AddScoped<MailService>();
         services.AddXafWebApi(Configuration, options =>
         {
             options.BusinessObject<Prompt>();

@@ -73,7 +73,7 @@ public class ApplicationBuilder : IDesignTimeApplicationFactory {
         builder.Services.AddScoped<SettingsService>();
         builder.Services.AddScoped<VectorService>();
         builder.Services.AddScoped<OpenAILLMService>();
-        builder.Services.AddScoped<IMailService, MailService>();
+        builder.Services.AddScoped<MailService>();
         var winApplication = builder.Build();
         return winApplication;
     }

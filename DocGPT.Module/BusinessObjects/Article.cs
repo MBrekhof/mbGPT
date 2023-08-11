@@ -30,6 +30,7 @@ public partial class Article : BaseObjectNoID
     public virtual string Description { get; set; }
 
     [FieldSize(FieldSizeAttribute.Unlimited)]
+    [EditorAlias(DevExpress.ExpressApp.Editors.EditorAliases.HtmlPropertyEditor)]
     public virtual string Summary { get; set; }
 
     [Aggregated]

@@ -10,18 +10,35 @@
   <NavigationItems NavigationStyle="Accordion">
     <Items>
       <Item Id="Knowledge" Index="5" />
+      <Item Id="Default">
+        <Items>
+          <Item Id="Settings_ListView" ImageName="ModelEditor_Settings" ObjectKey="" ViewId="Settings_DetailView" Removed="True" />
+          <Item Id="SettingsID" Caption="Settings" ViewId="Settings_DetailView" IsNewNode="True" />
+        </Items>
+      </Item>
     </Items>
   </NavigationItems>
   <SchemaModules>
     <SchemaModule Name="SystemModule" Version="23.1.4.0" IsNewNode="True" />
   </SchemaModules>
   <Views DefaultListEditor="DevExpress.ExpressApp.Blazor.Editors.DxGridListEditor">
+    <DetailView Id="Article_DetailView">
+      <Items>
+        <PropertyEditor Id="Summary" PropertyEditorType="DevExpress.ExpressApp.Office.Blazor.Editors.RichTextPropertyEditor" />
+      </Items>
+    </DetailView>
     <DetailView Id="Chat_DetailView">
       <Items>
         <PropertyEditor Id="Answer" PropertyEditorType="DevExpress.ExpressApp.Office.Blazor.Editors.RichTextPropertyEditor" AllowEdit="False" />
         <PropertyEditor Id="Question" RowCount="5" />
       </Items>
     </DetailView>
+    <DetailView Id="CodeObject_DetailView">
+      <Items>
+        <PropertyEditor Id="CodeObjectContent" RowCount="15" />
+      </Items>
+    </DetailView>
+    <DetailView Id="Settings_DetailView" AllowDelete="False" AllowNew="False" />
     <DetailView Id="WebSiteData_DetailView">
       <Items>
         <PropertyEditor Id="Text" PropertyEditorType="DevExpress.ExpressApp.Office.Blazor.Editors.RichTextPropertyEditor" />

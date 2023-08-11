@@ -54,6 +54,7 @@ namespace DocGPT.Module.Controllers
             dialogController.Accepting += DialogController_Accepting;
             dialogController.Cancelling += DialogController_Cancelling;
             e.DialogController = dialogController;
+
         }
 
         private void DialogController_Cancelling(object sender, EventArgs e)

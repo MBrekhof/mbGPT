@@ -69,5 +69,35 @@
         </LayoutGroup>
       </Layout>
     </DetailView>
+    <DetailView Id="Settings_DetailView">
+      <Items>
+        <ActionContainerViewItem Id="EmailCategoryID" ActionContainer="EmailCategory" Caption="EmailCategoryID(18)" IsNewNode="True" />
+      </Items>
+      <Layout>
+        <LayoutGroup Id="Main" RelativeSize="100">
+          <LayoutGroup Id="SimpleEditors" RelativeSize="100">
+            <LayoutGroup Id="Settings" RelativeSize="100">
+              <LayoutGroup Id="Settings_col1" RelativeSize="71.97875166002656">
+                <LayoutItem Id="OpenAIOrganization" RelativeSize="7.424593967517401" />
+                <LayoutItem Id="OpenAIKey" RelativeSize="5.568445475638051" />
+                <LayoutItem Id="ChatModel" RelativeSize="5.568445475638051" />
+                <LayoutItem Id="EmbeddingModel" RelativeSize="5.568445475638051" />
+                <LayoutItem Id="FromDisplayName" RelativeSize="5.568445475638051" />
+                <LayoutItem Id="FromEmailName" RelativeSize="70.30162412993039" />
+              </LayoutGroup>
+              <LayoutGroup Id="Settings_col2" RelativeSize="28.02124833997344">
+                <LayoutItem Id="EmailUserName" RelativeSize="7.424593967517401" />
+                <LayoutItem Id="EmailPassword" RelativeSize="5.568445475638051" />
+                <LayoutItem Id="SMTPHost" RelativeSize="5.568445475638051" />
+                <LayoutItem Id="SMTPPort" RelativeSize="5.568445475638051" />
+                <LayoutItem Id="UseSSL" RelativeSize="5.568445475638051" />
+                <LayoutItem Id="UseStartTls" RelativeSize="5.568445475638051" />
+                <LayoutItem Id="EmailCategoryID" ViewItem="EmailCategoryID" Index="6" RelativeSize="64.73317865429235" IsNewNode="True" />
+              </LayoutGroup>
+            </LayoutGroup>
+          </LayoutGroup>
+        </LayoutGroup>
+      </Layout>
+    </DetailView>
   </Views>
 </Application>
