@@ -1,66 +1,61 @@
 ﻿using DocGPT.Module.BusinessObjects;
 using MailKit.Net.Smtp;
 using MailKit.Security;
-using Microsoft.Extensions.Options;
 using MimeKit;
+
 
 namespace DocGPT.Module.Services
 {
     public class MailService // : IMailService
     {
-        private  MailSettings _settings;
-        private  SettingsService _settingsService;
-        public MailService(SettingsService settingsService)
-        { 
-            _settingsService = settingsService;
-        }
-        //public static async Task<MailService> CreateAsync(SettingsService settingsService)
-        //{
-        //    var mailService = new MailService(settingsService);
-        //    await mailService.InitializeAsync();
-        //    return mailService;
-        //}
+        private  Settings _settings;
+        private MailSettings mailSettings;
 
-        private async Task InitializeAsync()
+        public MailService()
+        {
+            
+        }
+
+        public  MailSettings Initialize(Settings settings)
         {
             if (_settings == null)
             {
-                _settings = new MailSettings();
-                var settings = await _settingsService.GetSettingsAsync();
-                _settings.SenderEmail = settings.FromEmailName;
-                _settings.SenderDisplayName = settings.FromDisplayName;
-                _settings.Host = settings.SMTPHost;
-                _settings.Port = settings.SMTPPort;
-                _settings.UseStartTls = settings.UseStartTls;
-                _settings.UseSSL = settings.UseSSL;
-                //_settings.UserName = settings.EmailUserName;
-                _settings.SenderPassword = settings.EmailPassword;
+                _settings = settings;
             }
+            mailSettings = new MailSettings();
+            mailSettings.SenderEmail = _settings.FromEmailName;
+            mailSettings.SenderDisplayName = _settings.FromDisplayName;
+            mailSettings.Host = _settings.SMTPHost;
+            mailSettings.Port = _settings.SMTPPort;
+            mailSettings.UseStartTls = _settings.UseStartTls;
+            mailSettings.UseSSL = _settings.UseSSL;
+            mailSettings.SenderPassword = _settings.EmailPassword;
+
+            return mailSettings;
         }
 
-        public async  Task<MailSettings> GetMailSettings()
+        public MailSettings GetMailSettings()
         {
-            if (_settings == null)
-            {
-                await InitializeAsync();
-            }
-            return _settings;
+            return mailSettings;
+        }
+        public async Task<bool> SendBackGroundAsync(MailData mailData, Settings setting, CancellationToken ct = default)
+        {
+            Initialize(setting);
+            var result = await SendAsync(mailData,ct);
+            return result;
         }
         public async Task<bool> SendAsync(MailData mailData, CancellationToken ct = default)
         {
-            if (_settings == null)
-            {
-                await InitializeAsync();
-            }
             try
             {
+
                 // Initialize a new instance of the MimeKit.MimeMessage class
                 var mail = new MimeMessage();
 
                 #region Sender / Receiver
                 // Sender
-                mail.From.Add(new MailboxAddress(_settings.SenderDisplayName, _settings.SenderEmail));
-                //mail.Sender = new MailboxAddress(mailData.DisplayName ?? _settings.DisplayName, mailData.From ?? _settings.From);
+                mail.From.Add(new MailboxAddress(mailSettings.SenderDisplayName, mailSettings.SenderEmail));
+                mail.Sender = new MailboxAddress(mailData.DisplayName ?? mailSettings.SenderDisplayName, mailData.From ?? mailSettings.SenderEmail);
 
                 // Receiver
                 foreach (string mailAddress in mailData.To)
@@ -102,15 +97,15 @@ namespace DocGPT.Module.Services
 
                 using var smtp = new SmtpClient();
 
-                if (_settings.UseSSL)
+                if (mailSettings.UseSSL)
                 {
-                    await smtp.ConnectAsync(_settings.Host, _settings.Port, SecureSocketOptions.SslOnConnect, ct);
+                    await smtp.ConnectAsync(mailSettings.Host, mailSettings.Port, SecureSocketOptions.SslOnConnect, ct);
                 }
-                else if (_settings.UseStartTls)
+                else if (mailSettings.UseStartTls)
                 {
-                    await smtp.ConnectAsync(_settings.Host, _settings.Port, SecureSocketOptions.StartTls, ct);
+                    await smtp.ConnectAsync(mailSettings.Host, mailSettings.Port, SecureSocketOptions.StartTls, ct);
                 }
-                await smtp.AuthenticateAsync(_settings.SenderEmail, _settings.SenderPassword, ct);
+                await smtp.AuthenticateAsync(mailSettings.SenderEmail, mailSettings.SenderPassword, ct);
                 await smtp.SendAsync(mail, ct);
                 await smtp.DisconnectAsync(true, ct);
 

@@ -12,18 +12,25 @@ namespace DocGPT.Module.Services
     public class OpenAILLMService
     {
         private readonly IServiceProvider serviceProvider;
+        private readonly SettingsService settingsService;
         private Settings settings;
-        //private string ApiKey = "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";
-        //private string EmbeddingModel = "text-embedding-ada-002";
-        //private int Chat4Limit = 6000;
-        //private int Chat35Limit = 13000;
-        public  OpenAILLMService( IServiceProvider serviceProvider,SettingsService settingsService) 
-        {            
+
+        public OpenAILLMService(IServiceProvider serviceProvider, SettingsService settingsService)
+        {
             this.serviceProvider = serviceProvider;
-            this.settings = settingsService.GetSettingsAsync().GetAwaiter().GetResult(); ;
+            this.settingsService = settingsService;
         }
+
+        public async Task InitializeAsync()
+        {
+            this.settings =  this.settingsService.GetSettings();
+        }
+
         public async Task<bool> GetAnswer(SimpleActionExecuteEventArgs e)
         {
+            // Ensure settings are initialized
+            await InitializeAsync();
+
             var usesLocalKnowledge = false;
             var target = (Chat)e.CurrentObject;
             if (target.ChatModel == null)

@@ -68,7 +68,7 @@ namespace DocGPT.Module.Controllers
             Application.ShowViewStrategy.ShowMessage(string.Format("Starting with the summary!"));
             var settingsService = serviceProvider.GetService<SettingsService>();
             //// Create an instance of the OpenAI client
-            var settings = await settingsService.GetSettingsAsync();
+            var settings =  settingsService.GetSettings();
             var apiKey = settings.OpenAIKey;
             var api = new OpenAIClient(new OpenAIAuthentication(apiKey)); 
 

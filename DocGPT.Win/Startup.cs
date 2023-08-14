@@ -14,6 +14,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.CodeAnalysis;
 using DevExpress.Persistent.BaseImpl.EF.PermissionPolicy;
 using DocGPT.Module.BusinessObjects;
+using Hangfire;
+using Hangfire.PostgreSql;
 
 namespace DocGPT.Win;
 
@@ -74,6 +76,9 @@ public class ApplicationBuilder : IDesignTimeApplicationFactory {
         builder.Services.AddScoped<VectorService>();
         builder.Services.AddScoped<OpenAILLMService>();
         builder.Services.AddScoped<MailService>();
+        builder.Services.AddHangfire(config =>
+              config.UsePostgreSqlStorage(connectionString));
+        builder.Services.AddHangfireServer();
         var winApplication = builder.Build();
         return winApplication;
     }

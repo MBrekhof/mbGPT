@@ -1,31 +1,32 @@
 ﻿using DocGPT.Module.BusinessObjects;
-using Microsoft.EntityFrameworkCore;
 
 namespace DocGPT.Module.Services
 {
     public class SettingsService
     {
-        DocGPTEFCoreDbContext _dbContext;
+        private readonly DocGPTEFCoreDbContext _dbContext;
         Settings _settings;
         public SettingsService(DocGPTEFCoreDbContext dbContext) 
         {
             _dbContext = dbContext;
+            //_ = InitializeSettings();
         }
+        //TODO: kan dit nog anders?
 
-        private async Task InitializeSettingsAsync(CancellationToken cancellationToken)
+        private void  InitializeSettings()
+
         {
-            _settings =  _dbContext.Settings.FirstOrDefault();
+            _settings = _dbContext.Settings.OrderBy(i => i.SettingsID).FirstOrDefault();
         }
         /// <summary>
         /// Returns all settings
         /// </summary>
         /// <returns>An instance of the Settings Class</returns>
-        public async Task<Settings> GetSettingsAsync()
+        public  Settings GetSettings()
         {
             if (_settings == null)
             {
-                var cts = new CancellationTokenSource(TimeSpan.FromSeconds(30));
-                await InitializeSettingsAsync(cts.Token);
+                 InitializeSettings();
             }
             return _settings;
         }
@@ -36,12 +37,11 @@ namespace DocGPT.Module.Services
         /// <param name="propertyName"></param>
         /// <returns>the current value of the setting</returns>
         /// <exception cref="Exception"></exception>
-        public async Task<object> GetPropertyAsync(string propertyName)
+        public async Task<object> GetProperty(string propertyName)
         {
             if (_settings == null)
             {
-                var cts = new CancellationTokenSource(TimeSpan.FromSeconds(30));
-                await InitializeSettingsAsync(cts.Token);
+                 InitializeSettings();
             }
 
             var property = typeof(Settings).GetProperty(propertyName);
@@ -52,12 +52,6 @@ namespace DocGPT.Module.Services
 
             return property.GetValue(_settings);
         }
-
-        public void SaveSettings() { }
-
-        public void DeleteSettings() { }
-
-        public void UpdateSettings() { }
 
     }
 }

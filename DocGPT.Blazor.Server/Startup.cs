@@ -14,6 +14,8 @@ using DocGPT.Module.BusinessObjects;
 using Microsoft.AspNetCore.OData;
 using DevExpress.ExpressApp.WebApi.Services;
 using Microsoft.OpenApi.Models;
+using Hangfire;
+using Hangfire.PostgreSql;
 
 namespace DocGPT.Blazor.Server;
 
@@ -99,6 +101,8 @@ public class Startup {
         services.AddScoped<VectorService>();
         services.AddScoped<OpenAILLMService>();
         services.AddScoped<MailService>();
+        services.AddHangfire(config =>  config.UsePostgreSqlStorage(connectionString));
+        services.AddHangfireServer();
         services.AddXafWebApi(Configuration, options =>
         {
             options.BusinessObject<Prompt>();
@@ -149,6 +153,7 @@ public class Startup {
             endpoints.MapBlazorHub();
             endpoints.MapFallbackToPage("/_Host");
             endpoints.MapControllers();
+            endpoints.MapHangfireDashboard();
         });
 
     }

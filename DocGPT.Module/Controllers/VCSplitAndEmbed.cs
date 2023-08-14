@@ -9,6 +9,7 @@ using DevExpress.Persistent.Base;
 using DevExpress.XtraRichEdit;
 using DocGPT.Module.BusinessObjects;
 using DocGPT.Module.Services;
+using Hangfire;
 using Microsoft.Extensions.DependencyInjection;
 using OpenAI;
 using OpenAI.Embeddings;
@@ -60,13 +61,12 @@ namespace DocGPT.Module.Controllers
         private void DialogController_Cancelling(object sender, EventArgs e)
         {
             var selected = (FileSystemStoreObject)this.Application.MainWindow.View.CurrentObject;
-            var x = 1;
-        }
+        }    
 
         private void DialogController_Accepting(object sender, DialogControllerAcceptingEventArgs e)
         {
             var selected = (FileSystemStoreObject)this.Application.MainWindow.View.CurrentObject;
-            var x = 2;
+            
             //throw new NotImplementedException();
         }
 
@@ -148,7 +148,7 @@ namespace DocGPT.Module.Controllers
             }
             var serviceOne = serviceProvider.GetRequiredService<VectorService>();
             var settingsService = serviceProvider.GetRequiredService<SettingsService>();
-            var settings = await settingsService.GetSettingsAsync();
+            var settings = settingsService.GetSettings();
             target.DocChunks = serviceOne.SplitArticleIntoChunks(target.FileName, content, target.ChunkSize); // ProcessString(content, target.ChunkSize, target.OverlapSize);
             if (target.DocChunks != null)
             {
@@ -180,10 +180,15 @@ namespace DocGPT.Module.Controllers
                 //// create the embeddings
                 foreach (var articleDet in newArticle.ArticleDetail)
                 {
-                    var embeddings = await api.EmbeddingsEndpoint.CreateEmbeddingAsync(articleDet.ArticleContent, model);
-                    var x = new Vector("[" + String.Join(",", embeddings.Data[0].Embedding) + "]");
-                    articleDet.VectorDataString = x;//"[" + String.Join(",", embeddings.Data[0].Embedding) + "]";
-                    articleDet.Tokens = (int)embeddings.Usage.TotalTokens;
+                    //var embeddings = await api.EmbeddingsEndpoint.CreateEmbeddingAsync(articleDet.ArticleContent, model);
+                    var embeddings = BackgroundJob.Enqueue(() => api.EmbeddingsEndpoint.CreateEmbeddingAsync(articleDet.ArticleContent, model,null));
+
+                    var y = 1;
+                    //var x = new Vector("[" + String.Join(",", embeddings.Data[0].Embedding) + "]");
+                    //articleDet.VectorDataString = x;//"[" + String.Join(",", embeddings.Data[0].Embedding) + "]";
+                    //articleDet.Tokens = (int)embeddings.Usage.TotalTokens;
+
+
                     // Get Embedding Vectors for this chunk
                     //var EmbeddingVectors = embeddings.Data[0].Embedding.Select(d => (float)d).ToArray();
                     // Instert all Embedding Vectors

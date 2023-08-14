@@ -58,7 +58,7 @@ namespace DocGPT.Module.Controllers
             if (CO_Embed.CodeObjectContent.Length > 0)
             {
                 var settingsService = serviceProvider.GetService<SettingsService>();
-                var settings = await settingsService.GetSettingsAsync();
+                var settings =  settingsService.GetSettings();
                 Application.ShowViewStrategy.ShowMessage(string.Format("Embedding started!"), displayInterval: 50000);
                 var api = new OpenAIClient(new OpenAIAuthentication(settings.OpenAIKey));
                 var model = await api.ModelsEndpoint.GetModelDetailsAsync(settings.EmbeddingModel.Name);
