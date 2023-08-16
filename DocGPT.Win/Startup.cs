@@ -76,9 +76,9 @@ public class ApplicationBuilder : IDesignTimeApplicationFactory {
         builder.Services.AddScoped<VectorService>();
         builder.Services.AddScoped<OpenAILLMService>();
         builder.Services.AddScoped<MailService>();
-        builder.Services.AddHangfire(config =>
-              config.UsePostgreSqlStorage(connectionString));
-        builder.Services.AddHangfireServer();
+        //builder.Services.AddHangfire(config =>
+        //      config.UsePostgreSqlStorage(connectionString));
+        //builder.Services.AddHangfireServer();
         var winApplication = builder.Build();
         return winApplication;
     }

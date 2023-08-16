@@ -37,7 +37,7 @@ namespace DocGPT.Module.Services
         /// <param name="propertyName"></param>
         /// <returns>the current value of the setting</returns>
         /// <exception cref="Exception"></exception>
-        public async Task<object> GetProperty(string propertyName)
+        public  object GetProperty(string propertyName)
         {
             if (_settings == null)
             {

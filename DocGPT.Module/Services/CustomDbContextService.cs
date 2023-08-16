@@ -1,5 +1,7 @@
 ﻿using DocGPT.Module.BusinessObjects;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Pgvector.EntityFrameworkCore;
 
 namespace DocGPT.Module.Services
 {
@@ -11,13 +13,30 @@ namespace DocGPT.Module.Services
             }
             public DbSet<SimilarContentArticlesResult> SimilarContentArticlesResult { get; set; }
             public CustomDbContext CreateDbContext()//string[] args)
-            {
-                var optionsBuilder = new DbContextOptionsBuilder<CustomDbContext>();
-                optionsBuilder.UseNpgsql("Server=localhost;Port=5432;Database=postgres;User Id=postgres;Password=1Zaqwsx2;").UseLowerCaseNamingConvention();
+        {
+            IConfigurationRoot configuration = new ConfigurationBuilder()
+        .SetBasePath(Directory.GetCurrentDirectory())
+        .AddJsonFile("appsettings.json") // Update the file name as needed
+        .Build();
+
+            string connectionString = configuration.GetConnectionString("ConnectionString");
+            var optionsBuilder = new DbContextOptionsBuilder<CustomDbContext>();
+                optionsBuilder.UseNpgsql(connectionString, o => o.UseVector()).UseLowerCaseNamingConvention();
                 optionsBuilder.UseChangeTrackingProxies();
                 optionsBuilder.UseObjectSpaceLinkProxies();
                 return new CustomDbContext(optionsBuilder.Options);
             }
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            IConfigurationRoot configuration = new ConfigurationBuilder()
+            .SetBasePath(Directory.GetCurrentDirectory())
+            .AddJsonFile("appsettings.json") // Update the file name as needed
+            .Build();
+
+            string connectionString = configuration.GetConnectionString("ConnectionString");
+
+            optionsBuilder.UseNpgsql(connectionString, o => o.UseVector()).UseLowerCaseNamingConvention();
         }
+    }
     
 }

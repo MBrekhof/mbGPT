@@ -182,8 +182,6 @@ namespace DocGPT.Module.Controllers
                 {
                     //var embeddings = await api.EmbeddingsEndpoint.CreateEmbeddingAsync(articleDet.ArticleContent, model);
                     var embeddings = BackgroundJob.Enqueue(() => api.EmbeddingsEndpoint.CreateEmbeddingAsync(articleDet.ArticleContent, model,null));
-
-                    var y = 1;
                     //var x = new Vector("[" + String.Join(",", embeddings.Data[0].Embedding) + "]");
                     //articleDet.VectorDataString = x;//"[" + String.Join(",", embeddings.Data[0].Embedding) + "]";
                     //articleDet.Tokens = (int)embeddings.Usage.TotalTokens;

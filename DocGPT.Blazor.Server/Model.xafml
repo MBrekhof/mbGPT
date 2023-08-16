@@ -22,11 +22,26 @@
     <SchemaModule Name="SystemModule" Version="23.1.4.0" IsNewNode="True" />
   </SchemaModules>
   <Views DefaultListEditor="DevExpress.ExpressApp.Blazor.Editors.DxGridListEditor">
+    <ListView Id="Article_ArticleDetail_ListView">
+      <Columns>
+        <ColumnInfo Id="VectorDataString" Removed="True" />
+      </Columns>
+    </ListView>
     <DetailView Id="Article_DetailView">
       <Items>
         <PropertyEditor Id="Summary" PropertyEditorType="DevExpress.ExpressApp.Office.Blazor.Editors.RichTextPropertyEditor" />
       </Items>
     </DetailView>
+    <ListView Id="ArticleDetail_ListView">
+      <Columns>
+        <ColumnInfo Id="VectorDataString" Removed="True" />
+      </Columns>
+    </ListView>
+    <ListView Id="ArticleDetail_LookupListView">
+      <Columns>
+        <ColumnInfo Id="VectorDataString" Removed="True" />
+      </Columns>
+    </ListView>
     <DetailView Id="Chat_DetailView">
       <Items>
         <PropertyEditor Id="Answer" PropertyEditorType="DevExpress.ExpressApp.Office.Blazor.Editors.RichTextPropertyEditor" AllowEdit="False" />
@@ -36,6 +51,7 @@
     <DetailView Id="CodeObject_DetailView">
       <Items>
         <PropertyEditor Id="CodeObjectContent" RowCount="15" />
+        <PropertyEditor Id="VectorDataString" Removed="True" />
       </Items>
     </DetailView>
     <DetailView Id="Settings_DetailView" AllowDelete="False" AllowNew="False" />

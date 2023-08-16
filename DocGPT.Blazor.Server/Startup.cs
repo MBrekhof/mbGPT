@@ -16,11 +16,13 @@ using DevExpress.ExpressApp.WebApi.Services;
 using Microsoft.OpenApi.Models;
 using Hangfire;
 using Hangfire.PostgreSql;
+using Pgvector.EntityFrameworkCore;
 
 namespace DocGPT.Blazor.Server;
 
 public class Startup {
     private string connectionString;
+    private string hfconnectionString;
 
     public Startup(IConfiguration configuration) {
         Configuration = configuration;
@@ -67,7 +69,7 @@ public class Startup {
 #endif
                         ArgumentNullException.ThrowIfNull(connectionString);
                        // options.UseSqlServer(connectionString);
-                       options.UseNpgsql(connectionString).UseLowerCaseNamingConvention();
+                       options.UseNpgsql(connectionString, o => o.UseVector()).UseLowerCaseNamingConvention();
                        options.UseChangeTrackingProxies();
                         options.UseObjectSpaceLinkProxies();
                         options.UseLazyLoadingProxies();
@@ -95,14 +97,15 @@ public class Startup {
         if (Configuration.GetConnectionString("ConnectionString") != null)
         {
             connectionString = Configuration.GetConnectionString("ConnectionString");
+            hfconnectionString = Configuration.GetConnectionString("hfConnectionString");
         }
-        services.AddDbContext<CustomDbContext>(options =>options.UseNpgsql(connectionString).UseLowerCaseNamingConvention());
         services.AddScoped<SettingsService>();
         services.AddScoped<VectorService>();
         services.AddScoped<OpenAILLMService>();
         services.AddScoped<MailService>();
-        services.AddHangfire(config =>  config.UsePostgreSqlStorage(connectionString));
+        services.AddHangfire(config => config.UsePostgreSqlStorage(hfconnectionString));
         services.AddHangfireServer();
+        services.AddDbContext<CustomDbContext>(options => options.UseNpgsql(connectionString, o => o.UseVector()).UseLowerCaseNamingConvention());
         services.AddXafWebApi(Configuration, options =>
         {
             options.BusinessObject<Prompt>();
