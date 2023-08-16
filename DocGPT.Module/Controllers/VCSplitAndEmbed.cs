@@ -170,7 +170,7 @@ namespace DocGPT.Module.Controllers
                 {
                     teller++;
                     var newArticleDetail = ArticleObjectSpace.CreateObject <ArticleDetail>();
-                    newArticleDetail.ArticleContent = "Source: "+target.FileName+ " "+docChunk;
+                    newArticleDetail.ArticleContent = "Source: "+target.FileName+ " ("+teller.ToString()+") "+docChunk;
                     newArticleDetail.ArticleSequence = teller;
                     //newArticleDetail.ArticleId = newArticle.ArticleId; // ?? why ??
                     newArticle.ArticleDetail.Add(newArticleDetail);

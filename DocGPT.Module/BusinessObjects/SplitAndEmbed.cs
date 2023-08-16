@@ -11,7 +11,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace DocGPT.Module.BusinessObjects
 {
 
-    [DefaultProperty(nameof(Text))]
+    [DefaultProperty(nameof(FileName))]
     [DomainComponent]
     public class SplitAndEmbed : BaseObjectNoID
     {
@@ -23,22 +23,15 @@ namespace DocGPT.Module.BusinessObjects
         public virtual string RealFileName { get; set; }
         public virtual Guid? FileId { get; set; }
 
-        [FieldSize(FieldSizeAttribute.Unlimited)]
-        public virtual string Text { get; set; }
+        //[FieldSize(FieldSizeAttribute.Unlimited)]
+        //public virtual string Text { get; set; }
         public virtual int? FileSize { get; set; }
         public virtual int ChunkSize { get; set; } = 500;
-       // public virtual int OverlapSize { get; set; } = 50;
-        // public ICollection<string> Chunks { get; set; } = new List<string>();
         [NotMapped]
+        [VisibleInDetailView(false),VisibleInListView(false),VisibleInLookupListView(false)]
         public virtual ICollection<string> DocChunks { get; set; } = new ObservableCollection<string>();
 
-        //public override void OnCreated()
-        //{
-        //    base.OnCreated();
-        //    ChunkSize = 500;
-        //    OverlapSize = 50;
 
-        //}
 
     }
 }

@@ -75,6 +75,7 @@ namespace DocGPT.Module.Services
                 if (totalTokens > maxTokens) { break; }
             }
             chatMessages.Add(new Message(Role.User, TheQuestion));
+            chatMessages.Add(new Message(Role.System, "Sources for the information provided are mentioned after 'Source:', please show them as a list in your answer at the bottom only. "));
 
             var chatRequest = new ChatRequest(chatMessages, temperature: 0.0, topP: 1, frequencyPenalty: 0, presencePenalty: 0, model: gptmodel);
 

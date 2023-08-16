@@ -82,7 +82,7 @@ namespace DocGPT.Module.Services
                     //chunks.Add(articleName + "\n" + chunk.ToString());
                     if (chunk.Length < (2 * 1024))
                     {
-                        chunks.Add("Source:" + articleName + "\n" + chunk.ToString());
+                        chunks.Add( chunk.ToString());
                     }
                     else
                     {
@@ -90,7 +90,7 @@ namespace DocGPT.Module.Services
                         var splitList = splitter.Chunk((2 * 1024)).Select(s => new string(s)).ToList();
                         foreach (var split in splitList)
                         {
-                            chunks.Add("Source:" + articleName + "\n" + split);
+                            chunks.Add( split);
                         }
 
                     }
@@ -117,7 +117,7 @@ namespace DocGPT.Module.Services
             {
                 if (chunk.Length < (2 * 1024))
                 {
-                    chunks.Add("Source:" + articleName + "\n" + chunk.ToString());
+                    chunks.Add( chunk.ToString());
                 }
                 else
                 {
@@ -125,7 +125,7 @@ namespace DocGPT.Module.Services
                     var splitList = splitter.Chunk((2*1024)).Select(s => new string(s)).ToList();
                     foreach (var split in splitList)
                     {
-                        chunks.Add("Source:" + articleName + "\n" +split);
+                        chunks.Add(split);
                     }
                                       
                 }

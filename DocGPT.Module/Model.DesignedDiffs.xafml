@@ -15,7 +15,7 @@
       </Item>
     </Items>
   </NavigationItems>
-  <Options>
+  <Options DataAccessMode="Server">
     <LayoutManagerOptions RequiredFieldMark="*" />
   </Options>
   <SchemaModules>
@@ -53,6 +53,12 @@
         </LayoutGroup>
       </Layout>
     </DetailView>
+    <ListView Id="ArticleDetail_ListView" ShowAutoFilterRow="True" IsGroupPanelVisible="True" AllowEdit="True" AllowNew="False" AllowUnlink="False" DataAccessMode="Client" />
+    <ListView Id="Chat_ListView" IsGroupPanelVisible="True">
+      <Columns>
+        <ColumnInfo Id="Created" SortIndex="1" SortOrder="Descending" />
+      </Columns>
+    </ListView>
     <DetailView Id="CodeObject_DetailView">
       <Layout>
         <LayoutGroup Id="Main" RelativeSize="100">
