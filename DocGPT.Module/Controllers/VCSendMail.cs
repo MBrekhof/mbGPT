@@ -44,14 +44,7 @@ namespace DocGPT.Module.Controllers
                 "martin@brekhof.nl"
             };
             var mailResult = await mailService.SendAsync(mailData);
-            if (mailResult)
-            {
-                var x = 1;
-            }
-            else
-            {
-                var y = 2;
-            }
+
         }
 
         protected override void OnActivated()

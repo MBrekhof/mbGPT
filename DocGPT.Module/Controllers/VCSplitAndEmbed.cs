@@ -60,13 +60,11 @@ namespace DocGPT.Module.Controllers
         private void DialogController_Cancelling(object sender, EventArgs e)
         {
             var selected = (FileSystemStoreObject)this.Application.MainWindow.View.CurrentObject;
-            var x = 1;
         }
 
         private void DialogController_Accepting(object sender, DialogControllerAcceptingEventArgs e)
         {
             var selected = (FileSystemStoreObject)this.Application.MainWindow.View.CurrentObject;
-            var x = 2;
             //throw new NotImplementedException();
         }
 

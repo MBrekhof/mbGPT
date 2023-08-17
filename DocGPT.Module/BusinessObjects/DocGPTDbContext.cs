@@ -8,6 +8,7 @@ using DevExpress.ExpressApp.EFCore.DesignTime;
 using Pgvector.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using DevExpress.ExpressApp;
+using Microsoft.Extensions.Logging;
 
 namespace DocGPT.Module.BusinessObjects;
 
@@ -91,7 +92,10 @@ public class DocGPTEFCoreDbContext : DbContext {
     //}
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
+        optionsBuilder.UseLoggerFactory(MyLoggerFactory);
         //TODO: get this from a config file?
         optionsBuilder.UseNpgsql("Server=localhost;Port=5432;Database=postgres;User Id=postgres;Password=1Zaqwsx2;Include Error Detail=True;", o => o.UseVector());
     }
+    public static readonly ILoggerFactory MyLoggerFactory
+    = LoggerFactory.Create(builder => { builder.AddDebug(); });
 }
