@@ -23,6 +23,9 @@
     <PackageReference Include="DevExpress.ExpressApp.Office.Blazor" Version="23.1.4" />
     <PackageReference Include="DevExpress.ExpressApp.Validation.Blazor" Version="23.1.4" />
     <PackageReference Include="DevExpress.ExpressApp.WebApi" Version="23.1.4" />
+    <PackageReference Include="Hangfire" Version="1.8.5" />
+    <PackageReference Include="Hangfire.AspNetCore" Version="1.8.5" />
+    <PackageReference Include="Hangfire.PostgreSql" Version="1.20.0" />
     <PackageReference Include="Markdig" Version="0.31.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.9">
       <PrivateAssets>all</PrivateAssets>

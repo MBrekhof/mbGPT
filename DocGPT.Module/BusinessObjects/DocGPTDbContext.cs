@@ -1,14 +1,12 @@
-﻿using DevExpress.ExpressApp.EFCore.Updating;
+﻿using DevExpress.ExpressApp.Design;
+using DevExpress.ExpressApp.EFCore.DesignTime;
+using DevExpress.Persistent.BaseImpl.EF;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
-using DevExpress.Persistent.BaseImpl.EF.PermissionPolicy;
-using DevExpress.Persistent.BaseImpl.EF;
-using DevExpress.ExpressApp.Design;
-using DevExpress.ExpressApp.EFCore.DesignTime;
-using Pgvector.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using DevExpress.ExpressApp;
+using Microsoft.Extensions.Configuration.Json;
 using Microsoft.Extensions.Logging;
+using Pgvector.EntityFrameworkCore;
 
 namespace DocGPT.Module.BusinessObjects;
 
@@ -28,11 +26,15 @@ public class DocGPTContextInitializer : DbContextTypesInfoInitializerBase {
 public class DocGPTDesignTimeDbContextFactory : IDesignTimeDbContextFactory<DocGPTEFCoreDbContext> {
 	public DocGPTEFCoreDbContext CreateDbContext(string[] args) {
         //throw new InvalidOperationException("Make sure that the database connection string and connection provider are correct. After that, uncomment the code below and remove this exception.");
+        var configuration = new ConfigurationBuilder().SetBasePath(Directory.GetCurrentDirectory()).AddJsonFile("appsettings.json").Build();
+
+        // Get connection string from configuration
+        var connectionString = configuration.GetConnectionString("ConnectionString");
 
         var optionsBuilder = new DbContextOptionsBuilder<DocGPTEFCoreDbContext>();
         //optionsBuilder.UseSqlServer("Encrypt=false;Integrated Security=SSPI;MultipleActiveResultSets=True;Data Source=BCH-BTO;Initial Catalog=E965_EFCore");
         //TODO: get this from a config file?
-        optionsBuilder.UseNpgsql("Server=localhost;Port=5432;Database=postgres;User Id=postgres;Password=1Zaqwsx2;Include Error Detail=True;").UseLowerCaseNamingConvention();
+        optionsBuilder.UseNpgsql(connectionString,o => o.UseVector()).UseLowerCaseNamingConvention();
         optionsBuilder.UseChangeTrackingProxies();
 		optionsBuilder.UseObjectSpaceLinkProxies();
 		return new DocGPTEFCoreDbContext(optionsBuilder.Options);
@@ -52,7 +54,7 @@ public class DocGPTEFCoreDbContext : DbContext {
     public DbSet<Chat> Chat { get; set; }
     public DbSet<Prompt> Prompt { get; set; }
 
-    public  DbSet<CodeObject> CodeObject { get; set; }
+    public DbSet<CodeObject> CodeObject { get; set; }
     public DbSet<CodeObjectCategory> CodeObjectCategory { get; set; }
 
     public DbSet<WebSiteData> WebSiteData { get; set; }
@@ -65,18 +67,8 @@ public class DocGPTEFCoreDbContext : DbContext {
 
     public DbSet<EmbeddingModel> EmbeddingModel { get; set; }
     public DbSet<MailData> MailData { get; set; }
+    public DbSet<SimilarContentArticlesResult> SimilarContentArticlesResult { get; set; }
 
-    //[DbFunction("SimilarContentArticles", "dbo")]
-    //public IQueryable<SimilarContentArticlesResult> SimilarContentArticles(string vector)
-    //{
-    //    return FromExpression(() => SimilarContentArticles(vector));
-    //}
-
-    //[DbFunction("SimilarContentCodeObject", "dbo")]
-    //public IQueryable<SimilarContentArticlesResult> SimilarContentCodeObject(string vector)
-    //{
-    //    return FromExpression(() => SimilarContentCodeObject(vector));
-    //}
     protected override void OnModelCreating(ModelBuilder modelBuilder) {
         base.OnModelCreating(modelBuilder);
         modelBuilder.HasChangeTrackingStrategy(ChangeTrackingStrategy.ChangingAndChangedNotificationsWithOriginalValues);
@@ -93,8 +85,14 @@ public class DocGPTEFCoreDbContext : DbContext {
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         optionsBuilder.UseLoggerFactory(MyLoggerFactory);
+        var configuration = new ConfigurationBuilder().SetBasePath(Directory.GetCurrentDirectory()).AddJsonFile("appsettings.json").Build();
+
+        // Get connection string from configuration
+        var connectionString = configuration.GetConnectionString("ConnectionString");
+
+        //optionsBuilder.UseSqlServer("Encrypt=false;Integrated Security=SSPI;MultipleActiveResultSets=True;Data Source=BCH-BTO;Initial Catalog=E965_EFCore");
         //TODO: get this from a config file?
-        optionsBuilder.UseNpgsql("Server=localhost;Port=5432;Database=postgres;User Id=postgres;Password=1Zaqwsx2;Include Error Detail=True;", o => o.UseVector());
+        optionsBuilder.UseNpgsql(connectionString, o => o.UseVector()).UseLowerCaseNamingConvention();
     }
     public static readonly ILoggerFactory MyLoggerFactory
     = LoggerFactory.Create(builder => { builder.AddDebug(); });

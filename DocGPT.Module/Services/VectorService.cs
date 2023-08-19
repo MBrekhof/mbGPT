@@ -8,24 +8,22 @@ namespace DocGPT.Module.Services
     public class VectorService
     {
 
-        private readonly CustomDbContext _dbContext;
-
-        public VectorService(CustomDbContext dbContext)
+         private readonly DocGPTEFCoreDbContext _dbContext;
+        public VectorService(DocGPTEFCoreDbContext dbContext)
         {
 
             _dbContext = dbContext;
 
         }
-        // GetSimilarContentArticles
         public List<SimilarContentArticlesResult> GetSimilarContentArticles(string vector)
         {
-            var cdb = _dbContext.CreateDbContext();
+
             var question = $"SELECT articledetailid as id," +
                 $"(select articlename from article a where r.articledetailid = a.articleid) as articlename," +
                 $"articlecontent,articlesequence,vectordatastring <=> " +
                 $"'{vector}' as cosine_distance  FROM articledetail r ORDER BY vectordatastring <=> '{vector}' LIMIT 5";
             question = question.ToLower();
-            List<SimilarContentArticlesResult> r = cdb.SimilarContentArticlesResult.FromSqlRaw(question).ToList();
+            List<SimilarContentArticlesResult> r = _dbContext.SimilarContentArticlesResult.FromSqlRaw(question).ToList();
             return r;
         }
 
