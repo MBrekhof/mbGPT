@@ -54,16 +54,23 @@ namespace DocGPT.Module.Controllers
         private async void EmbedAction_Execute(object sender, SimpleActionExecuteEventArgs e)
         {
             var CO_Embed = e.CurrentObject as CodeObject;
+            var content = CO_Embed.CodeObjectContent;
             //// Create an instance of the OpenAI client
-            if (CO_Embed.CodeObjectContent.Length > 0)
+            if (content.Length > 0)
             {
                 var settingsService = serviceProvider.GetService<SettingsService>();
                 var settings = await settingsService.GetSettingsAsync();
-                Application.ShowViewStrategy.ShowMessage(string.Format("Embedding started!"), displayInterval: 50000);
+                Application.ShowViewStrategy.ShowMessage(string.Format("Embedding started!"), displayInterval: 2000);
                 var api = new OpenAIClient(new OpenAIAuthentication(settings.OpenAIKey));
                 var model = await api.ModelsEndpoint.GetModelDetailsAsync(settings.EmbeddingModel.Name);
-                //IObjectSpace VectorDataObjectSpace = Application.CreateObjectSpace(typeof(ArticleVectorData));
-                var embeddings = await api.EmbeddingsEndpoint.CreateEmbeddingAsync("Source : "+CO_Embed.Subject+"Category :"+CO_Embed.Category.Category+" "+ CO_Embed.CodeObjectContent, model);
+               if (CO_Embed.Tags.Count > 0)
+                {
+                    foreach(var tag in CO_Embed.Tags)
+                    {
+                        content += " " + tag.TagName + " ";
+                    }
+                }
+                var embeddings = await api.EmbeddingsEndpoint.CreateEmbeddingAsync("Source : "+CO_Embed.Subject+"Category :"+CO_Embed.Category.Category+" "+ content, model);
                 var x = new Vector("[" + String.Join(",", embeddings.Data[0].Embedding) + "]");
 
                 CO_Embed.VectorDataString = x;// "[" + String.Join(",", embeddings.Data[0].Embedding) + "]";
@@ -81,11 +88,11 @@ namespace DocGPT.Module.Controllers
                 //    CO_Embed.ArticleVectorData.Add(embeddingVector);
                 //}
                 ObjectSpace.CommitChanges();
-                Application.ShowViewStrategy.ShowMessage(string.Format("Embedded!"), displayInterval: 50000);
+                Application.ShowViewStrategy.ShowMessage(string.Format("Embedded!"), displayInterval: 2000);
             }
             else
             {
-                Application.ShowViewStrategy.ShowMessage(string.Format("Nothing to embed.."),displayInterval:50000);
+                Application.ShowViewStrategy.ShowMessage(string.Format("Nothing to embed.."),displayInterval:2000);
             }
             ObjectSpace.CommitChanges();
         }

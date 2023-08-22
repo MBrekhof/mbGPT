@@ -68,6 +68,7 @@ public class DocGPTEFCoreDbContext : DbContext {
     public DbSet<EmbeddingModel> EmbeddingModel { get; set; }
     public DbSet<MailData> MailData { get; set; }
     public DbSet<SimilarContentArticlesResult> SimilarContentArticlesResult { get; set; }
+    public DbSet<Tag> Tag { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder) {
         base.OnModelCreating(modelBuilder);
@@ -77,6 +78,11 @@ public class DocGPTEFCoreDbContext : DbContext {
             .HasMany(e => e.ArticleDetail)
             .WithOne(e => e.Article)
             .OnDelete(DeleteBehavior.ClientCascade);
+        //modelBuilder.Entity<CodeObject>()
+        //    .HasMany<Tag>()
+        //    .WithOne()
+        //    .HasForeignKey("fk_codeobjectid")
+        //    .IsRequired(false);
     }
     //protected void OnModelCreatingGeneratedFunctions(ModelBuilder modelBuilder)
     //{

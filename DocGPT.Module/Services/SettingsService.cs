@@ -1,5 +1,4 @@
 ﻿using DocGPT.Module.BusinessObjects;
-using Microsoft.EntityFrameworkCore;
 
 namespace DocGPT.Module.Services
 {
@@ -7,6 +6,11 @@ namespace DocGPT.Module.Services
     {
         DocGPTEFCoreDbContext _dbContext;
         Settings _settings;
+
+        /// <summary>
+        /// Constructor of settingsservice
+        /// </summary>
+        /// <param name="dbContext"></param>
         public SettingsService(DocGPTEFCoreDbContext dbContext) 
         {
             _dbContext = dbContext;
@@ -14,7 +18,7 @@ namespace DocGPT.Module.Services
 
         private async Task InitializeSettingsAsync(CancellationToken cancellationToken)
         {
-            _settings =  _dbContext.Settings.FirstOrDefault();
+            _settings =  _dbContext.Settings.OrderBy(x => x.SettingsID).FirstOrDefault();
         }
         /// <summary>
         /// Returns all settings
@@ -52,12 +56,6 @@ namespace DocGPT.Module.Services
 
             return property.GetValue(_settings);
         }
-
-        public void SaveSettings() { }
-
-        public void DeleteSettings() { }
-
-        public void UpdateSettings() { }
 
     }
 }

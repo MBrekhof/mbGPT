@@ -100,8 +100,6 @@ public class Startup {
         services.AddScoped<VectorService>();
         services.AddScoped<OpenAILLMService>();
         services.AddScoped<MailService>();
-        //services.AddHangfire(config => config.UsePostgreSqlStorage(connectionString));
-        //services.AddHangfireServer();
         services.AddXafWebApi(Configuration, options =>
         {
             options.BusinessObject<Prompt>();
@@ -152,7 +150,6 @@ public class Startup {
             endpoints.MapBlazorHub();
             endpoints.MapFallbackToPage("/_Host");
             endpoints.MapControllers();
-            //endpoints.MapHangfireDashboard();
         });
 
     }

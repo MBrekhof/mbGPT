@@ -36,7 +36,20 @@
     <DetailView Id="CodeObject_DetailView">
       <Items>
         <PropertyEditor Id="CodeObjectContent" RowCount="15" />
+        <PropertyEditor Id="Tags" PropertyEditorType="DocGPT.Blazor.Server.Editors.TagBoxPropertyEditor" />
       </Items>
+      <Layout>
+        <LayoutGroup Id="Main">
+          <LayoutGroup Id="SimpleEditors" RelativeSize="16.165413533834588" />
+          <LayoutGroup Id="SizeableEditors" RelativeSize="83.83458646616542" Caption="Code Object Content">
+            <LayoutItem Id="CodeObjectContent" RelativeSize="92.82511210762331" />
+            <LayoutItem Id="Tags" ViewItem="Tags" Index="1" RelativeSize="7.174887892376682" IsNewNode="True" />
+          </LayoutGroup>
+          <LayoutGroup Id="Tags_Group" Caption="Tags" RelativeSize="13.721804511278195" Removed="True">
+            <LayoutItem Id="Tags" Removed="True" />
+          </LayoutGroup>
+        </LayoutGroup>
+      </Layout>
     </DetailView>
     <DetailView Id="Settings_DetailView" AllowDelete="False" AllowNew="False" />
     <DetailView Id="WebSiteData_DetailView">

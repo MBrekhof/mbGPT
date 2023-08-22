@@ -13,10 +13,7 @@ namespace DocGPT.Module.Services
     {
         private readonly IServiceProvider serviceProvider;
         private Settings settings;
-        //private string ApiKey = "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";
-        //private string EmbeddingModel = "text-embedding-ada-002";
-        //private int Chat4Limit = 6000;
-        //private int Chat35Limit = 13000;
+
         public  OpenAILLMService( IServiceProvider serviceProvider,SettingsService settingsService) 
         {            
             this.serviceProvider = serviceProvider;
@@ -50,11 +47,13 @@ namespace DocGPT.Module.Services
             var codeHits = vectorService.GetSimilarContentArticles(target.QuestionDataString);
 
             SimilarContentArticles.AddRange(codeHits);
-
+            // TODO: change the hard coded value
+            SimilarContentArticles.RemoveAll(a => a.cosine_distance >= 0.41);
             var aantal = SimilarContentArticles.Count;
             if (aantal > 0)
             {
-                SimilarContentArticles.Sort((a, b) => b.cosine_distance.CompareTo(a.cosine_distance));
+                // low cosine distance is what we look for
+                SimilarContentArticles.Sort((a, b) => a.cosine_distance.CompareTo(b.cosine_distance));
                 //SimilarContentArticles = SimilarContentArticles.Take(10).ToList();
                 usesLocalKnowledge = true;
             }
@@ -65,7 +64,7 @@ namespace DocGPT.Module.Services
             var totalTokens = 0;
             string gptmodel = target.ChatModel.Name;
 
-            var maxTokens = target.ChatModel.Size;
+            var maxTokens = (int)(target.ChatModel.Size * 0.8);
 
             foreach (var snippet in SimilarContentArticles)
             {
@@ -75,18 +74,18 @@ namespace DocGPT.Module.Services
                 if (totalTokens > maxTokens) { break; }
             }
             chatMessages.Add(new Message(Role.User, TheQuestion));
-            chatMessages.Add(new Message(Role.System, "Sources for the information provided are mentioned after 'Source:', please show them as a list in your answer at the bottom only. "));
+            //chatMessages.Add(new Message(Role.System, "Sources for the information provided are mentioned after 'Source:', please show them as a list in your answer when asked at the bottom only. "));
 
             var chatRequest = new ChatRequest(chatMessages, temperature: 0.0, topP: 1, frequencyPenalty: 0, presencePenalty: 0, model: gptmodel);
 
             var result = await api.ChatEndpoint.GetCompletionAsync(chatRequest);
 
             target.Answer = Markdown.Parse(result).ToHtml();
-            //target.Answer = result;
+
             target.Tokens = result.Usage.TotalTokens;
             // TODO: either dbcontext or NODA package
             target.Created = DateTime.SpecifyKind(DateTime.Now,DateTimeKind.Utc);
-            // newObjectSpace.CommitChanges();
+
             return usesLocalKnowledge;
         }
     }
