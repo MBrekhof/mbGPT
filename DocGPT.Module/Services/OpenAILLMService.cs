@@ -6,6 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 using OpenAI;
 using OpenAI.Chat;
 using OpenAI.Models;
+using Tiktoken;
 
 namespace DocGPT.Module.Services
 {
@@ -63,17 +64,24 @@ namespace DocGPT.Module.Services
 
             var totalTokens = 0;
             string gptmodel = target.ChatModel.Name;
+            var encoding = Tiktoken.Encoding.ForModel(gptmodel);
+            var limitSwitch = 0;
 
-            var maxTokens = (int)(target.ChatModel.Size * 0.8);
-
+            var maxTokens = (int)(target.ChatModel.Size * 0.7);
+            chatMessages.Add(new Message(Role.User, TheQuestion));
+            totalTokens += encoding.CountTokens(TheQuestion);
+            chatMessages.Add(new Message(Role.Assistant, "Sources: "));
+            totalTokens += 2; // assumption
             foreach (var snippet in SimilarContentArticles)
             {
+                limitSwitch = totalTokens + encoding.CountTokens(snippet.articlecontent);
+                if (limitSwitch > maxTokens) { break; }
                 // Add the existing knowledge to the chatMessages list
-                chatMessages.Add(new Message(Role.System, snippet.articlecontent + "###"));
-                totalTokens += snippet.articlecontent.Length;
-                if (totalTokens > maxTokens) { break; }
+                chatMessages.Add(new Message(Role.Assistant, snippet.articlecontent + "###"));
+                totalTokens += encoding.CountTokens(snippet.articlecontent);
+
             }
-            chatMessages.Add(new Message(Role.User, TheQuestion));
+
             //chatMessages.Add(new Message(Role.System, "Sources for the information provided are mentioned after 'Source:', please show them as a list in your answer when asked at the bottom only. "));
 
             var chatRequest = new ChatRequest(chatMessages, temperature: 0.0, topP: 1, frequencyPenalty: 0, presencePenalty: 0, model: gptmodel);

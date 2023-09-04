@@ -17,7 +17,7 @@ namespace DocGPT.Module.Services
         }
         public List<SimilarContentArticlesResult> GetSimilarContentArticles(string vector)
         {
-
+            // limit to 5 results, order by best matching (closest to 0) first
             var question = $"SELECT articledetailid as id," +
                 $"(select articlename from article a where r.articleid = a.articleid) as articlename," +
                 $"articlecontent,articlesequence,vectordatastring <=> " +
