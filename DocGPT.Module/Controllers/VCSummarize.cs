@@ -1,31 +1,15 @@
-﻿using DevExpress.Data.Filtering;
-using DevExpress.ExpressApp;
+﻿using DevExpress.ExpressApp;
 using DevExpress.ExpressApp.Actions;
-using DevExpress.ExpressApp.Editors;
-using DevExpress.ExpressApp.Layout;
-using DevExpress.ExpressApp.Model.NodeGenerators;
-using DevExpress.ExpressApp.SystemModule;
-using DevExpress.ExpressApp.Templates;
-using DevExpress.ExpressApp.Utils;
-using DevExpress.Pdf.Native.BouncyCastle.Asn1.X509;
-using DevExpress.Persistent.Base;
-using DevExpress.Persistent.Validation;
 using DocGPT.Module.BusinessObjects;
 using DocGPT.Module.Services;
 using Markdig;
 using Microsoft.Extensions.DependencyInjection;
 using OpenAI;
 using OpenAI.Chat;
-using OpenAI.Models;
-using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
-using System.Text;
 
 namespace DocGPT.Module.Controllers
 {
-    // For more typical usage scenarios, be sure to check out https://documentation.devexpress.com/eXpressAppFramework/clsDevExpressExpressAppViewControllertopic.aspx.
+
     public partial class VCSummarize : ViewController
     {
         private readonly IServiceProvider serviceProvider;
@@ -70,9 +54,9 @@ namespace DocGPT.Module.Controllers
             //// Create an instance of the OpenAI client
             var settings = await settingsService.GetSettingsAsync();
             var apiKey = settings.OpenAIKey;
-            var api = new OpenAIClient(new OpenAIAuthentication(apiKey)); 
+            var api = new OpenAIClient(new OpenAIAuthentication(apiKey));
 
-             var chatMessages = new List<Message>();
+            var chatMessages = new List<Message>();
             var summaryPrompt = $"You receive one or more chunks of text from the document called {articleToSummarize.ArticleName}, please provide a complete summary of the text. ###";
             var assistantPrompt = "The summary should be formatted using Markdown";
             var totalTokens = 0;

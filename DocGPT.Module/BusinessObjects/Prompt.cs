@@ -25,5 +25,9 @@ public partial class Prompt : BaseObjectNoID
 
     [Unicode(false)]
     [FieldSize(FieldSizeAttribute.Unlimited)]
-    public virtual string PromptBody { get; set; }
+    public virtual string SystemPrompt { get; set; }
+
+    [Unicode(false)]
+    [FieldSize(FieldSizeAttribute.Unlimited)]
+    public virtual string AssistantPrompt { get; set; }
 }

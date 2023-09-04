@@ -1,27 +1,14 @@
-﻿using DevExpress.Data.Filtering;
-using DevExpress.ExpressApp;
+﻿using DevExpress.ExpressApp;
 using DevExpress.ExpressApp.Actions;
-using DevExpress.ExpressApp.Editors;
-using DevExpress.ExpressApp.Layout;
-using DevExpress.ExpressApp.Model.NodeGenerators;
-using DevExpress.ExpressApp.SystemModule;
-using DevExpress.ExpressApp.Templates;
-using DevExpress.ExpressApp.Utils;
-using DevExpress.Persistent.Base;
-using DevExpress.Persistent.Validation;
 using DocGPT.Module.BusinessObjects;
 using DocGPT.Module.Services;
 using Microsoft.Extensions.DependencyInjection;
 using OpenAI;
 using Pgvector;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace DocGPT.Module.Controllers
 {
-    // For more typical usage scenarios, be sure to check out https://documentation.devexpress.com/eXpressAppFramework/clsDevExpressExpressAppViewControllertopic.aspx.
+    // implement logging and error handling using Serilog
     public partial class VCEmbed : ViewController
     {
         private readonly IServiceProvider serviceProvider;
@@ -75,18 +62,7 @@ namespace DocGPT.Module.Controllers
 
                 CO_Embed.VectorDataString = x;// "[" + String.Join(",", embeddings.Data[0].Embedding) + "]";
                 CO_Embed.Tokens = (int)embeddings.Usage.TotalTokens;
-                // Get Embedding Vectors for this chunk
-                //var EmbeddingVectors = embeddings.Data[0].Embedding.Select(d => (float)d).ToArray();
-                //// Instert all Embedding Vectors
-                //for (int i = 0; i < EmbeddingVectors.Length; i++)
-                //{
-                //    var embeddingVector = ObjectSpace.CreateObject<ArticleVectorData>();
 
-                //    embeddingVector.VectorValueId = i;
-                //    embeddingVector.VectorValue = EmbeddingVectors[i];
-
-                //    CO_Embed.ArticleVectorData.Add(embeddingVector);
-                //}
                 ObjectSpace.CommitChanges();
                 Application.ShowViewStrategy.ShowMessage(string.Format("Embedded!"), displayInterval: 2000);
             }

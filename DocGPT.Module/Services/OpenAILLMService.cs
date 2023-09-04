@@ -26,6 +26,8 @@ namespace DocGPT.Module.Services
             var target = (Chat)e.CurrentObject;
             if (target.ChatModel == null)
                 return false;
+            if ((target.Question == null) || (target.Prompt.SystemPrompt==null))
+                return false;
 
             target.Answer = string.Empty;
             //// Create an instance of the OpenAI client
@@ -35,8 +37,10 @@ namespace DocGPT.Module.Services
             var model = await api.ModelsEndpoint.GetModelDetailsAsync(settings.EmbeddingModel.Name);
           
             // two step text insertion/replacement
-            var text = target.Prompt.PromptBody;
-            var TheQuestion = text.Replace("{{question}}", target.Question);
+            var text = target.Prompt.SystemPrompt;
+            var TheQuestion = text + " " + target.Question;
+            if (target.Prompt.AssistantPrompt != null)
+                TheQuestion += " " + target.Prompt.AssistantPrompt;
 
             var embeddings = await api.EmbeddingsEndpoint.CreateEmbeddingAsync(TheQuestion, model);
             target.QuestionDataString = "[" + String.Join(",", embeddings.Data[0].Embedding) + "]";
@@ -49,7 +53,7 @@ namespace DocGPT.Module.Services
 
             SimilarContentArticles.AddRange(codeHits);
             // TODO: change the hard coded value
-            SimilarContentArticles.RemoveAll(a => a.cosine_distance >= 0.41);
+            SimilarContentArticles.RemoveAll(a => a.cosine_distance >= 0.20);
             var aantal = SimilarContentArticles.Count;
             if (aantal > 0)
             {
@@ -68,7 +72,10 @@ namespace DocGPT.Module.Services
             var limitSwitch = 0;
 
             var maxTokens = (int)(target.ChatModel.Size * 0.7);
-            chatMessages.Add(new Message(Role.User, TheQuestion));
+            chatMessages.Add(new Message(Role.System, target.Prompt.SystemPrompt));
+            chatMessages.Add(new Message(Role.User, target.Question));
+            if (target.Prompt.AssistantPrompt != null)
+                chatMessages.Add(new Message(Role.Assistant, target.Prompt.AssistantPrompt));
             totalTokens += encoding.CountTokens(TheQuestion);
             chatMessages.Add(new Message(Role.Assistant, "Sources: "));
             totalTokens += 2; // assumption
