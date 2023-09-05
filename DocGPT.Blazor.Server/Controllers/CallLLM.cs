@@ -51,9 +51,10 @@ namespace DocGPT.Blazor.Server.Controllers
             await jsRuntime.InvokeVoidAsync("setLoadingText", "Searching..");
             LoadingIndicatorProvider.Hold("Searching");
 
-            // should be using: system, user example, assistant example, assistant embeddings, user question
+
             var serviceOne = serviceProvider.GetRequiredService<OpenAILLMService>();
-            var result = await serviceOne.GetAnswer(e);
+            var target = (Chat)e.CurrentObject;
+            var result = await serviceOne.GetAnswer(target);
 
             if (result)
             {

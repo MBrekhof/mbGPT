@@ -20,10 +20,10 @@ namespace DocGPT.Module.Services
             this.serviceProvider = serviceProvider;
             this.settings = settingsService.GetSettingsAsync().GetAwaiter().GetResult(); ;
         }
-        public async Task<bool> GetAnswer(SimpleActionExecuteEventArgs e)
+        public async Task<bool> GetAnswer(Chat chat)
         {
             var usesLocalKnowledge = false;
-            var target = (Chat)e.CurrentObject;
+            var target = chat;
             if (target.ChatModel == null)
                 return false;
             if ((target.Question == null) || (target.Prompt.SystemPrompt==null))

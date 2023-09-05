@@ -8,7 +8,6 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace DocGPT.Module.BusinessObjects;
 [DefaultClassOptions]
 [NavigationItem("DocGPT")]
-//[Table("Chat")]
 
 public partial class Chat : BaseObjectNoID
 {
@@ -30,7 +29,6 @@ public partial class Chat : BaseObjectNoID
      public virtual Prompt? Prompt { get; set; }
 
     [FieldSize(FieldSizeAttribute.Unlimited)]
-    //[EditorAlias(DevExpress.ExpressApp.Editors.EditorAliases.HtmlPropertyEditor)]
     public virtual string? Answer { get; set; }
 
     [VisibleInLookupListView(false)]
@@ -40,7 +38,7 @@ public partial class Chat : BaseObjectNoID
     public virtual ChatModel? ChatModel { get; set; }
 
     [VisibleInLookupListView(false)]
-    public virtual DateTime? Created { get; set; }
+    public virtual DateTime? Created { get; set; } = DateTime.Now;
 }
 
 

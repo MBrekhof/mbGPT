@@ -102,7 +102,8 @@ public class Startup {
         services.AddScoped<MailService>();
         services.AddXafWebApi(Configuration, options =>
         {
-            options.BusinessObject<Prompt>();
+            options.ConfigureBusinessObjectActionEndpoints(options => options.EnableActionEndpoints = true);
+            options.BusinessObject<Chat>();
         });
         services.AddControllers().AddOData((options, serviceProvider) => {
             options

@@ -52,8 +52,8 @@ namespace DocGPT.Win.Controllers
             var serviceOne = serviceProvider.GetRequiredService<OpenAILLMService>();
             //splash.ShowDialog();
             splash.Show();
-            
-            await serviceOne.GetAnswer(e);
+            var target = (Chat)e.CurrentObject;
+            await serviceOne.GetAnswer(target);
             ObjectSpace.CommitChanges();
             splash.Close();
             Application.ShowViewStrategy.ShowMessage(string.Format("Answered!"));
