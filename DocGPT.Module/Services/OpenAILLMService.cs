@@ -1,12 +1,11 @@
-﻿using DevExpress.ExpressApp;
-using DevExpress.ExpressApp.Actions;
+﻿using DevExpress.Data.Filtering;
+using DevExpress.ExpressApp;
 using DocGPT.Module.BusinessObjects;
 using Markdig;
 using Microsoft.Extensions.DependencyInjection;
 using OpenAI;
 using OpenAI.Chat;
-using OpenAI.Models;
-using Tiktoken;
+//using static System.Net.Mime.MediaTypeNames;
 
 namespace DocGPT.Module.Services
 {
@@ -18,9 +17,9 @@ namespace DocGPT.Module.Services
         public  OpenAILLMService( IServiceProvider serviceProvider,SettingsService settingsService) 
         {            
             this.serviceProvider = serviceProvider;
-            this.settings = settingsService.GetSettingsAsync().GetAwaiter().GetResult(); ;
+            this.settings = settingsService.GetSettingsAsync().GetAwaiter().GetResult(); 
         }
-        public async Task<bool> GetAnswer(Chat chat)
+        public async Task<bool> GetAnswer(Chat chat, IObjectSpace objectSpace)
         {
             var usesLocalKnowledge = false;
             var target = chat;
@@ -79,12 +78,27 @@ namespace DocGPT.Module.Services
             totalTokens += encoding.CountTokens(TheQuestion);
             chatMessages.Add(new Message(Role.Assistant, "Sources: "));
             totalTokens += 2; // assumption
+
+
             foreach (var snippet in SimilarContentArticles)
             {
                 limitSwitch = totalTokens + encoding.CountTokens(snippet.articlecontent);
                 if (limitSwitch > maxTokens) { break; }
                 // Add the existing knowledge to the chatMessages list
-                chatMessages.Add(new Message(Role.Assistant, snippet.articlecontent + "###"));
+                chatMessages.Add(new Message(Role.Assistant,"Source: "+snippet.articlename+"("+snippet.articlesequence+") " +snippet.articlecontent  + "###"));
+                var uk = objectSpace.CreateObject<UsedKnowledge>();
+                uk.Chat = target;
+                uk.cosinedistance = snippet.cosine_distance;
+                if ((snippet.articletype == 'C')|| (snippet.articletype == 'c'))
+                {
+                    uk.Code = objectSpace.FindObject<CodeObject>(CriteriaOperator.Parse("CodeObjectId = ?", snippet.id));  
+                    target.UsedKnowledge.Add(uk);
+                }
+                else
+                {
+                    uk.Article = objectSpace.FindObject<ArticleDetail>(CriteriaOperator.Parse("ArticleDetailId = ?", snippet.id));
+                    target.UsedKnowledge.Add(uk);
+                }
                 totalTokens += encoding.CountTokens(snippet.articlecontent);
 
             }

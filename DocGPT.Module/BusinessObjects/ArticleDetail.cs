@@ -2,12 +2,14 @@
 using DevExpress.ExpressApp.DC;
 using DevExpress.Persistent.Base;
 using Pgvector;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations.Schema;
 
 
 namespace DocGPT.Module.BusinessObjects;
 [DefaultClassOptions]
 [NavigationItem("Knowledge")]
+[DefaultProperty("ArticleDetailName")]
 
 public partial class ArticleDetail : BaseObjectNoID
 {
@@ -16,6 +18,10 @@ public partial class ArticleDetail : BaseObjectNoID
     public virtual int ArticleDetailId { get; set; }
 
     public virtual int ArticleId { get; set; }
+    public virtual string? ArticleDetailName
+    {
+        get { return Article?.ArticleName + "(" + ArticleSequence.ToString() + ")"; }
+    }
 
     public virtual int ArticleSequence { get; set; }
     [FieldSize(FieldSizeAttribute.Unlimited)]

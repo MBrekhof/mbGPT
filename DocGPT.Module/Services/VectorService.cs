@@ -20,7 +20,7 @@ namespace DocGPT.Module.Services
             // limit to 5 results, order by best matching (closest to 0) first
             var question = $"SELECT articledetailid as id," +
                 $"(select articlename from article a where r.articleid = a.articleid) as articlename," +
-                $"articlecontent,articlesequence,vectordatastring <=> " +
+                $"articlecontent,articlesequence,'A' as articletype,vectordatastring <=> " +
                 $"'{vector}' as cosine_distance  FROM articledetail r ORDER BY vectordatastring <=> '{vector}' LIMIT 5";
             question = question.ToLower();
             List<SimilarContentArticlesResult> r = _dbContext.SimilarContentArticlesResult.FromSqlRaw(question).ToList();
@@ -31,7 +31,7 @@ namespace DocGPT.Module.Services
         public List<SimilarContentArticlesResult> GetSimilarCodeContent(string vector)
         {
             var cdb = _dbContext;
-            var question = $"SELECT CodeObjectId as id,Subject as articlename,CodeObjectContent as articlecontent,1 as articlesequence,vectordatastring <=> " +
+            var question = $"SELECT CodeObjectId as id,Subject as articlename,CodeObjectContent as articlecontent,1 as articlesequence,'C' as articletype,vectordatastring <=> " +
                 $"'{vector}' as cosine_distance  FROM codeobject ORDER BY vectordatastring <=> '{vector}' LIMIT 5";
             question = question.ToLower();
             List<SimilarContentArticlesResult> r = cdb.SimilarContentArticlesResult.FromSqlRaw(question).ToList();

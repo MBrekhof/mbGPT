@@ -14,6 +14,7 @@ namespace DocGPT.Module.BusinessObjects
         public virtual string articlename { get; set; }
         public virtual string articlecontent { get; set; }
         public virtual int? articlesequence { get; set; }
+        public virtual char articletype { get; set; } = 'U';  // unknown, article, code
         public virtual double cosine_distance { get; set; } = 0;
     }
 }

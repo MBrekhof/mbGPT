@@ -2,6 +2,7 @@
 using DevExpress.ExpressApp.DC;
 using DevExpress.Persistent.Base;
 using DevExpress.Persistent.Validation;
+using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations.Schema;
 
 
@@ -39,6 +40,7 @@ public partial class Chat : BaseObjectNoID
 
     [VisibleInLookupListView(false)]
     public virtual DateTime? Created { get; set; } = DateTime.Now;
+    public virtual IList<UsedKnowledge> UsedKnowledge { get; set; } = new ObservableCollection<UsedKnowledge>();
 }
 
 

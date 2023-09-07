@@ -53,7 +53,7 @@ namespace DocGPT.Win.Controllers
             //splash.ShowDialog();
             splash.Show();
             var target = (Chat)e.CurrentObject;
-            await serviceOne.GetAnswer(target);
+            await serviceOne.GetAnswer(target, ObjectSpace);
             ObjectSpace.CommitChanges();
             splash.Close();
             Application.ShowViewStrategy.ShowMessage(string.Format("Answered!"));

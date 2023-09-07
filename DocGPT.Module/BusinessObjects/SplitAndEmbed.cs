@@ -13,7 +13,7 @@ namespace DocGPT.Module.BusinessObjects
 
     [DefaultProperty(nameof(FileName))]
     [DomainComponent]
-    public class SplitAndEmbed : BaseObjectNoID
+    public partial class UsedKnowledge : BaseObjectNoID
     {
         [Browsable(false), Key]
         [VisibleInDetailView(false), VisibleInListView(false), VisibleInLookupListView(false)]

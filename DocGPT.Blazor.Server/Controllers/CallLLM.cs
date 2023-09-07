@@ -54,7 +54,7 @@ namespace DocGPT.Blazor.Server.Controllers
 
             var serviceOne = serviceProvider.GetRequiredService<OpenAILLMService>();
             var target = (Chat)e.CurrentObject;
-            var result = await serviceOne.GetAnswer(target);
+            var result = await serviceOne.GetAnswer(target,ObjectSpace);
 
             if (result)
             {

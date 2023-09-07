@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using DocGPT.Module.BusinessObjects;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Pgvector;
@@ -13,9 +14,11 @@ using Pgvector;
 namespace DocGPT.Module.Migrations
 {
     [DbContext(typeof(DocGPTEFCoreDbContext))]
-    partial class DocGPTEFCoreDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230907205719_usedknowledgge")]
+    partial class usedknowledgge
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -881,10 +884,6 @@ namespace DocGPT.Module.Migrations
                     b.Property<string>("RealFileName")
                         .HasColumnType("text")
                         .HasColumnName("realfilename");
-
-                    b.Property<double>("cosinedistance")
-                        .HasColumnType("double precision")
-                        .HasColumnName("cosinedistance");
 
                     b.HasKey("UsedKnowledgeId")
                         .HasName("pk_usedknowledge");

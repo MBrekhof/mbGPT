@@ -5,12 +5,14 @@ using DevExpress.Persistent.Base;
 using DevExpress.Persistent.Validation;
 using Pgvector;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace DocGPT.Module.BusinessObjects
 {
     [DefaultClassOptions]
     [NavigationItem("Code")]
+    [DefaultProperty("Subject")]
     public partial class CodeObject : BaseObjectNoID
     {
         [System.ComponentModel.DataAnnotations.Key]

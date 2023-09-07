@@ -69,6 +69,7 @@ public class DocGPTEFCoreDbContext : DbContext {
     public DbSet<MailData> MailData { get; set; }
     public DbSet<SimilarContentArticlesResult> SimilarContentArticlesResult { get; set; }
     public DbSet<Tag> Tag { get; set; }
+    public DbSet<UsedKnowledge> UsedKnowledge { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder) {
         base.OnModelCreating(modelBuilder);

@@ -40,8 +40,8 @@ namespace DocGPT.Module.Controllers
 
         private void SplitAndEmbedAction_CustomizePopupWindowParams(object sender, CustomizePopupWindowParamsEventArgs e)
         {
-            IObjectSpace newObjectSpace = Application.CreateObjectSpace(typeof(SplitAndEmbed));
-            SplitAndEmbed target = newObjectSpace.CreateObject<SplitAndEmbed>();
+            IObjectSpace newObjectSpace = Application.CreateObjectSpace(typeof(UsedKnowledge));
+            UsedKnowledge target = newObjectSpace.CreateObject<UsedKnowledge>();
             var currentFile = ((FileSystemStoreObject)View.CurrentObject);
             target.FileName = currentFile.File.FileName;
             target.FileSize = currentFile.File.Size;
@@ -71,7 +71,7 @@ namespace DocGPT.Module.Controllers
         private void SplitAndEmbedAction_Execute(object sender, PopupWindowShowActionExecuteEventArgs e)
         {
             ObjectSpace.CommitChanges();
-            SplitAndEmbed currentFile = (SplitAndEmbed)e.PopupWindowViewCurrentObject;
+            UsedKnowledge currentFile = (UsedKnowledge)e.PopupWindowViewCurrentObject;
         }
 
 
@@ -104,7 +104,7 @@ namespace DocGPT.Module.Controllers
         }
         public ActionInPopupController()
         {
-            TargetObjectType = typeof(SplitAndEmbed);
+            TargetObjectType = typeof(UsedKnowledge);
             SimpleAction actionInPopup = new SimpleAction(this,
                 "Split",
                 DevExpress.Persistent.Base.PredefinedCategory.PopupActions
@@ -114,7 +114,7 @@ namespace DocGPT.Module.Controllers
         }
         async void actionInPopup_Execute(object sender, SimpleActionExecuteEventArgs e)
         {
-            var target = (SplitAndEmbed)e.CurrentObject;
+            var target = (UsedKnowledge)e.CurrentObject;
             var content = "";
             var doctype = Path.GetExtension(target.RealFileName).ToUpper();
             Application.ShowViewStrategy.ShowMessage(string.Format("Splitting {0}!", target.FileName));

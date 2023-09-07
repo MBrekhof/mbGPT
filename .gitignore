@@ -365,3 +365,4 @@ FodyWeavers.xsd
 Deploy
 UnusableNodes?.xml
 DocGPT.Module/UnusableNodes.xml
+DocGPT.Win/UnusableNodes.xml

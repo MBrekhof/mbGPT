@@ -18,11 +18,6 @@
         <Member Name="Question" PropertyEditorType="DevExpress.ExpressApp.Validation.Win.MemoEditStringPropertyEditor" />
       </OwnMembers>
     </Class>
-    <Class Name="DocGPT.Module.BusinessObjects.Prompt">
-      <OwnMembers>
-        <Member Name="PromptBody" PropertyEditorType="DevExpress.ExpressApp.Validation.Win.MemoEditStringPropertyEditor" />
-      </OwnMembers>
-    </Class>
     <Class Name="DocGPT.Module.BusinessObjects.WebSiteData">
       <OwnMembers>
         <Member Name="Text" PropertyEditorType="DevExpress.ExpressApp.Office.Win.RichTextPropertyEditor" DocumentStorageFormat="Html" AllowEdit="False" />
@@ -32,8 +27,8 @@
   <NavigationItems NavigationStyle="Accordion" DefaultChildItemsDisplayStyle="List" />
   <Options UIType="TabbedMDI" FormStyle="Ribbon" DataAccessMode="Server" />
   <SchemaModules>
-    <SchemaModule Name="SystemModule" Version="23.1.4.0" IsNewNode="True" />
-    <SchemaModule Name="SystemWindowsFormsModule" Version="23.1.4.0" IsNewNode="True" />
+    <SchemaModule Name="SystemModule" Version="23.1.5.0" IsNewNode="True" />
+    <SchemaModule Name="SystemWindowsFormsModule" Version="23.1.5.0" IsNewNode="True" />
   </SchemaModules>
   <Views>
     <DetailView Id="Chat_DetailView">
