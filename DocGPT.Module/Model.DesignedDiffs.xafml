@@ -62,10 +62,6 @@
     <ListView Id="Chat_UsedKnowledge_ListView">
       <Columns>
         <ColumnInfo Id="Chat" Removed="True" />
-        <ColumnInfo Id="FileId" Removed="True" />
-        <ColumnInfo Id="FileName" Removed="True" />
-        <ColumnInfo Id="FileSize" Removed="True" />
-        <ColumnInfo Id="RealFileName" Removed="True" />
         <ColumnInfo Id="UsedKnowledgeId" Removed="True" />
       </Columns>
     </ListView>

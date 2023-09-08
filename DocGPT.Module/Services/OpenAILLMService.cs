@@ -109,6 +109,14 @@ namespace DocGPT.Module.Services
 
             var result = await api.ChatEndpoint.GetCompletionAsync(chatRequest);
 
+            Cost cost = objectSpace.CreateObject<Cost>();
+            cost.Chat = chat;
+            cost.SourceType = SourceType.Chat;
+            cost.PromptTokens = result.Usage.PromptTokens;
+            cost.CompletionTokens = result.Usage.CompletionTokens;
+            cost.TotalTokens = result.Usage.TotalTokens;
+            cost.LlmAction = LlmAction.completion;
+
             target.Answer = Markdown.Parse(result).ToHtml();
 
             target.Tokens = result.Usage.TotalTokens;

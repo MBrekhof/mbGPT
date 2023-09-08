@@ -13,7 +13,7 @@ namespace DocGPT.Module.BusinessObjects
 
     [DefaultProperty(nameof(FileName))]
     [DomainComponent]
-    public partial class UsedKnowledge : BaseObjectNoID
+    public partial class ChunkedKnowledge : BaseObjectNoID
     {
         [Browsable(false), Key]
         [VisibleInDetailView(false), VisibleInListView(false), VisibleInLookupListView(false)]
@@ -22,9 +22,6 @@ namespace DocGPT.Module.BusinessObjects
 
         public virtual string RealFileName { get; set; }
         public virtual Guid? FileId { get; set; }
-
-        //[FieldSize(FieldSizeAttribute.Unlimited)]
-        //public virtual string Text { get; set; }
         public virtual int? FileSize { get; set; }
         public virtual int ChunkSize { get; set; } = 500;
         [NotMapped]

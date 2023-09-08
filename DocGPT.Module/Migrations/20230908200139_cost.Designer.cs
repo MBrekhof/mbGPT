@@ -14,10 +14,8 @@ using Pgvector;
 namespace DocGPT.Module.Migrations
 {
     [DbContext(typeof(DocGPTEFCoreDbContext))]
-    [Migration("20230907205719_usedknowledgge")]
-#pragma warning disable CS8981 // The type name only contains lower-cased ascii characters. Such names may become reserved for the language.
-    partial class usedknowledgge
-#pragma warning restore CS8981 // The type name only contains lower-cased ascii characters. Such names may become reserved for the language.
+    [Migration("20230908200139_cost")]
+    partial class cost
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -855,37 +853,17 @@ namespace DocGPT.Module.Migrations
                         .HasColumnType("integer")
                         .HasColumnName("articledetailid");
 
-                    b.Property<int>("ChatId")
+                    b.Property<int?>("ChatId")
                         .HasColumnType("integer")
                         .HasColumnName("chatid");
-
-                    b.Property<int>("ChunkSize")
-                        .HasColumnType("integer")
-                        .HasColumnName("chunksize");
 
                     b.Property<int?>("CodeObjectId")
                         .HasColumnType("integer")
                         .HasColumnName("codeobjectid");
 
-                    b.Property<Guid?>("FileId")
-                        .HasColumnType("uuid")
-                        .HasColumnName("fileid");
-
-                    b.Property<string>("FileName")
-                        .HasColumnType("text")
-                        .HasColumnName("filename");
-
-                    b.Property<int?>("FileSize")
-                        .HasColumnType("integer")
-                        .HasColumnName("filesize");
-
-                    b.Property<Guid>("ID")
-                        .HasColumnType("uuid")
-                        .HasColumnName("id");
-
-                    b.Property<string>("RealFileName")
-                        .HasColumnType("text")
-                        .HasColumnName("realfilename");
+                    b.Property<double>("cosinedistance")
+                        .HasColumnType("double precision")
+                        .HasColumnName("cosinedistance");
 
                     b.HasKey("UsedKnowledgeId")
                         .HasName("pk_usedknowledge");
@@ -1129,8 +1107,6 @@ namespace DocGPT.Module.Migrations
                     b.HasOne("DocGPT.Module.BusinessObjects.Chat", "Chat")
                         .WithMany("UsedKnowledge")
                         .HasForeignKey("ChatId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired()
                         .HasConstraintName("fk_usedknowledge_chat_chatid");
 
                     b.HasOne("DocGPT.Module.BusinessObjects.CodeObject", "Code")

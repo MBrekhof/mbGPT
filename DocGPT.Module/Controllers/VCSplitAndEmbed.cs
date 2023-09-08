@@ -40,8 +40,8 @@ namespace DocGPT.Module.Controllers
 
         private void SplitAndEmbedAction_CustomizePopupWindowParams(object sender, CustomizePopupWindowParamsEventArgs e)
         {
-            IObjectSpace newObjectSpace = Application.CreateObjectSpace(typeof(UsedKnowledge));
-            UsedKnowledge target = newObjectSpace.CreateObject<UsedKnowledge>();
+            IObjectSpace newObjectSpace = Application.CreateObjectSpace(typeof(ChunkedKnowledge));
+            ChunkedKnowledge target = newObjectSpace.CreateObject<ChunkedKnowledge>();
             var currentFile = ((FileSystemStoreObject)View.CurrentObject);
             target.FileName = currentFile.File.FileName;
             target.FileSize = currentFile.File.Size;
@@ -71,7 +71,7 @@ namespace DocGPT.Module.Controllers
         private void SplitAndEmbedAction_Execute(object sender, PopupWindowShowActionExecuteEventArgs e)
         {
             ObjectSpace.CommitChanges();
-            UsedKnowledge currentFile = (UsedKnowledge)e.PopupWindowViewCurrentObject;
+            ChunkedKnowledge currentFile = (ChunkedKnowledge)e.PopupWindowViewCurrentObject;
         }
 
 
@@ -104,7 +104,7 @@ namespace DocGPT.Module.Controllers
         }
         public ActionInPopupController()
         {
-            TargetObjectType = typeof(UsedKnowledge);
+            TargetObjectType = typeof(ChunkedKnowledge);
             SimpleAction actionInPopup = new SimpleAction(this,
                 "Split",
                 DevExpress.Persistent.Base.PredefinedCategory.PopupActions
@@ -114,7 +114,7 @@ namespace DocGPT.Module.Controllers
         }
         async void actionInPopup_Execute(object sender, SimpleActionExecuteEventArgs e)
         {
-            var target = (UsedKnowledge)e.CurrentObject;
+            var target = (ChunkedKnowledge)e.CurrentObject;
             var content = "";
             var doctype = Path.GetExtension(target.RealFileName).ToUpper();
             Application.ShowViewStrategy.ShowMessage(string.Format("Splitting {0}!", target.FileName));
@@ -182,19 +182,13 @@ namespace DocGPT.Module.Controllers
                     var x = new Vector("[" + String.Join(",", embeddings.Data[0].Embedding) + "]");
                     articleDet.VectorDataString = x;//"[" + String.Join(",", embeddings.Data[0].Embedding) + "]";
                     articleDet.Tokens = (int)embeddings.Usage.TotalTokens;
-                    // Get Embedding Vectors for this chunk
-                    //var EmbeddingVectors = embeddings.Data[0].Embedding.Select(d => (float)d).ToArray();
-                    // Instert all Embedding Vectors
-                    //for (int i = 0; i < EmbeddingVectors.Length; i++)
-                    //{
-                    //    var embeddingVector = ArticleObjectSpace.CreateObject<ArticleVectorData>();
-
-                    //    embeddingVector.ArticleDetailId = articleDet.ArticleDetailId;
-                    //    embeddingVector.VectorValueId = i;
-                    //    embeddingVector.VectorValue = EmbeddingVectors[i];
-
-                    //    articleDet.ArticleVectorData.Add(embeddingVector);
-                    //}
+                    Cost cost = ArticleObjectSpace.CreateObject<Cost>();
+                    cost.ArticleDetail = articleDet;
+                    cost.SourceType =  SourceType.ArticleDetail;
+                    cost.PromptTokens = embeddings.Usage.PromptTokens;
+                    cost.CompletionTokens = embeddings.Usage.CompletionTokens;
+                    cost.TotalTokens = embeddings.Usage.TotalTokens;
+                    cost.LlmAction = LlmAction.embedding;
                     ArticleObjectSpace.CommitChanges();
                 }               
             }

@@ -16,8 +16,10 @@ namespace DocGPT.Module.Services
         {
             _dbContext = dbContext;
         }
- 
+
+#pragma warning disable CS1998 // Async method lacks 'await' operators and will run synchronously
         private async Task InitializeSettingsAsync()
+#pragma warning restore CS1998 // Async method lacks 'await' operators and will run synchronously
         {
             _settings =  _dbContext.Settings.OrderBy(x => x.SettingsID).FirstOrDefault();
         }

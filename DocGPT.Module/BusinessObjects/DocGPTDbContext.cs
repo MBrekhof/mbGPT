@@ -70,6 +70,7 @@ public class DocGPTEFCoreDbContext : DbContext {
     public DbSet<SimilarContentArticlesResult> SimilarContentArticlesResult { get; set; }
     public DbSet<Tag> Tag { get; set; }
     public DbSet<UsedKnowledge> UsedKnowledge { get; set; }
+    public DbSet<Cost> Cost { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder) {
         base.OnModelCreating(modelBuilder);

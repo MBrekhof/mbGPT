@@ -57,13 +57,22 @@ namespace DocGPT.Module.Controllers
                         content += " " + tag.TagName + " ";
                     }
                 }
+                //IObjectSpace EmbedObjectSpace = Application.CreateObjectSpace(typeof(Cost));
                 var embeddings = await api.EmbeddingsEndpoint.CreateEmbeddingAsync("Source : "+CO_Embed.Subject+"Category :"+CO_Embed.Category.Category+" "+ content, model);
                 var x = new Vector("[" + String.Join(",", embeddings.Data[0].Embedding) + "]");
-
-                CO_Embed.VectorDataString = x;// "[" + String.Join(",", embeddings.Data[0].Embedding) + "]";
+                CO_Embed.VectorDataString = x;
                 CO_Embed.Tokens = (int)embeddings.Usage.TotalTokens;
 
-                ObjectSpace.CommitChanges();
+                Cost cost = ObjectSpace.CreateObject<Cost>();
+                cost.CodeObject = CO_Embed;
+                cost.SourceType = SourceType.CodeObject;
+                cost.PromptTokens = embeddings.Usage.PromptTokens;
+                cost.CompletionTokens = embeddings.Usage.CompletionTokens;
+                cost.TotalTokens = embeddings.Usage.TotalTokens;
+                cost.LlmAction = LlmAction.embedding;
+
+                //EmbedObjectSpace.CommitChanges();
+                //ObjectSpace.CommitChanges();
                 Application.ShowViewStrategy.ShowMessage(string.Format("Embedded!"), displayInterval: 2000);
             }
             else

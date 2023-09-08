@@ -17,7 +17,7 @@ namespace DocGPT.Module.BusinessObjects
         [VisibleInDetailView(false)]
         public virtual int UsedKnowledgeId { get; set; }
 
-        public virtual Chat Chat { get; set; }
+        public virtual Chat? Chat { get; set; }
         public virtual ArticleDetail? Article { get; set; }
         public virtual CodeObject? Code { get; set; }
         public virtual double cosinedistance { get; set; } = 0;

@@ -56,6 +56,7 @@ namespace DocGPT.Blazor.Server.Controllers
             var target = (Chat)e.CurrentObject;
             var result = await serviceOne.GetAnswer(target,ObjectSpace);
 
+
             if (result)
             {
                 Application.ShowViewStrategy.ShowMessage(string.Format("Answered using local knowledge!"));

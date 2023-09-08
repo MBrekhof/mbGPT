@@ -14,10 +14,8 @@ using Pgvector;
 namespace DocGPT.Module.Migrations
 {
     [DbContext(typeof(DocGPTEFCoreDbContext))]
-    [Migration("20230907205719_usedknowledgge")]
-#pragma warning disable CS8981 // The type name only contains lower-cased ascii characters. Such names may become reserved for the language.
-    partial class usedknowledgge
-#pragma warning restore CS8981 // The type name only contains lower-cased ascii characters. Such names may become reserved for the language.
+    [Migration("20230908204029_cost3")]
+    partial class cost3
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -585,6 +583,62 @@ namespace DocGPT.Module.Migrations
                     b.ToTable("codeobjectcategory", (string)null);
                 });
 
+            modelBuilder.Entity("DocGPT.Module.BusinessObjects.Cost", b =>
+                {
+                    b.Property<int>("CostId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasColumnName("costid");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("CostId"));
+
+                    b.Property<int?>("ArticleDetailId")
+                        .HasColumnType("integer")
+                        .HasColumnName("articledetailid");
+
+                    b.Property<int?>("ChatId")
+                        .HasColumnType("integer")
+                        .HasColumnName("chatid");
+
+                    b.Property<int?>("CodeObjectId")
+                        .HasColumnType("integer")
+                        .HasColumnName("codeobjectid");
+
+                    b.Property<int?>("CompletionTokens")
+                        .HasColumnType("integer")
+                        .HasColumnName("completiontokens");
+
+                    b.Property<int?>("LlmAction")
+                        .HasColumnType("integer")
+                        .HasColumnName("llmaction");
+
+                    b.Property<int?>("PromptTokens")
+                        .HasColumnType("integer")
+                        .HasColumnName("prompttokens");
+
+                    b.Property<int?>("SourceType")
+                        .HasColumnType("integer")
+                        .HasColumnName("sourcetype");
+
+                    b.Property<int?>("TotalTokens")
+                        .HasColumnType("integer")
+                        .HasColumnName("totaltokens");
+
+                    b.HasKey("CostId")
+                        .HasName("pk_cost");
+
+                    b.HasIndex("ArticleDetailId")
+                        .HasDatabaseName("ix_cost_articledetailid");
+
+                    b.HasIndex("ChatId")
+                        .HasDatabaseName("ix_cost_chatid");
+
+                    b.HasIndex("CodeObjectId")
+                        .HasDatabaseName("ix_cost_codeobjectid");
+
+                    b.ToTable("cost", (string)null);
+                });
+
             modelBuilder.Entity("DocGPT.Module.BusinessObjects.EmbeddingModel", b =>
                 {
                     b.Property<int>("ID")
@@ -855,37 +909,17 @@ namespace DocGPT.Module.Migrations
                         .HasColumnType("integer")
                         .HasColumnName("articledetailid");
 
-                    b.Property<int>("ChatId")
+                    b.Property<int?>("ChatId")
                         .HasColumnType("integer")
                         .HasColumnName("chatid");
-
-                    b.Property<int>("ChunkSize")
-                        .HasColumnType("integer")
-                        .HasColumnName("chunksize");
 
                     b.Property<int?>("CodeObjectId")
                         .HasColumnType("integer")
                         .HasColumnName("codeobjectid");
 
-                    b.Property<Guid?>("FileId")
-                        .HasColumnType("uuid")
-                        .HasColumnName("fileid");
-
-                    b.Property<string>("FileName")
-                        .HasColumnType("text")
-                        .HasColumnName("filename");
-
-                    b.Property<int?>("FileSize")
-                        .HasColumnType("integer")
-                        .HasColumnName("filesize");
-
-                    b.Property<Guid>("ID")
-                        .HasColumnType("uuid")
-                        .HasColumnName("id");
-
-                    b.Property<string>("RealFileName")
-                        .HasColumnType("text")
-                        .HasColumnName("realfilename");
+                    b.Property<double>("cosinedistance")
+                        .HasColumnType("double precision")
+                        .HasColumnName("cosinedistance");
 
                     b.HasKey("UsedKnowledgeId")
                         .HasName("pk_usedknowledge");
@@ -1092,6 +1126,30 @@ namespace DocGPT.Module.Migrations
                     b.Navigation("Category");
                 });
 
+            modelBuilder.Entity("DocGPT.Module.BusinessObjects.Cost", b =>
+                {
+                    b.HasOne("DocGPT.Module.BusinessObjects.ArticleDetail", "ArticleDetail")
+                        .WithMany()
+                        .HasForeignKey("ArticleDetailId")
+                        .HasConstraintName("fk_cost_articledetail_articledetailid");
+
+                    b.HasOne("DocGPT.Module.BusinessObjects.Chat", "Chat")
+                        .WithMany()
+                        .HasForeignKey("ChatId")
+                        .HasConstraintName("fk_cost_chat_chatid");
+
+                    b.HasOne("DocGPT.Module.BusinessObjects.CodeObject", "CodeObject")
+                        .WithMany()
+                        .HasForeignKey("CodeObjectId")
+                        .HasConstraintName("fk_cost_codeobject_codeobjectid");
+
+                    b.Navigation("ArticleDetail");
+
+                    b.Navigation("Chat");
+
+                    b.Navigation("CodeObject");
+                });
+
             modelBuilder.Entity("DocGPT.Module.BusinessObjects.FileSystemStoreObject", b =>
                 {
                     b.HasOne("DocGPT.Module.BusinessObjects.Base.FileSystemStoreObjectBase", "File")
@@ -1129,8 +1187,6 @@ namespace DocGPT.Module.Migrations
                     b.HasOne("DocGPT.Module.BusinessObjects.Chat", "Chat")
                         .WithMany("UsedKnowledge")
                         .HasForeignKey("ChatId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired()
                         .HasConstraintName("fk_usedknowledge_chat_chatid");
 
                     b.HasOne("DocGPT.Module.BusinessObjects.CodeObject", "Code")
