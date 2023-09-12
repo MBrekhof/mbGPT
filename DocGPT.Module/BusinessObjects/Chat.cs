@@ -39,7 +39,7 @@ public partial class Chat : BaseObjectNoID
     public virtual ChatModel? ChatModel { get; set; }
 
     [VisibleInLookupListView(false)]
-    public virtual DateTime? Created { get; set; } = DateTime.Now;
+    public virtual DateTime? Created { get; set; } = DateTime.UtcNow;
     public virtual IList<UsedKnowledge> UsedKnowledge { get; set; } = new ObservableCollection<UsedKnowledge>();
 }
 

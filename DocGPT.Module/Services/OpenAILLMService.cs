@@ -121,7 +121,7 @@ namespace DocGPT.Module.Services
 
             target.Tokens = result.Usage.TotalTokens;
             // TODO: either dbcontext or NODA package
-            target.Created = DateTime.SpecifyKind(DateTime.Now,DateTimeKind.Utc);
+            target.Created = DateTime.UtcNow;
 
             return usesLocalKnowledge;
         }
