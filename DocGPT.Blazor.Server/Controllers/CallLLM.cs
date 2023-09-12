@@ -54,20 +54,30 @@ namespace DocGPT.Blazor.Server.Controllers
 
             var serviceOne = serviceProvider.GetRequiredService<OpenAILLMService>();
             var target = (Chat)e.CurrentObject;
-            var result = await serviceOne.GetAnswer(target,ObjectSpace);
-
-
-            if (result)
+            try
             {
-                Application.ShowViewStrategy.ShowMessage(string.Format("Answered using local knowledge!"));
+                var result = await serviceOne.GetAnswer(target, ObjectSpace);
+                if (result)
+                {
+                    Application.ShowViewStrategy.ShowMessage(string.Format("Answered using local knowledge!"));
+                }
+                else
+                {
+                    Application.ShowViewStrategy.ShowMessage(string.Format("Answered!"));
+                }
+                ObjectSpace.CommitChanges();
             }
-            else
+            catch (Exception)
             {
-                Application.ShowViewStrategy.ShowMessage(string.Format("Answered!"));
+                Application.ShowViewStrategy.ShowMessage(string.Format("There was an error please try again later!"),type:InformationType.Error);
+                //throw;
             }
-            ObjectSpace.CommitChanges();
-            LoadingIndicatorProvider.Release("Searching");
-            await jsRuntime.InvokeVoidAsync("setLoadingText", CaptionHelper.GetLocalizedText("VisualComponents/LoadingIndicator", "Loading"));
+            finally
+            {
+                LoadingIndicatorProvider.Release("Searching");
+                await jsRuntime.InvokeVoidAsync("setLoadingText", CaptionHelper.GetLocalizedText("VisualComponents/LoadingIndicator", "Loading"));
+            }
+
         }
 
 

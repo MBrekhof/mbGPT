@@ -81,6 +81,7 @@
         </LayoutGroup>
       </Layout>
     </DetailView>
+    <ListView Id="Cost_ListView" IsGroupPanelVisible="True" />
     <DetailView Id="Settings_DetailView">
       <Items>
         <ActionContainerViewItem Id="EmailCategoryID" ActionContainer="EmailCategory" Caption="EmailCategoryID(18)" IsNewNode="True" />
@@ -111,5 +112,6 @@
         </LayoutGroup>
       </Layout>
     </DetailView>
+    <ListView Id="UsedKnowledge_ListView" IsGroupPanelVisible="True" />
   </Views>
 </Application>
