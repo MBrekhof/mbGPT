@@ -26,6 +26,8 @@ namespace DocGPT.Module.BusinessObjects
         public virtual int? PromptTokens { get; set; }
         public virtual int? CompletionTokens { get; set; }
         public virtual int? TotalTokens { get; set; }
+        [VisibleInLookupListView(false)]
+        public virtual DateTime? Created { get; set; } = DateTime.UtcNow;
     }
 
     public enum LlmAction { embedding, completion}
