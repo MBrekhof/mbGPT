@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using HtmlAgilityPack;
 
 
-namespace DocGPT.Module.BusinessObjects
+namespace mbGPT.Module.BusinessObjects
 {
     // Register this entity in your DbContext (usually in the BusinessObjects folder of your project) with the "public DbSet<WebSiteData> WebSiteDatas { get; set; }" syntax.
 

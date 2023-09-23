@@ -7,7 +7,7 @@ using DevExpress.Persistent.Validation;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace DocGPT.Module.BusinessObjects.Base
+namespace mbGPT.Module.BusinessObjects.Base
 {
     /// <summary>
     /// This class enables you to store uploaded files in a centralized file system location instead of the database. You can configure the file system store location via the static FileSystemDataModule.FileSystemStoreLocation property.

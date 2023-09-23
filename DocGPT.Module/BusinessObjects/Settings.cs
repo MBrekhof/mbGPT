@@ -6,7 +6,7 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace DocGPT.Module.BusinessObjects
+namespace mbGPT.Module.BusinessObjects
 {
     [DefaultClassOptions]
     [RuleObjectExists("AnotherSingletonExists", DefaultContexts.Save, "True", InvertResult = true,CustomMessageTemplate = "Settings record already exists.")]

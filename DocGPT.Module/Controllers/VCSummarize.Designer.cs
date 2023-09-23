@@ -1,4 +1,4 @@
-﻿namespace DocGPT.Module.Controllers
+﻿namespace mbGPT.Module.Controllers
 {
     partial class VCSummarize
     {

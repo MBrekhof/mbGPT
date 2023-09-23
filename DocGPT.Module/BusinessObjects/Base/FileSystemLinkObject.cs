@@ -5,7 +5,7 @@ using DevExpress.Persistent.BaseImpl.EF;
 using DevExpress.Persistent.Validation;
 using System.ComponentModel;
 
-namespace DocGPT.Module.BusinessObjects.Base
+namespace mbGPT.Module.BusinessObjects.Base
 {
     /// <summary>
     /// This class enables you to add soft links to real files instead of saving their contents to the database. It is intended for use in Windows Forms applications only.

@@ -3,9 +3,9 @@ using DevExpress.ExpressApp.Blazor.ApplicationBuilder;
 using DevExpress.ExpressApp.Blazor.Services;
 using DevExpress.ExpressApp.WebApi.Services;
 using DevExpress.Persistent.BaseImpl.EF.PermissionPolicy;
-using DocGPT.Blazor.Server.Services;
-using DocGPT.Module.BusinessObjects;
-using DocGPT.Module.Services;
+using mbGPT.Blazor.Server.Services;
+using mbGPT.Module.BusinessObjects;
+using mbGPT.Module.Services;
 using Hangfire;
 using Hangfire.PostgreSql;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -16,7 +16,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using Pgvector.EntityFrameworkCore;
 
-namespace DocGPT.Blazor.Server;
+namespace mbGPT.Blazor.Server;
 
 public class Startup {
     private string connectionString;
@@ -46,11 +46,11 @@ public class Startup {
                     options.AllowValidationDetailsAccess = false;
                 })
                 .AddViewVariants()
-                .Add<DocGPT.Module.DocGPTModule>()
+                .Add<mbGPT.Module.DocGPTModule>()
             	.Add<DocGPTBlazorModule>();
             builder.ObjectSpaceProviders
                .AddSecuredEFCore(options => options.PreFetchReferenceProperties())
-                   .WithDbContext<DocGPTEFCoreDbContext>((serviceProvider, options) => {
+                   .WithDbContext<mbGPTEFCoreDbContext>((serviceProvider, options) => {
                         // Uncomment this code to use an in-memory database. This database is recreated each time the server starts. With the in-memory database, you don't need to make a migration when the data model is changed.
                         // Do not use this code in production environment to avoid data loss.
                         // We recommend that you refer to the following help topic before you use an in-memory database: https://docs.microsoft.com/en-us/ef/core/testing/in-memory

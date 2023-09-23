@@ -3,11 +3,11 @@ using DevExpress.ExpressApp.Actions;
 using DevExpress.ExpressApp.Blazor;
 using DevExpress.ExpressApp.Blazor.Services;
 using DevExpress.ExpressApp.Utils;
-using DocGPT.Module.BusinessObjects;
-using DocGPT.Module.Services;
+using mbGPT.Module.BusinessObjects;
+using mbGPT.Module.Services;
 using Microsoft.JSInterop;
 
-namespace DocGPT.Blazor.Server.Controllers
+namespace mbGPT.Blazor.Server.Controllers
 {
     // For more typical usage scenarios, be sure to check out https://documentation.devexpress.com/eXpressAppFramework/clsDevExpressExpressAppViewControllertopic.aspx.
     public partial class CallLLM : ViewController

@@ -2,11 +2,11 @@
 using DevExpress.ExpressApp.ApplicationBuilder;
 using DevExpress.ExpressApp.Blazor;
 using DevExpress.ExpressApp.SystemModule;
-using DocGPT.Module.BusinessObjects;
+using mbGPT.Module.BusinessObjects;
 using Microsoft.EntityFrameworkCore;
 using DevExpress.ExpressApp.EFCore;
 
-namespace DocGPT.Blazor.Server;
+namespace mbGPT.Blazor.Server;
 
 public class DocGPTBlazorApplication : BlazorApplication {
     public DocGPTBlazorApplication() {

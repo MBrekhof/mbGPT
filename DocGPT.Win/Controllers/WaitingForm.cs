@@ -9,7 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace DocGPT.Win.Controllers
+namespace mbGPT.Win.Controllers
 {
     public partial class WaitingForm : DevExpress.XtraEditors.XtraForm
     {

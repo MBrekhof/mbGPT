@@ -6,7 +6,7 @@
     </Actions>
   </ActionDesign>
   <BOModel>
-    <Class Name="DocGPT.Module.BusinessObjects.Chat">
+    <Class Name="mbGPT.Module.BusinessObjects.Chat">
       <OwnMembers>
         <Member Name="Answer" PropertyEditorType="DevExpress.ExpressApp.Office.Blazor.Editors.RichTextPropertyEditor" DocumentStorageFormat="Html" />
       </OwnMembers>
@@ -41,7 +41,7 @@
     <DetailView Id="CodeObject_DetailView">
       <Items>
         <PropertyEditor Id="CodeObjectContent" RowCount="15" />
-        <PropertyEditor Id="Tags" PropertyEditorType="DocGPT.Blazor.Server.Editors.TagBoxPropertyEditor" />
+        <PropertyEditor Id="Tags" PropertyEditorType="mbGPT.Blazor.Server.Editors.TagBoxPropertyEditor" />
       </Items>
       <Layout>
         <LayoutGroup Id="Main">

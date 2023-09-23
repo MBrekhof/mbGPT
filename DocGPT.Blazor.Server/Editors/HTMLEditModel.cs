@@ -1,7 +1,7 @@
 ﻿using System;
 using DevExpress.ExpressApp.Blazor.Components.Models;
 
-namespace DocGPT.Blazor.Server.Editors
+namespace mbGPT.Blazor.Server.Editors
 {
     /// <summary>
     /// Component model for DevExtreme HTML Edit control.

@@ -9,7 +9,7 @@
    "OutputContextPath": null,
    "OutputPath": "BusinessObjects",
    "PreserveCasingWithRegex": true,
-   "ProjectRootNamespace": "DocGPT.Module",
+   "ProjectRootNamespace": "mbGPT.Module",
    "Schemas": null,
    "SelectedHandlebarsLanguage": 0,
    "SelectedToBeGenerated": 2,
@@ -20,7 +20,7 @@
          "ObjectType": 0
       }
    ],
-   "UiHint": "bch-bto.DocGPT.dbo",
+   "UiHint": "bch-bto.mbGPT.dbo",
    "UncountableWords": null,
    "UseBoolPropertiesWithoutDefaultSql": false,
    "UseDatabaseNames": true,

@@ -8,7 +8,7 @@ using DevExpress.Utils.Drawing;
 using DevExpress.Utils.Svg;
 using DevExpress.XtraSplashScreen;
 
-namespace DocGPT.Win {
+namespace mbGPT.Win {
     public partial class XafSplashScreen : SplashScreen {
 		private void LoadBlankLogo() {
             Assembly assembly = Assembly.GetExecutingAssembly();

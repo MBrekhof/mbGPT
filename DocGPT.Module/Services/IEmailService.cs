@@ -1,6 +1,6 @@
-﻿using DocGPT.Module.BusinessObjects;
+﻿using mbGPT.Module.BusinessObjects;
 
-namespace DocGPT.Module.Services
+namespace mbGPT.Module.Services
 {
     public interface IMailService
     {

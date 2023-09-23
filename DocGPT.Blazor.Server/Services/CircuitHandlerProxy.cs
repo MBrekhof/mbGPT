@@ -1,7 +1,7 @@
 ﻿using DevExpress.ExpressApp.Blazor.Services;
 using Microsoft.AspNetCore.Components.Server.Circuits;
 
-namespace DocGPT.Blazor.Server.Services;
+namespace mbGPT.Blazor.Server.Services;
 
 internal class CircuitHandlerProxy : CircuitHandler {
     private readonly IScopedCircuitHandler scopedCircuitHandler;

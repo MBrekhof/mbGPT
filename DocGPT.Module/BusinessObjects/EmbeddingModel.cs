@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DocGPT.Module.BusinessObjects
+namespace mbGPT.Module.BusinessObjects
 {
     [DefaultClassOptions]
     public class EmbeddingModel : BaseObjectInt

@@ -1,4 +1,4 @@
-﻿namespace DocGPT.Win.Controllers
+﻿namespace mbGPT.Win.Controllers
 {
     partial class WaitingForm
     {

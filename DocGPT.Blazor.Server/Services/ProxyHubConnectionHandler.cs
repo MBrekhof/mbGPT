@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Connections;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.Options;
 
-namespace DocGPT.Blazor.Server.Services;
+namespace mbGPT.Blazor.Server.Services;
 
 internal class ProxyHubConnectionHandler<THub> : HubConnectionHandler<THub> where THub : Hub {
     private readonly IValueManagerStorageContainerInitializer storageContainerInitializer;

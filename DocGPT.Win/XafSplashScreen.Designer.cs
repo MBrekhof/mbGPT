@@ -1,4 +1,4 @@
-﻿namespace DocGPT.Win {
+﻿namespace mbGPT.Win {
     partial class XafSplashScreen
     {
         /// <summary>

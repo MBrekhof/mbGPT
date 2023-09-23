@@ -12,7 +12,7 @@ using DevExpress.ExpressApp.Utils;
 using DevExpress.ExpressApp.Win.Utils;
 using System.Reflection;
 
-namespace DocGPT.Win;
+namespace mbGPT.Win;
 
 static class Program {
     private static bool ContainsArgument(string[] args, string argument) {

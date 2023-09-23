@@ -3,7 +3,7 @@ using DevExpress.ExpressApp.DC;
 using DevExpress.Persistent.Base;
 using System.ComponentModel;
 
-namespace DocGPT.Module.BusinessObjects
+namespace mbGPT.Module.BusinessObjects
 {
     [DomainComponent]
     public partial class SimilarContentArticlesResult : BaseObjectNoID

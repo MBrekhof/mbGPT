@@ -1,10 +1,10 @@
-﻿using DocGPT.Module.BusinessObjects;
+﻿using mbGPT.Module.BusinessObjects;
 using MailKit.Net.Smtp;
 using MailKit.Security;
 using Microsoft.Extensions.Options;
 using MimeKit;
 
-namespace DocGPT.Module.Services
+namespace mbGPT.Module.Services
 {
     public class MailService // : IMailService
     {

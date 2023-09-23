@@ -1,13 +1,13 @@
 ﻿using DevExpress.Data.Filtering;
 using DevExpress.ExpressApp;
-using DocGPT.Module.BusinessObjects;
+using mbGPT.Module.BusinessObjects;
 using Markdig;
 using Microsoft.Extensions.DependencyInjection;
 using OpenAI;
 using OpenAI.Chat;
 //using static System.Net.Mime.MediaTypeNames;
 
-namespace DocGPT.Module.Services
+namespace mbGPT.Module.Services
 {
     public class OpenAILLMService
     {

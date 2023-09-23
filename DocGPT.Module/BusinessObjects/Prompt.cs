@@ -6,7 +6,7 @@ using DevExpress.ExpressApp.DC;
 using DevExpress.Persistent.Base;
 using Microsoft.EntityFrameworkCore;
 
-namespace DocGPT.Module.BusinessObjects;
+namespace mbGPT.Module.BusinessObjects;
 
 [DefaultClassOptions]
 [NavigationItem("DocGPT")]

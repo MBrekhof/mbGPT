@@ -2,7 +2,7 @@
 
 using DevExpress.Persistent.Base;
 
-namespace DocGPT.Module.BusinessObjects
+namespace mbGPT.Module.BusinessObjects
 {
     [DefaultClassOptions]
     [NavigationItem("Email")]

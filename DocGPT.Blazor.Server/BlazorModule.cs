@@ -11,7 +11,7 @@ using DevExpress.ExpressApp.Model.NodeGenerators;
 using DevExpress.Persistent.BaseImpl.EF;
 using DevExpress.ExpressApp.FileAttachments.Blazor;
 
-namespace DocGPT.Blazor.Server;
+namespace mbGPT.Blazor.Server;
 
 [ToolboxItemFilter("Xaf.Platform.Blazor")]
 // For more typical usage scenarios, be sure to check out https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.ModuleBase.

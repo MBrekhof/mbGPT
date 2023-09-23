@@ -6,7 +6,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 
 
-namespace DocGPT.Module.BusinessObjects
+namespace mbGPT.Module.BusinessObjects
 {
     [DefaultClassOptions]
     public partial class UsedKnowledge : BaseObjectNoID

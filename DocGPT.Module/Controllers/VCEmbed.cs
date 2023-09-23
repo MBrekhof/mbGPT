@@ -1,12 +1,12 @@
 ﻿using DevExpress.ExpressApp;
 using DevExpress.ExpressApp.Actions;
-using DocGPT.Module.BusinessObjects;
-using DocGPT.Module.Services;
+using mbGPT.Module.BusinessObjects;
+using mbGPT.Module.Services;
 using Microsoft.Extensions.DependencyInjection;
 using OpenAI;
 using Pgvector;
 
-namespace DocGPT.Module.Controllers
+namespace mbGPT.Module.Controllers
 {
     // implement logging and error handling using Serilog
     public partial class VCEmbed : ViewController

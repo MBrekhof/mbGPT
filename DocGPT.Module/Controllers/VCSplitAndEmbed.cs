@@ -7,14 +7,14 @@ using DevExpress.ExpressApp.SystemModule;
 using DevExpress.Pdf;
 using DevExpress.Persistent.Base;
 using DevExpress.XtraRichEdit;
-using DocGPT.Module.BusinessObjects;
-using DocGPT.Module.Services;
+using mbGPT.Module.BusinessObjects;
+using mbGPT.Module.Services;
 using Microsoft.Extensions.DependencyInjection;
 using OpenAI;
 using OpenAI.Embeddings;
 using Pgvector;
 
-namespace DocGPT.Module.Controllers
+namespace mbGPT.Module.Controllers
 {
     // For more typical usage scenarios, be sure to check out https://documentation.devexpress.com/eXpressAppFramework/clsDevExpressExpressAppViewControllertopic.aspx.
     public partial class VCSplitAndEmbed : ViewController

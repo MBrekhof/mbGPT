@@ -3,7 +3,7 @@ using DevExpress.Persistent.Base;
 using System.ComponentModel.DataAnnotations;
 
 // preferred way to define a Key
-namespace DocGPT.Module.BusinessObjects
+namespace mbGPT.Module.BusinessObjects
 {
     public abstract class BaseObjectInt : IXafEntityObject, IObjectSpaceLink
     {

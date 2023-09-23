@@ -51,4 +51,7 @@
     <PackageReference Include="Pgvector.EntityFrameworkCore" Version="0.1.1" />
     <PackageReference Include="Tiktoken" Version="1.1.2" />
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Migrations\" />
+  </ItemGroup>
 </Project>

@@ -1,18 +1,18 @@
-﻿using DocGPT.Module.BusinessObjects;
+﻿using mbGPT.Module.BusinessObjects;
 using Microsoft.EntityFrameworkCore;
 
-namespace DocGPT.Module.Services
+namespace mbGPT.Module.Services
 {
     public class SettingsService
     {
-        DocGPTEFCoreDbContext _dbContext;
+        mbGPTEFCoreDbContext _dbContext;
         Settings _settings;
 
         /// <summary>
         /// Constructor of settingsservice
         /// </summary>
         /// <param name="dbContext"></param>
-        public SettingsService(DocGPTEFCoreDbContext dbContext) 
+        public SettingsService(mbGPTEFCoreDbContext dbContext) 
         {
             _dbContext = dbContext;
         }

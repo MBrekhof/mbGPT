@@ -6,7 +6,7 @@ using DevExpress.ExpressApp;
 using DevExpress.ExpressApp.Security;
 using DevExpress.Persistent.BaseImpl.EF.PermissionPolicy;
 
-namespace DocGPT.Module.BusinessObjects;
+namespace mbGPT.Module.BusinessObjects;
 
 [DefaultProperty(nameof(UserName))]
 public class ApplicationUser : PermissionPolicyUser, ISecurityUserWithLoginInfo

@@ -1,13 +1,13 @@
 ﻿using DevExpress.ExpressApp;
 using DevExpress.ExpressApp.Actions;
-using DocGPT.Module.BusinessObjects;
-using DocGPT.Module.Services;
+using mbGPT.Module.BusinessObjects;
+using mbGPT.Module.Services;
 using Markdig;
 using Microsoft.Extensions.DependencyInjection;
 using OpenAI;
 using OpenAI.Chat;
 
-namespace DocGPT.Module.Controllers
+namespace mbGPT.Module.Controllers
 {
 
     public partial class VCSummarize : ViewController

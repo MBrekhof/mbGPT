@@ -2,7 +2,7 @@ using DevExpress.ExpressApp;
 
 // if the key is an int, you can use this snippet
 
-namespace DocGPT.Module.BusinessObjects
+namespace mbGPT.Module.BusinessObjects
 {
     public abstract class BaseObjectNoID : IXafEntityObject, IObjectSpaceLink
     {

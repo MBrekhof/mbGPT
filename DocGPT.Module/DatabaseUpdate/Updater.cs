@@ -6,10 +6,10 @@ using DevExpress.ExpressApp.EF;
 using DevExpress.Persistent.BaseImpl.EF;
 using DevExpress.ExpressApp.Security;
 using DevExpress.Persistent.BaseImpl.EF.PermissionPolicy;
-using DocGPT.Module.BusinessObjects;
+using mbGPT.Module.BusinessObjects;
 using DevExpress.ExpressApp.SystemModule;
 
-namespace DocGPT.Module.DatabaseUpdate;
+namespace mbGPT.Module.DatabaseUpdate;
 
 // For more typical usage scenarios, be sure to check out https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Updating.ModuleUpdater
 public class Updater : ModuleUpdater {

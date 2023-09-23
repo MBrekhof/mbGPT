@@ -1,6 +1,6 @@
 ﻿using DevExpress.ExpressApp.Utils;
 
-namespace DocGPT.Module.BusinessObjects.Base
+namespace mbGPT.Module.BusinessObjects.Base
 {
     public sealed partial class FileSystemData
     {

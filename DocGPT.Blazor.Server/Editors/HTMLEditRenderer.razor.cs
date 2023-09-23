@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 
-namespace DocGPT.Blazor.Server.Editors
+namespace mbGPT.Blazor.Server.Editors
 {
     /// <summary>
     /// Renderer for DevExtreme HTML Edit control.

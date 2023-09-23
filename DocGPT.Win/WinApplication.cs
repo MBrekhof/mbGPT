@@ -2,7 +2,7 @@
 using DevExpress.ExpressApp.Win;
 using DevExpress.ExpressApp.Win.Utils;
 
-namespace DocGPT.Win;
+namespace mbGPT.Win;
 
 // For more typical usage scenarios, be sure to check out https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Win.WinApplication._members
 public class DocGPTWindowsFormsApplication : WinApplication {

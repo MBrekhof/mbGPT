@@ -7,7 +7,7 @@ using DevExpress.ExpressApp.Editors;
 using DevExpress.ExpressApp.Model;
 using System.Collections;
 
-namespace DocGPT.Blazor.Server.Editors
+namespace mbGPT.Blazor.Server.Editors
 {
     [PropertyEditor(typeof(IEnumerable), nameof(TagBoxPropertyEditor), false)]
     public class TagBoxPropertyEditor : BlazorPropertyEditorBase

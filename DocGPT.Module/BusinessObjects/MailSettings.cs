@@ -1,6 +1,6 @@
 ﻿#nullable enable
 
-namespace DocGPT.Module.BusinessObjects
+namespace mbGPT.Module.BusinessObjects
 {
     public class MailSettings
     {

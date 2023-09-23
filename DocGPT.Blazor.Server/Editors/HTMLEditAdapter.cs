@@ -5,7 +5,7 @@ using DevExpress.ExpressApp.Editors;
 using DevExpress.ExpressApp.Utils;
 using Microsoft.AspNetCore.Components;
 
-namespace DocGPT.Blazor.Server.Editors
+namespace mbGPT.Blazor.Server.Editors
 {
     /// <summary>
     /// Adapter for DevExtreme HTML Edit control.

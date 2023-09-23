@@ -1,24 +1,24 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Application Logo="ExpressAppLogo">
   <BOModel>
-    <Class Name="DocGPT.Module.BusinessObjects.Article">
+    <Class Name="mbGPT.Module.BusinessObjects.Article">
       <OwnMembers>
         <Member Name="Description" PropertyEditorType="DevExpress.ExpressApp.Validation.Win.MemoEditStringPropertyEditor" />
         <Member Name="Summary" PropertyEditorType="DevExpress.ExpressApp.Office.Win.RichTextPropertyEditor" DocumentStorageFormat="Html" />
       </OwnMembers>
     </Class>
-    <Class Name="DocGPT.Module.BusinessObjects.ArticleDetail">
+    <Class Name="mbGPT.Module.BusinessObjects.ArticleDetail">
       <OwnMembers>
         <Member Name="ArticleContent" PropertyEditorType="DevExpress.ExpressApp.Validation.Win.MemoEditStringPropertyEditor" />
       </OwnMembers>
     </Class>
-    <Class Name="DocGPT.Module.BusinessObjects.Chat">
+    <Class Name="mbGPT.Module.BusinessObjects.Chat">
       <OwnMembers>
         <Member Name="Answer" PropertyEditorType="DevExpress.ExpressApp.Office.Win.RichTextPropertyEditor" DocumentStorageFormat="Html" />
         <Member Name="Question" PropertyEditorType="DevExpress.ExpressApp.Validation.Win.MemoEditStringPropertyEditor" />
       </OwnMembers>
     </Class>
-    <Class Name="DocGPT.Module.BusinessObjects.WebSiteData">
+    <Class Name="mbGPT.Module.BusinessObjects.WebSiteData">
       <OwnMembers>
         <Member Name="Text" PropertyEditorType="DevExpress.ExpressApp.Office.Win.RichTextPropertyEditor" DocumentStorageFormat="Html" AllowEdit="False" />
       </OwnMembers>

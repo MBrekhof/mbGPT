@@ -8,7 +8,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 
-namespace DocGPT.Module.BusinessObjects;
+namespace mbGPT.Module.BusinessObjects;
 [DefaultClassOptions]
 [NavigationItem("Knowledge")]
 [DefaultProperty("ArticleName")]

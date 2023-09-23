@@ -1,15 +1,15 @@
-﻿using DocGPT.Module.BusinessObjects;
+﻿using mbGPT.Module.BusinessObjects;
 using Microsoft.EntityFrameworkCore;
 using System.Text;
 
 
-namespace DocGPT.Module.Services
+namespace mbGPT.Module.Services
 {
     public class VectorService
     {
 
-        private readonly DocGPTEFCoreDbContext _dbContext;
-        public VectorService(DocGPTEFCoreDbContext dbContext)
+        private readonly mbGPTEFCoreDbContext _dbContext;
+        public VectorService(mbGPTEFCoreDbContext dbContext)
         {
 
             _dbContext = dbContext;

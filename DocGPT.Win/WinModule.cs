@@ -9,7 +9,7 @@ using DevExpress.ExpressApp.Model.Core;
 using DevExpress.ExpressApp.Model.DomainLogics;
 using DevExpress.ExpressApp.Model.NodeGenerators;
 
-namespace DocGPT.Win;
+namespace mbGPT.Win;
 
 [ToolboxItemFilter("Xaf.Platform.Win")]
 // For more typical usage scenarios, be sure to check out https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.ModuleBase.

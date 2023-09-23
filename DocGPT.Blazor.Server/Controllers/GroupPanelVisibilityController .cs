@@ -4,7 +4,7 @@ using DevExpress.ExpressApp.Actions;
 using DevExpress.ExpressApp.Blazor.Editors;
 using DevExpress.ExpressApp.Blazor.Editors.Grid;
 
-namespace DocGPT.Blazor.Server.Controllers
+namespace mbGPT.Blazor.Server.Controllers
 {
     public partial class GroupPanelVisibilityController : ViewController<ListView>
     {

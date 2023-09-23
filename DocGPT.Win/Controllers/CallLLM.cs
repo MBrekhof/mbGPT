@@ -3,12 +3,12 @@ using DevExpress.ExpressApp.Actions;
 using DevExpress.Utils.Extensions;
 using DevExpress.Utils.Helpers;
 using DevExpress.XtraSplashScreen;
-using DocGPT.Module.BusinessObjects;
-using DocGPT.Module.Services;
+using mbGPT.Module.BusinessObjects;
+using mbGPT.Module.Services;
 using Microsoft.Extensions.DependencyInjection;
 using System.Windows.Forms;
 
-namespace DocGPT.Win.Controllers
+namespace mbGPT.Win.Controllers
 
 {
 

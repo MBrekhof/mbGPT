@@ -1,4 +1,4 @@
-﻿namespace DocGPT.Blazor.Server.Controllers
+﻿namespace mbGPT.Blazor.Server.Controllers
 {
     partial class GroupPanelVisibilityController
     {
