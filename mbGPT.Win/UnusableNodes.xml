@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Application>
+  <BOModel Id="BOModel">
+    <Class Name="mbGPT.Module.BusinessObjects.Prompt">
+      <OwnMembers Id="OwnMembers">
+        <Member Name="PromptBody" PropertyEditorType="DevExpress.ExpressApp.Validation.Win.MemoEditStringPropertyEditor" />
+      </OwnMembers>
+    </Class>
+  </BOModel>
+</Application>

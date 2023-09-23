@@ -1,13 +1,13 @@
-﻿
+
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.4.33103.184
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "mbGPT.Module", "DocGPT.Module\mbGPT.Module.csproj", "{725FBB06-8D27-434B-82F0-BD5A70BB8360}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "mbGPT.Module", "mbGPT.Module\mbGPT.Module.csproj", "{725FBB06-8D27-434B-82F0-BD5A70BB8360}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "mbGPT.Win", "DocGPT.Win\mbGPT.Win.csproj", "{BD1A1BCB-9692-4332-BA53-F681131D7E22}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "mbGPT.Win", "mbGPT.Win\mbGPT.Win.csproj", "{BD1A1BCB-9692-4332-BA53-F681131D7E22}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "mbGPT.Blazor.Server", "DocGPT.Blazor.Server\mbGPT.Blazor.Server.csproj", "{2D1B5062-6735-48BB-A2C3-9FCD248B0560}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "mbGPT.Blazor.Server", "mbGPT.Blazor.Server\mbGPT.Blazor.Server.csproj", "{2D1B5062-6735-48BB-A2C3-9FCD248B0560}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

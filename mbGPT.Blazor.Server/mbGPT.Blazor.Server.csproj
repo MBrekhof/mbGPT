@@ -34,6 +34,6 @@
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\DocGPT.Module\mbGPT.Module.csproj" />
+    <ProjectReference Include="..\mbGPT.Module\mbGPT.Module.csproj" />
   </ItemGroup>
 </Project>
