@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Application Logo="ExpressAppLogo">
+<Application Logo="ExpressAppLogo" Title="mbGPT">
   <BOModel>
     <Class Name="mbGPT.Module.BusinessObjects.Article">
       <OwnMembers>

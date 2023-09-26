@@ -8,11 +8,11 @@ using DevExpress.ExpressApp.EFCore;
 
 namespace mbGPT.Blazor.Server;
 
-public class DocGPTBlazorApplication : BlazorApplication {
-    public DocGPTBlazorApplication() {
-        ApplicationName = "DocGPT";
+public class mbGPTBlazorApplication : BlazorApplication {
+    public mbGPTBlazorApplication() {
+        ApplicationName = "mbGPT";
         CheckCompatibilityType = DevExpress.ExpressApp.CheckCompatibilityType.DatabaseSchema;
-        DatabaseVersionMismatch += DocGPTBlazorApplication_DatabaseVersionMismatch;
+        DatabaseVersionMismatch += mbGPTBlazorApplication_DatabaseVersionMismatch;
     }
     protected override void OnSetupStarted() {
         base.OnSetupStarted();
@@ -22,7 +22,7 @@ public class DocGPTBlazorApplication : BlazorApplication {
         }
 #endif
     }
-    private void DocGPTBlazorApplication_DatabaseVersionMismatch(object sender, DatabaseVersionMismatchEventArgs e) {
+    private void mbGPTBlazorApplication_DatabaseVersionMismatch(object sender, DatabaseVersionMismatchEventArgs e) {
 #if EASYTEST
         e.Updater.Update();
         e.Handled = true;

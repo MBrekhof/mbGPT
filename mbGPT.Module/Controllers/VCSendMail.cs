@@ -35,7 +35,7 @@ namespace mbGPT.Module.Controllers
             MailData mailData = new MailData();
             var mailSettings = await mailService.GetMailSettings();
             mailData.Subject = "Test email";
-            mailData.Body = "This is a mail send to test the settings of your DocGPT mail.";
+            mailData.Body = "This is a mail send to test the settings of your mbGPT mail.";
             mailData.From = mailSettings.SenderEmail;
             mailData.DisplayName = mailSettings.SenderDisplayName;
             // todo: change this

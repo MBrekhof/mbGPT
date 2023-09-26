@@ -5,22 +5,22 @@ using DevExpress.ExpressApp.Win.Utils;
 namespace mbGPT.Win;
 
 // For more typical usage scenarios, be sure to check out https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Win.WinApplication._members
-public class DocGPTWindowsFormsApplication : WinApplication {
-    public DocGPTWindowsFormsApplication() {
+public class mbGPTWindowsFormsApplication : WinApplication {
+    public mbGPTWindowsFormsApplication() {
 		SplashScreen = new DXSplashScreen(typeof(XafSplashScreen), new DefaultOverlayFormOptions());
-        ApplicationName = "DocGPT";
-        CheckCompatibilityType = DevExpress.ExpressApp.CheckCompatibilityType.DatabaseSchema;
+        ApplicationName = "mbGPT";
+        CheckCompatibilityType = CheckCompatibilityType.DatabaseSchema;
         UseOldTemplates = false;
-        DatabaseVersionMismatch += DocGPTWindowsFormsApplication_DatabaseVersionMismatch;
-        CustomizeLanguagesList += DocGPTWindowsFormsApplication_CustomizeLanguagesList;
+        DatabaseVersionMismatch += mbGPTWindowsFormsApplication_DatabaseVersionMismatch;
+        CustomizeLanguagesList += mbGPTWindowsFormsApplication_CustomizeLanguagesList;
     }
-    private void DocGPTWindowsFormsApplication_CustomizeLanguagesList(object sender, CustomizeLanguagesListEventArgs e) {
+    private void mbGPTWindowsFormsApplication_CustomizeLanguagesList(object sender, CustomizeLanguagesListEventArgs e) {
         string userLanguageName = System.Threading.Thread.CurrentThread.CurrentUICulture.Name;
         if(userLanguageName != "en-US" && e.Languages.IndexOf(userLanguageName) == -1) {
             e.Languages.Add(userLanguageName);
         }
     }
-    private void DocGPTWindowsFormsApplication_DatabaseVersionMismatch(object sender, DevExpress.ExpressApp.DatabaseVersionMismatchEventArgs e) {
+    private void mbGPTWindowsFormsApplication_DatabaseVersionMismatch(object sender, DevExpress.ExpressApp.DatabaseVersionMismatchEventArgs e) {
 #if EASYTEST
         e.Updater.Update();
         e.Handled = true;

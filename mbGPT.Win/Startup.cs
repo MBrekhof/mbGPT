@@ -26,7 +26,7 @@ public class ApplicationBuilder : IDesignTimeApplicationFactory {
         // builder.UseServiceProviderFactory(new DryIocServiceProviderFactory());
         // builder.UseServiceProviderFactory(new AutofacServiceProviderFactory());
 
-        builder.UseApplication<DocGPTWindowsFormsApplication>();
+        builder.UseApplication<mbGPTWindowsFormsApplication>();
         builder.Modules
             .AddConditionalAppearance()
             .AddFileAttachments()
@@ -36,8 +36,8 @@ public class ApplicationBuilder : IDesignTimeApplicationFactory {
                 options.AllowValidationDetailsAccess = false;
             })
             .AddViewVariants()
-            .Add<mbGPT.Module.DocGPTModule>()
-        	.Add<DocGPTWinModule>();
+            .Add<mbGPT.Module.mbGPTModule>()
+        	.Add<mbGPTWinModule>();
         builder.ObjectSpaceProviders
              .AddSecuredEFCore(options => options.PreFetchReferenceProperties())
                 .WithDbContext<mbGPTEFCoreDbContext>((application, options) => {

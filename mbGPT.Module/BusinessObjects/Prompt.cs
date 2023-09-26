@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore;
 namespace mbGPT.Module.BusinessObjects;
 
 [DefaultClassOptions]
-[NavigationItem("DocGPT")]
+[NavigationItem("mbGPT")]
 [DefaultProperty("Subject")]
 
 public partial class Prompt : BaseObjectNoID

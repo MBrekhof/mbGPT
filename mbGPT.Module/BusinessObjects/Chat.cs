@@ -8,7 +8,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace mbGPT.Module.BusinessObjects;
 [DefaultClassOptions]
-[NavigationItem("DocGPT")]
+[NavigationItem("mbGPT")]
 
 public partial class Chat : BaseObjectNoID
 {

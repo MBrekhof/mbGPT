@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Application Title="DocGPT">
+<Application Title="mbGPT">
   <ActionDesign>
     <Actions>
       <Action Id="SplitAndEmbedAction" ImageName="Open2" />
@@ -7,7 +7,7 @@
   </ActionDesign>
   <NavigationItems>
     <Items>
-      <Item Id="DocGPT" Index="1">
+      <Item Id="mbGPT" Index="1">
         <Items>
           <Item Id="Chat_ListView" Index="1" />
           <Item Id="Prompt_ListView" Index="5" />

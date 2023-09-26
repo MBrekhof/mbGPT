@@ -15,8 +15,8 @@ namespace mbGPT.Blazor.Server;
 
 [ToolboxItemFilter("Xaf.Platform.Blazor")]
 // For more typical usage scenarios, be sure to check out https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.ModuleBase.
-public sealed class DocGPTBlazorModule : ModuleBase {
-    public DocGPTBlazorModule() {
+public sealed class mbGPTBlazorModule : ModuleBase {
+    public mbGPTBlazorModule() {
     }
     public override IEnumerable<ModuleUpdater> GetModuleUpdaters(IObjectSpace objectSpace, Version versionFromDB) {
         return ModuleUpdater.EmptyModuleUpdaters;

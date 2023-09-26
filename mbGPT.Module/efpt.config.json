@@ -1,6 +1,6 @@
 ﻿{
    "CodeGenerationMode": 3,
-   "ContextClassName": "DocGPTEFCoreDbContext",
+   "ContextClassName": "mbGPTEFCoreDbContext",
    "ContextNamespace": null,
    "DefaultDacpacSchema": null,
    "FilterSchemas": false,

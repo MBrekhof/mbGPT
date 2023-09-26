@@ -37,7 +37,7 @@ public class Startup {
         services.AddHttpContextAccessor();
         services.AddScoped<CircuitHandler, CircuitHandlerProxy>();
         services.AddXaf(Configuration, builder => {
-            builder.UseApplication<DocGPTBlazorApplication>();
+            builder.UseApplication<mbGPTBlazorApplication>();
             builder.Modules
                 .AddConditionalAppearance()
                 .AddFileAttachments()
@@ -46,8 +46,8 @@ public class Startup {
                     options.AllowValidationDetailsAccess = false;
                 })
                 .AddViewVariants()
-                .Add<mbGPT.Module.DocGPTModule>()
-            	.Add<DocGPTBlazorModule>();
+                .Add<mbGPT.Module.mbGPTModule>()
+            	.Add<mbGPTBlazorModule>();
             builder.ObjectSpaceProviders
                .AddSecuredEFCore(options => options.PreFetchReferenceProperties())
                    .WithDbContext<mbGPTEFCoreDbContext>((serviceProvider, options) => {
@@ -114,9 +114,9 @@ public class Startup {
             c.EnableAnnotations();
             c.SwaggerDoc("v1", new OpenApiInfo
             {
-                Title = "DocGPT API",
+                Title = "mbGPT API",
                 Version = "v1",
-                Description = @"Use this API to interact with DocGPT services."
+                Description = @"Use this API to interact with mbGPT services."
             });
         });
     }
@@ -136,7 +136,7 @@ public class Startup {
             // ...
             app.UseSwagger();
             app.UseSwaggerUI(c => {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "DocGPT WebApi v1");
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "mbGPT WebApi v1");
             });
         }
         app.UseHttpsRedirection();

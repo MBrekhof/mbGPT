@@ -13,8 +13,8 @@ namespace mbGPT.Win;
 
 [ToolboxItemFilter("Xaf.Platform.Win")]
 // For more typical usage scenarios, be sure to check out https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.ModuleBase.
-public sealed class DocGPTWinModule : ModuleBase {
-    public DocGPTWinModule() {
+public sealed class mbGPTWinModule : ModuleBase {
+    public mbGPTWinModule() {
         DevExpress.ExpressApp.Editors.FormattingProvider.UseMaskSettings = true;
     }
     public override IEnumerable<ModuleUpdater> GetModuleUpdaters(IObjectSpace objectSpace, Version versionFromDB) {

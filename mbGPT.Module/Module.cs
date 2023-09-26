@@ -13,10 +13,10 @@ using DevExpress.ExpressApp.Model.NodeGenerators;
 namespace mbGPT.Module;
 
 // For more typical usage scenarios, be sure to check out https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.ModuleBase.
-public sealed class DocGPTModule : ModuleBase {
-    public DocGPTModule() {
+public sealed class mbGPTModule : ModuleBase {
+    public mbGPTModule() {
 		// 
-		// DocGPTModule
+		// mbGPTModule
 		// 
 		RequiredModuleTypes.Add(typeof(DevExpress.ExpressApp.SystemModule.SystemModule));
 		RequiredModuleTypes.Add(typeof(DevExpress.ExpressApp.Objects.BusinessClassLibraryCustomizationModule));
