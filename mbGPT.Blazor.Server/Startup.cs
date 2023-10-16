@@ -15,6 +15,7 @@ using Microsoft.AspNetCore.OData;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using Pgvector.EntityFrameworkCore;
+using Swashbuckle.AspNetCore.SwaggerUI;
 
 namespace mbGPT.Blazor.Server;
 
@@ -103,8 +104,8 @@ public class Startup {
         services.AddXafWebApi(Configuration, options =>
         {
             options.ConfigureBusinessObjectActionEndpoints(options => options.EnableActionEndpoints = true);
-            options.BusinessObject<Chat>();
-        });
+            options.BusinessObject<Chat>().ConfigureEntityType(b => { b.IgnoreProperty(o => o.QuestionDataString); });
+            });
         services.AddControllers().AddOData((options, serviceProvider) => {
             options
                 .AddRouteComponents("api/odata", new EdmModelBuilder(serviceProvider).GetEdmModel())
@@ -137,6 +138,16 @@ public class Startup {
             app.UseSwagger();
             app.UseSwaggerUI(c => {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "mbGPT WebApi v1");
+                c.DocExpansion(DocExpansion.None); //Close all of the major nodes  
+            });
+        }
+        else
+        {
+            app.UsePathBase("/mbgpt");
+            app.UseSwagger();
+            app.UseSwaggerUI(c => {
+                c.SwaggerEndpoint("/mbgpt/swagger/v1/swagger.json", "mbGPT WebApi v1");
+                c.DocExpansion(DocExpansion.None); //Close all of the major nodes  
             });
         }
         app.UseHttpsRedirection();

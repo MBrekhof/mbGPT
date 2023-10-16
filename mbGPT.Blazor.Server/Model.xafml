@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Application Title="mbGPT">
+<Application Title="mbGPT" Company="BCH bv" Copyright="(c) 2023" Description="Local knowledge">
   <ActionDesign>
     <Actions>
       <Action Id="Grouppanel" ImageName="Ungroup" />

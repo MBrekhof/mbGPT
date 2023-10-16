@@ -25,7 +25,7 @@ public partial class Chat : BaseObjectNoID
 
     [VisibleInDetailView(false), VisibleInListView(false), VisibleInLookupListView(false)]
     [FieldSize(FieldSizeAttribute.Unlimited)]
-    public virtual string? QuestionDataString { get; set; }
+    public virtual string? QuestionDataString { get; set; }  // vector!
     [RuleRequiredField]
      public virtual Prompt? Prompt { get; set; }
 
