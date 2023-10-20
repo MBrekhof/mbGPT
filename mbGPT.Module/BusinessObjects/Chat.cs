@@ -7,9 +7,11 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 
 namespace mbGPT.Module.BusinessObjects;
+/// <summary>
+/// Has the question/answer text based on local knowledge and a call to the LLM
+/// </summary>
 [DefaultClassOptions]
 [NavigationItem("mbGPT")]
-
 public partial class Chat : BaseObjectNoID
 {
     [System.ComponentModel.DataAnnotations.Key]
