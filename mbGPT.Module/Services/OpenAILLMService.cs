@@ -52,7 +52,7 @@ namespace mbGPT.Module.Services
 
             SimilarContentArticles.AddRange(codeHits);
             // TODO: change the hard coded value
-            SimilarContentArticles.RemoveAll(a => a.cosine_distance >= 0.20);
+            SimilarContentArticles.RemoveAll(a => a.cosine_distance >= 0.25);
             var aantal = SimilarContentArticles.Count;
             if (aantal > 0)
             {

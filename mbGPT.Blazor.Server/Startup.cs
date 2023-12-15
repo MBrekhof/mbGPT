@@ -7,7 +7,7 @@ using mbGPT.Blazor.Server.Services;
 using mbGPT.Module.BusinessObjects;
 using mbGPT.Module.Services;
 using Hangfire;
-using Hangfire.PostgreSql;
+//using Hangfire.PostgreSql;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Components.Server.Circuits;
 using Microsoft.AspNetCore.Http.Features;
@@ -16,6 +16,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using Pgvector.EntityFrameworkCore;
 using Swashbuckle.AspNetCore.SwaggerUI;
+using Hangfire.MemoryStorage;
 
 namespace mbGPT.Blazor.Server;
 
@@ -101,6 +102,16 @@ public class Startup {
         services.AddScoped<VectorService>();
         services.AddScoped<OpenAILLMService>();
         services.AddScoped<MailService>();
+#pragma warning disable CS0618 // Type or member is obsolete
+        services.AddHangfire( configuration => configuration
+        .SetDataCompatibilityLevel(CompatibilityLevel.Version_180)
+        .UseSimpleAssemblyNameTypeSerializer()
+        .UseRecommendedSerializerSettings()
+        //.UsePostgreSqlStorage(connectionString = Configuration.GetConnectionString("ConnectionString"))
+        .UseMemoryStorage()
+            );
+#pragma warning restore CS0618 // Type or member is obsolete
+        services.AddHangfireServer();
         services.AddXafWebApi(Configuration, options =>
         {
             options.ConfigureBusinessObjectActionEndpoints(options => options.EnableActionEndpoints = true);
@@ -123,6 +134,7 @@ public class Startup {
     }
 
     // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+    //, IBackgroundJobClient backgroundJobs
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env) {
         if(env.IsDevelopment()) {
             app.UseDeveloperExceptionPage();
@@ -157,11 +169,15 @@ public class Startup {
         app.UseXaf();
         app.UseAuthentication();
         app.UseAuthorization();
+
+       // app.UseHangfireDashboard();
+       // backgroundJobs.Enqueue(() => Console.WriteLine("Hello world from Hangfire!"));
         app.UseEndpoints(endpoints => {
             endpoints.MapXafEndpoints();
             endpoints.MapBlazorHub();
             endpoints.MapFallbackToPage("/_Host");
             endpoints.MapControllers();
+            endpoints.MapHangfireDashboard();
         });
 
     }
