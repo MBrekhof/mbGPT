@@ -1,6 +1,5 @@
 ﻿using DevExpress.ExpressApp;
 using DevExpress.ExpressApp.Actions;
-using Hangfire;
 
 namespace mbGPT.Blazor.Server.Controllers
 {
@@ -30,12 +29,7 @@ namespace mbGPT.Blazor.Server.Controllers
 
         private void BackgroundAction_Execute(object sender, SimpleActionExecuteEventArgs e)
         {
-            // _backgroundJobs.Enqueue(() => Console.WriteLine("Hello world from Hangfire!"));
-            var backgroundService = serviceProvider.GetService<IBackgroundJobClient>();
-            if (backgroundService != null)
-            {
-                backgroundService.Enqueue(() => Console.WriteLine("Hello world from Hangfire!"));
-            }
+
         }
         protected override void OnActivated()
         {

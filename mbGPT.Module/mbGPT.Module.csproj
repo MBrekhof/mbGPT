@@ -18,6 +18,8 @@
     <EmbeddedResource Include="Model.DesignedDiffs.xafml" />
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="Coravel" Version="5.0.2" />
+    <PackageReference Include="Coravel.Pro" Version="5.2.2" />
     <PackageReference Include="DevExpress.Document.Processor" Version="23.2.3" />
     <PackageReference Include="DevExpress.ExpressApp" Version="23.2.3" />
     <PackageReference Include="DevExpress.ExpressApp.ConditionalAppearance" Version="23.2.3" />
@@ -51,6 +53,7 @@
     <PackageReference Include="Tiktoken" Version="1.1.2" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="BusinessObjects\Jobs\" />
     <Folder Include="Migrations\" />
   </ItemGroup>
 </Project>

@@ -1,4 +1,5 @@
-﻿using DevExpress.ExpressApp.ApplicationBuilder;
+﻿using Coravel;
+using DevExpress.ExpressApp.ApplicationBuilder;
 using DevExpress.ExpressApp.Blazor.ApplicationBuilder;
 using DevExpress.ExpressApp.Blazor.Services;
 using DevExpress.ExpressApp.WebApi.Services;
@@ -6,8 +7,6 @@ using DevExpress.Persistent.BaseImpl.EF.PermissionPolicy;
 using mbGPT.Blazor.Server.Services;
 using mbGPT.Module.BusinessObjects;
 using mbGPT.Module.Services;
-using Hangfire;
-//using Hangfire.PostgreSql;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Components.Server.Circuits;
 using Microsoft.AspNetCore.Http.Features;
@@ -16,7 +15,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using Pgvector.EntityFrameworkCore;
 using Swashbuckle.AspNetCore.SwaggerUI;
-using Hangfire.MemoryStorage;
+
 
 namespace mbGPT.Blazor.Server;
 
@@ -97,21 +96,12 @@ public class Startup {
         {
             connectionString = Configuration.GetConnectionString("ConnectionString");
         }
-
+        services.AddQueue();
+        services.AddEvents();
         services.AddScoped<SettingsService>();
         services.AddScoped<VectorService>();
         services.AddScoped<OpenAILLMService>();
         services.AddScoped<MailService>();
-#pragma warning disable CS0618 // Type or member is obsolete
-        services.AddHangfire( configuration => configuration
-        .SetDataCompatibilityLevel(CompatibilityLevel.Version_180)
-        .UseSimpleAssemblyNameTypeSerializer()
-        .UseRecommendedSerializerSettings()
-        //.UsePostgreSqlStorage(connectionString = Configuration.GetConnectionString("ConnectionString"))
-        .UseMemoryStorage()
-            );
-#pragma warning restore CS0618 // Type or member is obsolete
-        services.AddHangfireServer();
         services.AddXafWebApi(Configuration, options =>
         {
             options.ConfigureBusinessObjectActionEndpoints(options => options.EnableActionEndpoints = true);
@@ -177,8 +167,7 @@ public class Startup {
             endpoints.MapBlazorHub();
             endpoints.MapFallbackToPage("/_Host");
             endpoints.MapControllers();
-            endpoints.MapHangfireDashboard();
         });
-
+        var events = app.ApplicationServices.ConfigureEvents();
     }
 }
