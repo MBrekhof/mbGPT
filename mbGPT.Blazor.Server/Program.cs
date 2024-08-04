@@ -4,6 +4,7 @@ using DevExpress.ExpressApp.Blazor.DesignTime;
 using DevExpress.ExpressApp.Blazor.Services;
 using DevExpress.ExpressApp.Design;
 using DevExpress.ExpressApp.Utils;
+using Serilog;
 
 namespace mbGPT.Blazor.Server;
 
@@ -26,6 +27,8 @@ public class Program : IDesignTimeApplicationFactory {
         }
         else {
             DevExpress.ExpressApp.FrameworkSettings.DefaultSettingsCompatibilityMode = DevExpress.ExpressApp.FrameworkSettingsCompatibilityMode.Latest;
+            Log.Logger = new LoggerConfiguration().WriteTo.File("logs/mbGPT.log", rollingInterval: RollingInterval.Day).CreateLogger();
+
             IHost host = CreateHostBuilder(args).Build();
             if(ContainsArgument(args, "updateDatabase")) {
                 using(var serviceScope = host.Services.CreateScope()) {
@@ -40,7 +43,9 @@ public class Program : IDesignTimeApplicationFactory {
     }
     public static IHostBuilder CreateHostBuilder(string[] args) =>
         Host.CreateDefaultBuilder(args)
-            .ConfigureWebHostDefaults(webBuilder => {
+        .UseSerilog() // Use Serilog instead of default .NET logger
+            .ConfigureWebHostDefaults(webBuilder =>
+            {
                 webBuilder.UseStartup<Startup>();
             });
     XafApplication IDesignTimeApplicationFactory.Create() {

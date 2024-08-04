@@ -1,8 +1,10 @@
 ﻿#nullable enable
 using DevExpress.ExpressApp.DC;
 using DevExpress.Persistent.Base;
+using Microsoft.EntityFrameworkCore;
 using Pgvector;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 
@@ -31,6 +33,10 @@ public partial class ArticleDetail : BaseObjectNoID
 
     public virtual int Tokens { get; set; }
     public virtual DateTime? Created { get; set; } = DateTime.UtcNow;
+
+    [StringLength(250)]
+    [Unicode(false)]
+    public virtual string? EmbeddedWith { get; set; }
 
     [VisibleInDetailView(false),VisibleInListView(false),VisibleInLookupListView(false)]
     [Column(TypeName = "vector(1536)")]

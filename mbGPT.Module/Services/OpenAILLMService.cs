@@ -5,6 +5,7 @@ using Markdig;
 using Microsoft.Extensions.DependencyInjection;
 using OpenAI;
 using OpenAI.Chat;
+using Tiktoken;
 //using static System.Net.Mime.MediaTypeNames;
 
 namespace mbGPT.Module.Services
@@ -42,7 +43,7 @@ namespace mbGPT.Module.Services
             if (target.Prompt.AssistantPrompt != null)
                 TheQuestion += " " + target.Prompt.AssistantPrompt;
 
-            var embeddings = await api.EmbeddingsEndpoint.CreateEmbeddingAsync(TheQuestion, model);
+            var embeddings = await api.EmbeddingsEndpoint.CreateEmbeddingAsync(TheQuestion, model, dimensions: 1536);
             target.QuestionDataString = "[" + String.Join(",", embeddings.Data[0].Embedding) + "]";
 
             var vectorService = serviceProvider.GetRequiredService<VectorService>();
@@ -68,7 +69,7 @@ namespace mbGPT.Module.Services
 
             var totalTokens = 0;
             string gptmodel = target.ChatModel.Name;
-            var encoding = Tiktoken.Encoding.ForModel(gptmodel);
+            var encoding = ModelToEncoder.For(gptmodel);
             var limitSwitch = 0;
 
             var maxTokens = (int)(target.ChatModel.Size * 0.7);

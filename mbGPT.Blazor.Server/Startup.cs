@@ -1,5 +1,4 @@
-﻿using Coravel;
-using Coravel.Pro;
+﻿
 using DevExpress.ExpressApp.ApplicationBuilder;
 using DevExpress.ExpressApp.Blazor.ApplicationBuilder;
 using DevExpress.ExpressApp.Blazor.Services;
@@ -14,7 +13,7 @@ using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.OData;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
-using Pgvector.EntityFrameworkCore;
+
 using Swashbuckle.AspNetCore.SwaggerUI;
 
 
@@ -99,8 +98,6 @@ public class Startup {
             connectionString = Configuration.GetConnectionString("ConnectionString");
         }
 
-        services.AddQueue();
-        services.AddEvents();
         services.AddScoped<SettingsService>();
         services.AddScoped<VectorService>();
         services.AddScoped<OpenAILLMService>();
@@ -169,6 +166,6 @@ public class Startup {
             endpoints.MapFallbackToPage("/_Host");
             endpoints.MapControllers();
         });
-        var events = app.ApplicationServices.ConfigureEvents();
+
     }
 }

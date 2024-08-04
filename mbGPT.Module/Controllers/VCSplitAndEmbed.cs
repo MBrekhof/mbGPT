@@ -1,4 +1,4 @@
-﻿using Coravel.Queuing;
+﻿
 using DevExpress.ExpressApp;
 using DevExpress.ExpressApp.Actions;
 using DevExpress.ExpressApp.Editors;
@@ -143,7 +143,6 @@ namespace mbGPT.Module.Controllers
             }
             var vectorService = serviceProvider.GetRequiredService<VectorService>();
             var settingsService = serviceProvider.GetRequiredService<SettingsService>();
-            var queueService = serviceProvider.GetRequiredService<Queue>();
             
             var settings = await settingsService.GetSettingsAsync();
             target.DocChunks = vectorService.SplitArticleIntoChunks(target.FileName, content, target.ChunkSize); // ProcessString(content, target.ChunkSize, target.OverlapSize);
@@ -177,10 +176,11 @@ namespace mbGPT.Module.Controllers
                 //// create the embeddings
                 foreach (var articleDet in newArticle.ArticleDetail)
                 {
-                    var embeddings = await api.EmbeddingsEndpoint.CreateEmbeddingAsync(articleDet.ArticleContent, model);
+                    var embeddings = await api.EmbeddingsEndpoint.CreateEmbeddingAsync(articleDet.ArticleContent, model, dimensions: 1536);
                     var x = new Vector("[" + String.Join(",", embeddings.Data[0].Embedding) + "]");
                     articleDet.VectorDataString = x;//"[" + String.Join(",", embeddings.Data[0].Embedding) + "]";
                     articleDet.Tokens = (int)embeddings.Usage.TotalTokens;
+                    articleDet.EmbeddedWith = settings.EmbeddingModel.Name;
                     Cost cost = ArticleObjectSpace.CreateObject<Cost>();
                     cost.ArticleDetail = articleDet;
                     cost.SourceType = SourceType.ArticleDetail;

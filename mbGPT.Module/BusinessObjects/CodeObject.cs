@@ -3,9 +3,11 @@
 using DevExpress.ExpressApp.DC;
 using DevExpress.Persistent.Base;
 using DevExpress.Persistent.Validation;
+using Microsoft.EntityFrameworkCore;
 using Pgvector;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace mbGPT.Module.BusinessObjects
@@ -33,6 +35,10 @@ namespace mbGPT.Module.BusinessObjects
         public virtual required string CodeObjectContent { get; set; }
 
         public virtual int Tokens { get; set; }
+
+        [StringLength(250)]
+        [Unicode(false)]
+        public virtual string? EmbeddedWith { get; set; }
 
         //[FieldSize(FieldSizeAttribute.Unlimited)]
         [VisibleInDetailView(false), VisibleInListView(false), VisibleInLookupListView(false)]

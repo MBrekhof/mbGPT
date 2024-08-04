@@ -6,6 +6,7 @@ using Markdig;
 using Microsoft.Extensions.DependencyInjection;
 using OpenAI;
 using OpenAI.Chat;
+using Tiktoken;
 
 namespace mbGPT.Module.Controllers
 {
@@ -61,7 +62,7 @@ namespace mbGPT.Module.Controllers
             var assistantPrompt = "Give each fact a number and keep them in short sentences.The summary should be formatted using Markdown.";
             var totalTokens = 0;
             var gptmodel = settings.ChatModel.Name; // Model.GPT3_5_Turbo_16K;
-            var encoding = Tiktoken.Encoding.ForModel(gptmodel);
+            var encoding = ModelToEncoder.For(gptmodel);
             var modelSize = settings.ChatModel.Size;
             var maxTokens = (int)(modelSize * 0.8);
             IObjectSpace SummaryObjectSpace = Application.CreateObjectSpace(typeof(Cost));

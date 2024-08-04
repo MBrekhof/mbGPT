@@ -17,19 +17,21 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Coravel" Version="5.0.3" />
     <PackageReference Include="DevExpress.ExpressApp.Blazor" Version="24.1.4" />
     <PackageReference Include="DevExpress.ExpressApp.FileAttachment.Blazor" Version="24.1.4" />
     <PackageReference Include="DevExpress.ExpressApp.Office.Blazor" Version="24.1.4" />
     <PackageReference Include="DevExpress.ExpressApp.Validation.Blazor" Version="24.1.4" />
     <PackageReference Include="DevExpress.ExpressApp.WebApi" Version="24.1.4" />
-    <PackageReference Include="Markdig" Version="0.35.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Components" Version="7.0.14" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.9">
+    <PackageReference Include="Markdig" Version="0.37.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Components" Version="8.0.7" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.7">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
+    <PackageReference Include="Serilog.AspNetCore" Version="8.0.2" />
+    <PackageReference Include="Serilog.Sinks.File" Version="6.0.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.7.0" />
+    <PackageReference Include="System.Formats.Asn1" Version="8.0.1" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\mbGPT.Module\mbGPT.Module.csproj" />

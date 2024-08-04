@@ -39,7 +39,7 @@
     <PackageReference Include="DevExpress.Persistent.BaseImpl.EFCore" Version="24.1.4" />
     <PackageReference Include="DevExpress.RichEdit.Export" Version="24.1.4" />
     <PackageReference Include="DevExpress.Win.Design" Version="24.1.4" />
-    <PackageReference Include="Markdig" Version="0.34.0" />
+    <PackageReference Include="Markdig" Version="0.37.0" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\mbGPT.Module\mbGPT.Module.csproj" />
