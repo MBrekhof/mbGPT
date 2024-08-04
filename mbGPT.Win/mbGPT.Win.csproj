@@ -27,18 +27,18 @@
     <EmbeddedResource Include="Images\Logo.svg" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="DevExpress.ExpressApp" Version="24.1.3" />
-    <PackageReference Include="DevExpress.ExpressApp.EFCore" Version="24.1.3" />
-    <PackageReference Include="DevExpress.ExpressApp.FileAttachment.Win" Version="24.1.3" />
-    <PackageReference Include="DevExpress.ExpressApp.Office.Win" Version="24.1.3" />
-    <PackageReference Include="DevExpress.ExpressApp.TreeListEditors.Win" Version="24.1.3" />
-    <PackageReference Include="DevExpress.ExpressApp.Validation.Win" Version="24.1.3" />
-    <PackageReference Include="DevExpress.ExpressApp.Win" Version="24.1.3" />
-    <PackageReference Include="DevExpress.ExpressApp.Win.Design" Version="24.1.3" />
-    <PackageReference Include="DevExpress.Persistent.Base" Version="24.1.3" />
-    <PackageReference Include="DevExpress.Persistent.BaseImpl.EFCore" Version="24.1.3" />
-    <PackageReference Include="DevExpress.RichEdit.Export" Version="24.1.3" />
-    <PackageReference Include="DevExpress.Win.Design" Version="24.1.3" />
+    <PackageReference Include="DevExpress.ExpressApp" Version="24.1.4" />
+    <PackageReference Include="DevExpress.ExpressApp.EFCore" Version="24.1.4" />
+    <PackageReference Include="DevExpress.ExpressApp.FileAttachment.Win" Version="24.1.4" />
+    <PackageReference Include="DevExpress.ExpressApp.Office.Win" Version="24.1.4" />
+    <PackageReference Include="DevExpress.ExpressApp.TreeListEditors.Win" Version="24.1.4" />
+    <PackageReference Include="DevExpress.ExpressApp.Validation.Win" Version="24.1.4" />
+    <PackageReference Include="DevExpress.ExpressApp.Win" Version="24.1.4" />
+    <PackageReference Include="DevExpress.ExpressApp.Win.Design" Version="24.1.4" />
+    <PackageReference Include="DevExpress.Persistent.Base" Version="24.1.4" />
+    <PackageReference Include="DevExpress.Persistent.BaseImpl.EFCore" Version="24.1.4" />
+    <PackageReference Include="DevExpress.RichEdit.Export" Version="24.1.4" />
+    <PackageReference Include="DevExpress.Win.Design" Version="24.1.4" />
     <PackageReference Include="Markdig" Version="0.34.0" />
   </ItemGroup>
   <ItemGroup>

@@ -8,8 +8,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "mbGPT.Win", "mbGPT.Win\mbGP
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "mbGPT.Blazor.Server", "mbGPT.Blazor.Server\mbGPT.Blazor.Server.csproj", "{2D1B5062-6735-48BB-A2C3-9FCD248B0560}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "mbGPT", "mbGPT\mbGPT.csproj", "{8DBF1363-B8E2-4CDA-A8F4-92471A0C566B}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -35,12 +33,6 @@ Global
 		{2D1B5062-6735-48BB-A2C3-9FCD248B0560}.EasyTest|Any CPU.Build.0 = EasyTest|Any CPU
 		{2D1B5062-6735-48BB-A2C3-9FCD248B0560}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2D1B5062-6735-48BB-A2C3-9FCD248B0560}.Release|Any CPU.Build.0 = Release|Any CPU
-		{8DBF1363-B8E2-4CDA-A8F4-92471A0C566B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{8DBF1363-B8E2-4CDA-A8F4-92471A0C566B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{8DBF1363-B8E2-4CDA-A8F4-92471A0C566B}.EasyTest|Any CPU.ActiveCfg = Debug|Any CPU
-		{8DBF1363-B8E2-4CDA-A8F4-92471A0C566B}.EasyTest|Any CPU.Build.0 = Debug|Any CPU
-		{8DBF1363-B8E2-4CDA-A8F4-92471A0C566B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{8DBF1363-B8E2-4CDA-A8F4-92471A0C566B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

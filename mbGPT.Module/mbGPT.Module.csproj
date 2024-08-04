@@ -20,18 +20,18 @@
   <ItemGroup>
     <PackageReference Include="Coravel" Version="5.0.2" />
     <PackageReference Include="Coravel.Pro" Version="5.2.2" />
-    <PackageReference Include="DevExpress.Document.Processor" Version="24.1.3" />
-    <PackageReference Include="DevExpress.ExpressApp" Version="24.1.3" />
-    <PackageReference Include="DevExpress.ExpressApp.ConditionalAppearance" Version="24.1.3" />
-    <PackageReference Include="DevExpress.ExpressApp.EFCore" Version="24.1.3" />
-    <PackageReference Include="DevExpress.ExpressApp.Objects" Version="24.1.3" />
-    <PackageReference Include="DevExpress.ExpressApp.Office" Version="24.1.3" />
-    <PackageReference Include="DevExpress.ExpressApp.TreeListEditors" Version="24.1.3" />
-    <PackageReference Include="DevExpress.ExpressApp.Validation" Version="24.1.3" />
-    <PackageReference Include="DevExpress.ExpressApp.ViewVariantsModule" Version="24.1.3" />
-    <PackageReference Include="DevExpress.Pdf.Core" Version="24.1.3" />
-    <PackageReference Include="DevExpress.Persistent.Base" Version="24.1.3" />
-    <PackageReference Include="DevExpress.Persistent.BaseImpl.EFCore" Version="24.1.3" />
+    <PackageReference Include="DevExpress.Document.Processor" Version="24.1.4" />
+    <PackageReference Include="DevExpress.ExpressApp" Version="24.1.4" />
+    <PackageReference Include="DevExpress.ExpressApp.ConditionalAppearance" Version="24.1.4" />
+    <PackageReference Include="DevExpress.ExpressApp.EFCore" Version="24.1.4" />
+    <PackageReference Include="DevExpress.ExpressApp.Objects" Version="24.1.4" />
+    <PackageReference Include="DevExpress.ExpressApp.Office" Version="24.1.4" />
+    <PackageReference Include="DevExpress.ExpressApp.TreeListEditors" Version="24.1.4" />
+    <PackageReference Include="DevExpress.ExpressApp.Validation" Version="24.1.4" />
+    <PackageReference Include="DevExpress.ExpressApp.ViewVariantsModule" Version="24.1.4" />
+    <PackageReference Include="DevExpress.Pdf.Core" Version="24.1.4" />
+    <PackageReference Include="DevExpress.Persistent.Base" Version="24.1.4" />
+    <PackageReference Include="DevExpress.Persistent.BaseImpl.EFCore" Version="24.1.4" />
     <PackageReference Include="EFCore.NamingConventions" Version="7.0.2" />
     <PackageReference Include="HtmlAgilityPack" Version="1.11.58" />
     <PackageReference Include="MailKit" Version="4.3.0" />
