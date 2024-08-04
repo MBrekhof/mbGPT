@@ -1,7 +1,5 @@
 ﻿#nullable enable
-using DevExpress.ExpressApp.DC;
 using DevExpress.Persistent.Base;
-using DevExpress.Persistent.Validation;
 using System.ComponentModel.DataAnnotations.Schema;
 
 
@@ -21,5 +19,6 @@ namespace mbGPT.Module.BusinessObjects
         public virtual ArticleDetail? Article { get; set; }
         public virtual CodeObject? Code { get; set; }
         public virtual double cosinedistance { get; set; } = 0;
+        public virtual DateTime? Created { get; set; } = DateTime.UtcNow;
     }
 }

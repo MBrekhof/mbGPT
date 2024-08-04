@@ -5,6 +5,13 @@
       <Action Id="SplitAndEmbedAction" ImageName="Open2" />
     </Actions>
   </ActionDesign>
+  <BOModel>
+    <Class Name="mbGPT.Module.BusinessObjects.UsedKnowledge">
+      <OwnMembers>
+        <Member Name="Created" DisplayFormat="{0:g}" EditMask="g" />
+      </OwnMembers>
+    </Class>
+  </BOModel>
   <NavigationItems>
     <Items>
       <Item Id="mbGPT" Index="1">
@@ -19,7 +26,7 @@
     <LayoutManagerOptions RequiredFieldMark="*" />
   </Options>
   <SchemaModules>
-    <SchemaModule Name="SystemModule" Version="23.1.5.0" IsNewNode="True" />
+    <SchemaModule Name="SystemModule" Version="23.2.4.0" IsNewNode="True" />
   </SchemaModules>
   <Views>
     <DetailView Id="Article_DetailView">
@@ -64,6 +71,9 @@
         <ColumnInfo Id="Chat" Removed="True" />
         <ColumnInfo Id="UsedKnowledgeId" Removed="True" />
       </Columns>
+      <Sorting>
+        <SortProperty Id="created" PropertyName="Created" Direction="Descending" IsNewNode="True" />
+      </Sorting>
     </ListView>
     <DetailView Id="CodeObject_DetailView">
       <Layout>

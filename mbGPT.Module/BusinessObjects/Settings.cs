@@ -21,7 +21,7 @@ namespace mbGPT.Module.BusinessObjects
         public virtual string? OpenAIKey { get; set; }
         public virtual ChatModel? ChatModel { get; set; }
         public virtual EmbeddingModel? EmbeddingModel { get; set; }
-
+        public virtual int? Treshold { get; set; }
         public virtual string? FromDisplayName { get; set; }
         public virtual string? FromEmailName { get; set; }
         public virtual string? EmailUserName { get; set; }

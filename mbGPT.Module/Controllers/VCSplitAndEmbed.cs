@@ -1,5 +1,4 @@
-﻿
-
+﻿using Coravel.Queuing;
 using DevExpress.ExpressApp;
 using DevExpress.ExpressApp.Actions;
 using DevExpress.ExpressApp.Editors;
@@ -11,7 +10,6 @@ using mbGPT.Module.BusinessObjects;
 using mbGPT.Module.Services;
 using Microsoft.Extensions.DependencyInjection;
 using OpenAI;
-using OpenAI.Embeddings;
 using Pgvector;
 
 namespace mbGPT.Module.Controllers
@@ -19,7 +17,6 @@ namespace mbGPT.Module.Controllers
     // For more typical usage scenarios, be sure to check out https://documentation.devexpress.com/eXpressAppFramework/clsDevExpressExpressAppViewControllertopic.aspx.
     public partial class VCSplitAndEmbed : ViewController
     {
-
         public VCSplitAndEmbed()
         {
             InitializeComponent();
@@ -144,10 +141,12 @@ namespace mbGPT.Module.Controllers
                     return; // needs a message?
                     //break;
             }
-            var serviceOne = serviceProvider.GetRequiredService<VectorService>();
+            var vectorService = serviceProvider.GetRequiredService<VectorService>();
             var settingsService = serviceProvider.GetRequiredService<SettingsService>();
+            var queueService = serviceProvider.GetRequiredService<Queue>();
+            
             var settings = await settingsService.GetSettingsAsync();
-            target.DocChunks = serviceOne.SplitArticleIntoChunks(target.FileName, content, target.ChunkSize); // ProcessString(content, target.ChunkSize, target.OverlapSize);
+            target.DocChunks = vectorService.SplitArticleIntoChunks(target.FileName, content, target.ChunkSize); // ProcessString(content, target.ChunkSize, target.OverlapSize);
             if (target.DocChunks != null)
             {
                 Application.ShowViewStrategy.ShowMessage(string.Format("Creating Article and ArticleDetail for {0}!", target.FileName));
@@ -170,7 +169,7 @@ namespace mbGPT.Module.Controllers
                     var newArticleDetail = ArticleObjectSpace.CreateObject <ArticleDetail>();
                     newArticleDetail.ArticleContent = "Source: "+target.FileName+ " ("+teller.ToString()+") "+docChunk;
                     newArticleDetail.ArticleSequence = teller;
-                    //newArticleDetail.ArticleId = newArticle.ArticleId; // ?? why ??
+                    
                     newArticle.ArticleDetail.Add(newArticleDetail);
                 }
                 ArticleObjectSpace.CommitChanges();
@@ -184,13 +183,14 @@ namespace mbGPT.Module.Controllers
                     articleDet.Tokens = (int)embeddings.Usage.TotalTokens;
                     Cost cost = ArticleObjectSpace.CreateObject<Cost>();
                     cost.ArticleDetail = articleDet;
-                    cost.SourceType =  SourceType.ArticleDetail;
+                    cost.SourceType = SourceType.ArticleDetail;
                     cost.PromptTokens = embeddings.Usage.PromptTokens;
                     cost.CompletionTokens = embeddings.Usage.CompletionTokens;
                     cost.TotalTokens = embeddings.Usage.TotalTokens;
                     cost.LlmAction = LlmAction.embedding;
                     ArticleObjectSpace.CommitChanges();
-                }               
+                }
+                ArticleObjectSpace.CommitChanges();
             }
 
             // the object in the main listview, this only works in SDI mode!

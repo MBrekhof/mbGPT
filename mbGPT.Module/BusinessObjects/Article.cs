@@ -32,7 +32,7 @@ public partial class Article : BaseObjectNoID
     [FieldSize(FieldSizeAttribute.Unlimited)]
     [EditorAlias(DevExpress.ExpressApp.Editors.EditorAliases.HtmlPropertyEditor)]
     public virtual string Summary { get; set; }
-
+    public virtual DateTime? Created { get; set; } = DateTime.UtcNow;
     [Aggregated]
     public virtual IList<ArticleDetail> ArticleDetail { get; set; } = new ObservableCollection<ArticleDetail>();
 }

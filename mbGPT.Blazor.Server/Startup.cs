@@ -1,4 +1,5 @@
 ﻿using Coravel;
+using Coravel.Pro;
 using DevExpress.ExpressApp.ApplicationBuilder;
 using DevExpress.ExpressApp.Blazor.ApplicationBuilder;
 using DevExpress.ExpressApp.Blazor.Services;
@@ -35,6 +36,7 @@ public class Startup {
         
         services.AddRazorPages();
         services.AddServerSideBlazor();
+ 
         services.AddHttpContextAccessor();
         services.AddScoped<CircuitHandler, CircuitHandlerProxy>();
         services.AddXaf(Configuration, builder => {
@@ -96,6 +98,7 @@ public class Startup {
         {
             connectionString = Configuration.GetConnectionString("ConnectionString");
         }
+
         services.AddQueue();
         services.AddEvents();
         services.AddScoped<SettingsService>();
@@ -160,8 +163,6 @@ public class Startup {
         app.UseAuthentication();
         app.UseAuthorization();
 
-       // app.UseHangfireDashboard();
-       // backgroundJobs.Enqueue(() => Console.WriteLine("Hello world from Hangfire!"));
         app.UseEndpoints(endpoints => {
             endpoints.MapXafEndpoints();
             endpoints.MapBlazorHub();

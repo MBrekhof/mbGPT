@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>net7.0</TargetFramework>
+    <TargetFramework>net8.0</TargetFramework>
     <CheckEolTargetFramework>false</CheckEolTargetFramework>
     <Deterministic>false</Deterministic>
     <AssemblyVersion>1.0.*</AssemblyVersion>
@@ -20,22 +20,22 @@
   <ItemGroup>
     <PackageReference Include="Coravel" Version="5.0.2" />
     <PackageReference Include="Coravel.Pro" Version="5.2.2" />
-    <PackageReference Include="DevExpress.Document.Processor" Version="23.2.4" />
-    <PackageReference Include="DevExpress.ExpressApp" Version="23.2.4" />
-    <PackageReference Include="DevExpress.ExpressApp.ConditionalAppearance" Version="23.2.4" />
-    <PackageReference Include="DevExpress.ExpressApp.EFCore" Version="23.2.4" />
-    <PackageReference Include="DevExpress.ExpressApp.Objects" Version="23.2.4" />
-    <PackageReference Include="DevExpress.ExpressApp.Office" Version="23.2.4" />
-    <PackageReference Include="DevExpress.ExpressApp.TreeListEditors" Version="23.2.4" />
-    <PackageReference Include="DevExpress.ExpressApp.Validation" Version="23.2.4" />
-    <PackageReference Include="DevExpress.ExpressApp.ViewVariantsModule" Version="23.2.4" />
-    <PackageReference Include="DevExpress.Pdf.Core" Version="23.2.4" />
-    <PackageReference Include="DevExpress.Persistent.Base" Version="23.2.4" />
-    <PackageReference Include="DevExpress.Persistent.BaseImpl.EFCore" Version="23.2.4" />
+    <PackageReference Include="DevExpress.Document.Processor" Version="24.1.3" />
+    <PackageReference Include="DevExpress.ExpressApp" Version="24.1.3" />
+    <PackageReference Include="DevExpress.ExpressApp.ConditionalAppearance" Version="24.1.3" />
+    <PackageReference Include="DevExpress.ExpressApp.EFCore" Version="24.1.3" />
+    <PackageReference Include="DevExpress.ExpressApp.Objects" Version="24.1.3" />
+    <PackageReference Include="DevExpress.ExpressApp.Office" Version="24.1.3" />
+    <PackageReference Include="DevExpress.ExpressApp.TreeListEditors" Version="24.1.3" />
+    <PackageReference Include="DevExpress.ExpressApp.Validation" Version="24.1.3" />
+    <PackageReference Include="DevExpress.ExpressApp.ViewVariantsModule" Version="24.1.3" />
+    <PackageReference Include="DevExpress.Pdf.Core" Version="24.1.3" />
+    <PackageReference Include="DevExpress.Persistent.Base" Version="24.1.3" />
+    <PackageReference Include="DevExpress.Persistent.BaseImpl.EFCore" Version="24.1.3" />
     <PackageReference Include="EFCore.NamingConventions" Version="7.0.2" />
-    <PackageReference Include="HtmlAgilityPack" Version="1.11.50" />
-    <PackageReference Include="MailKit" Version="4.1.0" />
-    <PackageReference Include="Markdig" Version="0.31.0" />
+    <PackageReference Include="HtmlAgilityPack" Version="1.11.58" />
+    <PackageReference Include="MailKit" Version="4.3.0" />
+    <PackageReference Include="Markdig" Version="0.34.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="7.0.9" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="7.0.9" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Proxies" Version="7.0.9" />
@@ -47,10 +47,10 @@
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="7.0.0" />
     <PackageReference Include="Microsoft.Extensions.Logging" Version="7.0.0" />
     <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="7.0.0" />
-    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="7.0.4" />
-    <PackageReference Include="OpenAI-DotNet" Version="7.0.3" />
+    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="7.0.11" />
+    <PackageReference Include="OpenAI-DotNet" Version="7.6.4" />
     <PackageReference Include="Pgvector.EntityFrameworkCore" Version="0.1.1" />
-    <PackageReference Include="Tiktoken" Version="1.1.2" />
+    <PackageReference Include="Tiktoken" Version="1.1.3" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="BusinessObjects\Jobs\" />

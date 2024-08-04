@@ -30,6 +30,7 @@ public partial class ArticleDetail : BaseObjectNoID
     public virtual Article? Article { get; set; }
 
     public virtual int Tokens { get; set; }
+    public virtual DateTime? Created { get; set; } = DateTime.UtcNow;
 
     [VisibleInDetailView(false),VisibleInListView(false),VisibleInLookupListView(false)]
     [Column(TypeName = "vector(1536)")]

@@ -2,7 +2,6 @@
 
 using DevExpress.Persistent.Base;
 using DevExpress.Persistent.BaseImpl.EF;
-using System.ComponentModel;
 
 namespace mbGPT.Module.BusinessObjects
 {
@@ -16,6 +15,7 @@ namespace mbGPT.Module.BusinessObjects
 
         public virtual bool? Processed { get; set; }
 
+        public virtual DateTime? Created { get; set; } = DateTime.UtcNow;
         public override void OnCreated()
         {
             base.OnCreated();

@@ -23,6 +23,7 @@ namespace mbGPT.Module.Services
         {
             var usesLocalKnowledge = false;
             var target = chat;
+            var percTreshold = settings.Treshold / 100.0;
             if (target.ChatModel == null)
                 return false;
             if ((target.Question == null) || (target.Prompt.SystemPrompt==null))
@@ -52,7 +53,7 @@ namespace mbGPT.Module.Services
 
             SimilarContentArticles.AddRange(codeHits);
             // TODO: change the hard coded value
-            SimilarContentArticles.RemoveAll(a => a.cosine_distance >= 0.25);
+            SimilarContentArticles.RemoveAll(a => a.cosine_distance >= percTreshold);
             var aantal = SimilarContentArticles.Count;
             if (aantal > 0)
             {
@@ -85,7 +86,7 @@ namespace mbGPT.Module.Services
                 limitSwitch = totalTokens + encoding.CountTokens(snippet.articlecontent);
                 if (limitSwitch > maxTokens) { break; }
                 // Add the existing knowledge to the chatMessages list
-                chatMessages.Add(new Message(Role.Assistant,"Source: "+snippet.articlename+"("+snippet.articlesequence+") " +snippet.articlecontent  + "###"));
+                chatMessages.Add(new Message(Role.Assistant,"Source: "+snippet.articlename+"("+snippet.articlesequence+") " +snippet.articlecontent  + " ### "));
                 var uk = objectSpace.CreateObject<UsedKnowledge>();
                 uk.Chat = target;
                 uk.cosinedistance = snippet.cosine_distance;

@@ -21,7 +21,7 @@ namespace mbGPT.Module.Services
             var question = $"SELECT articledetailid as id," +
                 $"(select articlename from article a where r.articleid = a.articleid) as articlename," +
                 $"articlecontent,articlesequence,'A' as articletype,vectordatastring <=> " +
-                $"'{vector}' as cosine_distance  FROM articledetail r ORDER BY vectordatastring <=> '{vector}' LIMIT 5";
+                $"'{vector}' as cosine_distance  FROM articledetail r ORDER BY vectordatastring <=> '{vector}' LIMIT 10";
             question = question.ToLower();
             List<SimilarContentArticlesResult> r = _dbContext.SimilarContentArticlesResult.FromSqlRaw(question).ToList();
             return r;
@@ -32,7 +32,7 @@ namespace mbGPT.Module.Services
         {
             var cdb = _dbContext;
             var question = $"SELECT CodeObjectId as id,Subject as articlename,CodeObjectContent as articlecontent,1 as articlesequence,'C' as articletype,vectordatastring <=> " +
-                $"'{vector}' as cosine_distance  FROM codeobject ORDER BY vectordatastring <=> '{vector}' LIMIT 5";
+                $"'{vector}' as cosine_distance  FROM codeobject ORDER BY vectordatastring <=> '{vector}' LIMIT 10";
             question = question.ToLower();
             List<SimilarContentArticlesResult> r = cdb.SimilarContentArticlesResult.FromSqlRaw(question).ToList();
             return r;
